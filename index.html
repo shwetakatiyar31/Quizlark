@@ -687,6 +687,35 @@ button.syncchip:hover { border-color: var(--ink); }
 #frMsg.okmsg { color: var(--good); font-weight: 600; }
 .frrow .btnrow .btn { padding: 4px 10px; }
 
+.pubar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pubar:empty { display: none; }
+.pubtn { display: inline-flex; align-items: center; gap: 6px; border: 2px solid var(--edge); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 4px 10px 4px 5px; font-weight: 700; font-size: 14px; box-shadow: 0 3px 0 var(--edge); cursor: pointer; }
+.pubtn:hover:not([disabled]) { transform: translateY(-1px); }
+.pubtn:active:not([disabled]) { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+.pubtn[disabled] { opacity: .45; cursor: default; box-shadow: none; }
+.pubtn.on { background: var(--pc); color: #fff; }
+.pubtn b { background: var(--surface2); color: var(--ink); border-radius: 999px; padding: 0 7px; font-size: 12px; }
+.puic { width: 26px; height: 26px; border-radius: 50%; background: var(--pc); color: var(--pc); display: grid; place-items: center; flex: none; }
+.puic svg { width: 18px; height: 18px; color: #fff; }
+.puic.big { width: 48px; height: 48px; margin: 4px auto; }
+.puic.big svg { width: 32px; height: 32px; }
+.ans.gone { visibility: hidden; }
+.pushop { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.pushop .tile { border-color: var(--pc); }
+.spellbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+.spell { position: relative; overflow: hidden; display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; column-gap: 8px; align-items: center; text-align: left; border: 2px solid var(--edge); border-radius: 14px; background: var(--surface); color: var(--ink); padding: 6px 12px 6px 6px; box-shadow: 0 4px 0 var(--edge); cursor: pointer; font-weight: 700; }
+.spell:hover:not([disabled]) { transform: translateY(-1px); }
+.spell:active:not([disabled]) { transform: translateY(3px); box-shadow: 0 1px 0 var(--edge); }
+.spell[disabled] { opacity: .55; cursor: default; }
+.spell.free { background: #fff3c4; animation: wiggle .5s ease-in-out infinite; }
+.spic { grid-row: 1 / 3; width: 36px; height: 36px; border-radius: 10px; background: #1d1b3a; color: var(--sc); display: grid; place-items: center; }
+.spic svg { width: 26px; height: 26px; }
+.spnm { font-size: 14px; }
+.spnm kbd { font-family: var(--font-mono); font-size: 10px; border: 1.5px solid var(--line); border-radius: 4px; padding: 0 4px; color: var(--muted); }
+.spcost { font-size: 12px; color: var(--muted); }
+.spcd { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(29, 27, 58, .28); pointer-events: none; }
+.freenote { font-weight: 700; color: #b07d00; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
@@ -809,6 +838,7 @@ button.syncchip:hover { border-color: var(--ink); }
         <div class="qbox"><span class="label" id="qCount"></span><h2 id="qText"></h2></div>
         <div class="answers" id="answers"></div>
         <div class="verdict" id="verdict" aria-live="polite"></div>
+        <div class="pubar" id="puBar" aria-label="Power-ups"></div>
         <p class="label kbtip" style="margin-top:6px">Tip: press 1 to 4 on a keyboard</p>
       </div>
       <aside class="side" id="side" aria-label="Progress"></aside>
@@ -841,6 +871,7 @@ button.syncchip:hover { border-color: var(--ink); }
       </div>
     </div>
     <label class="gemtoggle" for="useGems"><input type="checkbox" id="useGems"> Use gems to save on packs<span class="note" id="discNote"></span></label>
+    <div class="panel" id="puShop" style="margin-bottom:22px"></div>
     <div class="panel nest" id="eggNest" style="margin-bottom:22px"></div>
     <div class="eventbar" id="freeBar" hidden></div>
     <div class="packs" id="packs"></div>
@@ -982,6 +1013,7 @@ button.syncchip:hover { border-color: var(--ink); }
     <div id="chPlay" hidden>
       <div class="chhud" id="chHud"></div>
       <div class="chstage"><canvas id="chCv" aria-label="Monster path. Tap a spot beside the path to place a critter."></canvas></div>
+      <div class="spellbar" id="chSpells" aria-label="Spells"></div>
       <div class="chlower">
         <div class="panel chq"><span class="label" id="chQc"></span><h3 id="chQ"></h3><div class="answers" id="chAns"></div><div class="verdict" id="chVerdict" aria-live="polite"></div></div>
         <div class="panel"><div class="collection-head" style="margin:0"><h3>Your team</h3><span class="label">Pick one, then tap a spot</span></div><div class="teamrow" id="chTeam"></div><div id="chSel"></div></div>
@@ -1947,7 +1979,7 @@ button.syncchip:hover { border-color: var(--ink); }
     }).join("");
     $("#collCount").textContent = have + " of " + CRITTERS.length + " found";
     renderSeasonPacks();
-    renderNest();
+    renderNest(); renderPuShop();
     var fb = $("#freeBar"), nf = wallet.freePacks || 0;
     fb.hidden = !nf;
     fb.innerHTML = nf ? "<b>" + nf + " free " + (nf === 1 ? "pack" : "packs") + '</b><span>From your streak and the Lucky Wheel.</span><button class="btn sun" type="button" id="openFree" style="margin-left:auto">Open a free Moonlit Pack</button>' : "";
@@ -2328,6 +2360,7 @@ button.syncchip:hover { border-color: var(--ink); }
       return '<button class="ans" type="button" data-k="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>";
     }).join("");
     $("#verdict").textContent = ""; $("#verdict").className = "verdict";
+    G.removed = null; puRender();
     drawStats();
     if (G.mode === "potato") G.qMs = Math.max(3000, 10000 - G.n * 500);
     if (G.qMs) {
@@ -2347,7 +2380,7 @@ button.syncchip:hover { border-color: var(--ink); }
 
   function mult() { return Math.min(5, 1 + Math.floor(G.streak / 3)); }
 
-  function answer(k, timedOut) {
+  function answerCore(k, timedOut) {
     if (!G || G.locked || G.ended || (!timedOut && !G.opts[k])) return;
     G.locked = true;
     var ok = timedOut ? false : G.opts[k].ok, msg = "";
@@ -2811,7 +2844,7 @@ button.syncchip:hover { border-color: var(--ink); }
     { t: "20 coins", c: 20, w: 22, col: "#c9d7ff", fx: "common" }, { t: "1 gem", g: 1, w: 16, col: "#bff3ff", fx: "uncommon" },
     { t: "60 coins", c: 60, w: 18, col: "#ffd9a8", fx: "uncommon" }, { t: "Free pack", pack: 1, w: 8, col: "#ffc83d", fx: "epic" },
     { t: "120 coins", c: 120, w: 12, col: "#b8f0d0", fx: "rare" }, { t: "3 gems", g: 3, w: 10, col: "#a8e1ff", fx: "rare" },
-    { t: "300 coins", c: 300, w: 4, col: "#ffb3d9", fx: "legendary" }, { t: "JACKPOT", c: 1000, g: 10, w: 1, col: "#ff4fb8", fx: "chroma" }
+    { t: "300 coins", c: 300, w: 4, col: "#ffb3d9", fx: "legendary" }, { t: "JACKPOT", c: 1000, g: 10, w: 1, col: "#ff4fb8", fx: "chroma" }, { t: "2 power-ups", pu: 2, w: 12, col: "#d9b3ff", fx: "rare" }
   ];
   var SPIN_GEMS = 5, wheelAngle = 0, spinning = false;
   function drawWheel() {
@@ -2845,6 +2878,7 @@ button.syncchip:hover { border-color: var(--ink); }
       spinning = false;
       var wm = eventNow().wheel || 1; wallet.coins += (prize.c || 0) * wm; if (prize.g) addGems(prize.g * wm);
       if (prize.pack) wallet.freePacks = (wallet.freePacks || 0) + 1;
+      if (prize.pu) { puGrant(); puGrant(); }
       saveWallet(); drawCoins(); renderWheel(); renderDaily();
       var v = $("#wheelResult"); v.className = "verdict ok"; v.textContent = "You won " + prize.t + (wm > 1 ? " x2" : "") + (prize.pack ? " (open it in the Pack market)" : "") + "!";
       fxBurst(prize.fx);
@@ -3210,6 +3244,7 @@ button.syncchip:hover { border-color: var(--ink); }
   function coinGain(streak) {
     var g = Object.keys(wallet.shiny || {}).length + Math.round(COIN_PER * coinMult() * (eventNow().coin || 1)) + Math.floor(buddyLv(buddy().id) / 5);
     if (streak >= 3) g += wl("bow");
+    if (PU_ACT.dbl > 0) { g *= 2; PU_ACT.dbl--; }
     return Math.max(1, g);
   }
   function renderTier() {
@@ -3758,6 +3793,7 @@ button.syncchip:hover { border-color: var(--ink); }
     $("#mpAns").className = "answers";
     $("#mpAns").innerHTML = q.opts.map(function (o, i) { return '<button class="ans" type="button" data-k="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
     $("#mpVerdict").textContent = ""; $("#mpVerdict").className = "verdict";
+    MP.removed = null; puRenderMP();
   }
   function mpWaitScreen() {
     if (!$("#mpQ") || $("#mpAns").querySelector("canvas")) return;
@@ -3771,7 +3807,8 @@ button.syncchip:hover { border-color: var(--ink); }
     if (MP.ph !== "play" || MP.locked || MP.done) return;
     if (MP.mode === "live" && (MP.picked || MP.revealed === MP.qi)) return;
     var q = MP.qs[MP.qi % MP.qs.length]; if (!q || !q.opts[k]) return;
-    MP.locked = true;
+    if (MP.removed && MP.removed.indexOf(k) > -1) return;
+    MP.locked = true; puRenderMP();
     var ok = q.opts[k].ok, el = Date.now() - MP.qStart, bs = $("#mpAns").children, msg = "", patch = {};
     for (var i = 0; i < bs.length; i++) {
       bs[i].disabled = true;
@@ -3898,7 +3935,7 @@ button.syncchip:hover { border-color: var(--ink); }
     MP.shell = "play";
     $("#mpBody").innerHTML = '<div class="game-top"><div class="where"><span class="label">' + mpMode(MP.mode).name + " · Code " + MP.code + "</span><br><b>" + esc(mpSet((mpHostPeer() || { presence: {} }).presence.set).name) + '</b></div><div class="chips"><button class="btn small ghost" id="mpQuit" type="button">Leave game</button>' + (MP.isHost ? '<button class="btn small" id="mpEndNow" type="button">End round</button>' : "") + "</div></div>" +
       '<div class="timebar" id="mpTime"' + (MP.mode === "race" || MP.mode === "climb" ? " hidden" : "") + "><i></i></div>" +
-      '<div class="play"><div><div class="qbox"><span class="label" id="mpQc"></span><h2 id="mpQ">Get ready...</h2></div><div class="answers" id="mpAns"></div><div class="verdict" id="mpVerdict" aria-live="polite"></div></div><aside class="side" id="mpSide" aria-label="Players"></aside></div>';
+      '<div class="play"><div><div class="qbox"><span class="label" id="mpQc"></span><h2 id="mpQ">Get ready...</h2></div><div class="answers" id="mpAns"></div><div class="verdict" id="mpVerdict" aria-live="polite"></div><div class="pubar" id="mpPu"></div></div><aside class="side" id="mpSide" aria-label="Players"></aside></div>';
     renderMPSide();
   }
   function rowHtml(x, i, val, me, extra) {
@@ -4269,7 +4306,8 @@ button.syncchip:hover { border-color: var(--ink); }
     bat: { name: "Bat", hp: 40, sp: 62, dmg: 2, r: 13, col: "#6b6fa8", pts: 18, en: 4 },
     brute: { name: "Brute", hp: 140, sp: 26, dmg: 3, r: 21, col: "#a05cd6", pts: 30, en: 8 },
     ghost: { name: "Ghost", hp: 65, sp: 46, dmg: 2, r: 16, col: "#eaf4ff", pts: 24, en: 5 },
-    boss: { name: "Boss", hp: 750, sp: 19, dmg: 10, r: 30, col: "#e8483c", pts: 250, en: 45 }
+    boss: { name: "Boss", hp: 750, sp: 19, dmg: 10, r: 30, col: "#e8483c", pts: 250, en: 45 },
+    golden: { name: "Golden slime", hp: 45, sp: 72, dmg: 1, r: 14, col: "#ffd24f", pts: 60, en: 30 }
   };
   function waveList(w) {
     var L = [], n = 5 + w * 2;
@@ -4358,7 +4396,8 @@ button.syncchip:hover { border-color: var(--ink); }
     team.forEach(critImg);
     $("#chIntro").hidden = true; $("#chPlay").hidden = false; $("#chBack").hidden = true;
     var cv = $("#chCv"); CH.ctx = cv.getContext ? cv.getContext("2d") : null; CH.bg = chBg();
-    chTeamRender(); chHud(); chNextQ();
+    $("#chSpells").innerHTML = "";
+    chTeamRender(); chHud(); chNextQ(); chSpellsRender();
     requestAnimationFrame(chLoop);
   }
   function chBg() {
@@ -4393,6 +4432,7 @@ button.syncchip:hover { border-color: var(--ink); }
     for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (CH.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
     if (ok) {
       CH.streak++; CH.right++;
+      if (CH.streak % 5 === 0) { CH.freeSpell = true; chFloat(400, 200, CH.streak + " in a row! Free spell!", "#ffd24f"); }
       var gain = 40 + Math.min(CH.streak, 5) * 6;
       CH.en += gain; CH.score += 5;
       v.textContent = "+" + gain + " energy"; v.className = "verdict ok";
@@ -4448,6 +4488,7 @@ button.syncchip:hover { border-color: var(--ink); }
     var cv = e.currentTarget, r = cv.getBoundingClientRect(), x = (e.clientX - r.left) * CH_W / r.width, y = (e.clientY - r.top) * CH_H / r.height, si = -1, bd = 34;
     CH_SLOTS.forEach(function (s, i) { var d = Math.hypot(s[0] - x, s[1] - y); if (d < bd) { bd = d; si = i; } });
     CH.msg = "";
+    if (CH.gift && Math.hypot(CH.gift.x - x, CH.gift.y - y) < 36) { chOpenGift(); return; }
     if (si < 0) { CH.selT = -1; chTeamRender(); return; }
     if (CH.towers[si]) { CH.selT = si; CH.pick = null; chTeamRender(); return; }
     if (!CH.pick) { CH.msg = "Pick a critter from your team first."; CH.selT = -1; chTeamRender(); return; }
@@ -4465,14 +4506,15 @@ button.syncchip:hover { border-color: var(--ink); }
 
   function chUpdate(dt) {
     var C = CH;
-    C.t += dt;
+    C.t += dt; chPowerTick(C, dt);
     if (C.phase === "break") {
       C.brk -= dt;
       if (C.brk <= 0) { C.wave++; C.phase = "wave"; C.queue = waveList(C.wave); C.spawnT = 0.5; chHud(); }
     } else {
       C.spawnT -= dt;
       if (C.queue.length && C.spawnT <= 0) {
-        var t = C.queue.shift(), T = MON[t], sc = monScale(C.wave);
+        var t = C.queue.shift(); if (t === "slime" && Math.random() < 0.05) t = "golden";
+        var T = MON[t], sc = monScale(C.wave);
         C.mons.push({ t: t, hp: T.hp * sc, max: T.hp * sc, d: 0, seed: Math.random() * 6, slow: 0, fade: false, ft: 1 + Math.random() });
         C.spawnT = Math.max(0.38, 0.95 - C.wave * 0.025) * (t === "boss" ? 2 : 1);
       }
@@ -4486,7 +4528,7 @@ button.syncchip:hover { border-color: var(--ink); }
       var m = C.mons[i], T2 = MON[m.t];
       if (m.t === "ghost") { m.ft -= dt; if (m.ft <= 0) { m.fade = !m.fade; m.ft = m.fade ? 1.1 : 1.8; } }
       if (m.slow > 0) m.slow -= dt;
-      m.d += T2.sp * dt * (m.slow > 0 ? 0.5 : 1);
+      m.d += T2.sp * dt * (m.slow > 0 ? 0.5 : 1) * (C.freezeT > 0 ? 0 : 1);
       if (m.d >= CH_GEO.tot) {
         C.mons.splice(i, 1); C.hp -= T2.dmg; snd("wrong"); chFloat(760, 280, "-" + T2.dmg, "#ff4f4f"); chHud();
         if (C.hp <= 0) { chEnd(false); return; }
@@ -4494,7 +4536,7 @@ button.syncchip:hover { border-color: var(--ink); }
     }
     C.towers.forEach(function (tw, si) {
       if (!tw) return;
-      tw.cd -= dt * 1000; if (tw.kick > 0) tw.kick -= dt;
+      tw.cd -= dt * 1000 * (C.rageT > 0 ? 2 : 1); if (tw.kick > 0) tw.kick -= dt;
       if (tw.cd > 0) return;
       var st = towerStats(tw), sx = CH_SLOTS[si][0], sy = CH_SLOTS[si][1], best = null;
       C.mons.forEach(function (m) {
@@ -4525,6 +4567,7 @@ button.syncchip:hover { border-color: var(--ink); }
         chBurst(pp.x, pp.y, T3.col, mm.t === "boss" ? 40 : 12);
         chFloat(pp.x, pp.y - 20, "+" + T3.en, "#ffe58a");
         if (mm.t === "boss") { fxBurst("legendary"); C.score += 100; }
+        if (mm.t === "golden") { chFloat(pp.x, pp.y - 44, "Golden!", "#ffd24f"); chBurst(pp.x, pp.y, "#fff3a8", 20); snd("coin"); }
       }
     }
     C.parts.forEach(function (p) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 260 * dt; p.life -= dt * 1.6; });
@@ -4533,7 +4576,7 @@ button.syncchip:hover { border-color: var(--ink); }
     C.floats = C.floats.filter(function (f) { return f.life > 0; });
     C.hudT -= dt; if (C.hudT <= 0) { C.hudT = 0.25; chHud(); chTeamPoor(); }
   }
-  function chTeamPoor() { document.querySelectorAll("#chTeam .chcard:not([disabled])").forEach(function (b) { var c = CRITTERS.filter(function (x) { return x.id === b.dataset.chteam; })[0]; b.classList.toggle("poor", !!c && CH.en < towerCost(c)); }); var ub = document.querySelector('#chSel [data-ch="up"]'), t = CH.towers[CH.selT]; if (ub && t) ub.disabled = CH.en < upCost(t); }
+  function chTeamPoor() { chSpellsRender(); document.querySelectorAll("#chTeam .chcard:not([disabled])").forEach(function (b) { var c = CRITTERS.filter(function (x) { return x.id === b.dataset.chteam; })[0]; b.classList.toggle("poor", !!c && CH.en < towerCost(c)); }); var ub = document.querySelector('#chSel [data-ch="up"]'), t = CH.towers[CH.selT]; if (ub && t) ub.disabled = CH.en < upCost(t); }
   function chHit(m, dmg, slow) { m.hp -= dmg; if (slow) m.slow = 1.2; }
 
   function chDraw() {
@@ -4541,6 +4584,7 @@ button.syncchip:hover { border-color: var(--ink); }
     var cv = x.canvas, dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.round((cv.clientWidth || CH_W) * dpr);
     if (cv.width !== w) { cv.width = w; cv.height = Math.round(w / 2); }
     x.setTransform(cv.width / CH_W, 0, 0, cv.height / CH_H, 0, 0);
+    if (C.shake > 0) x.translate((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
     if (C.bg) x.drawImage(C.bg, 0, 0); else { x.fillStyle = "#8fd27f"; x.fillRect(0, 0, CH_W, CH_H); }
     var now = performance.now();
     /* castle */
@@ -4570,6 +4614,7 @@ button.syncchip:hover { border-color: var(--ink); }
     });
     /* shots */
     C.shots.forEach(function (s) { x.fillStyle = s.col; x.beginPath(); x.arc(s.x, s.y, s.big ? 7 : 5, 0, 6.283); x.fill(); x.fillStyle = "#fff"; x.beginPath(); x.arc(s.x, s.y, s.big ? 3 : 2, 0, 6.283); x.fill(); });
+    chPowerDraw(x, C, now);
     C.parts.forEach(function (p) { x.globalAlpha = Math.max(0, p.life); x.fillStyle = p.col; x.fillRect(p.x - 3, p.y - 3, 6, 6); });
     x.globalAlpha = 1;
     x.textAlign = "center"; x.font = "800 18px system-ui, sans-serif"; x.lineJoin = "round";
@@ -4587,12 +4632,13 @@ button.syncchip:hover { border-color: var(--ink); }
     x.fillStyle = "rgba(0,0,0,.2)"; x.beginPath(); x.ellipse(p.x, p.y + r * 0.7, r * 0.9, r * 0.3, 0, 0, 6.283); x.fill();
     x.strokeStyle = "#1d1b3a"; x.lineWidth = 2.5; x.lineJoin = "round";
     if (m.t === "bat") { var fl = Math.sin(now / 70 + m.seed) * 6; x.fillStyle = "#3a2f6b"; [-1, 1].forEach(function (sd) { x.beginPath(); x.moveTo(cx + sd * r * 0.6, cy); x.lineTo(cx + sd * (r + 16), cy - 10 - fl); x.lineTo(cx + sd * (r + 10), cy + 4); x.lineTo(cx + sd * (r + 4), cy - 2); x.closePath(); x.fill(); x.stroke(); }); }
-    x.fillStyle = m.slow > 0 ? "#bfe8ff" : T.col;
+    x.fillStyle = m.slow > 0 || (CH && CH.freezeT > 0) ? "#bfe8ff" : T.col;
+    if (m.t === "golden") { x.shadowColor = "#ffd24f"; x.shadowBlur = 14; }
     x.beginPath();
     if (m.t === "ghost") { x.moveTo(cx - r, cy + r); x.lineTo(cx - r, cy); x.arc(cx, cy, r, Math.PI, 0); x.lineTo(cx + r, cy + r); for (var g = 0; g < 4; g++) x.lineTo(cx + r - (g + 0.5) * r / 2, cy + r - (g % 2 ? 0 : 6)); x.closePath(); }
-    else if (m.t === "slime") { x.moveTo(cx - r, cy + r * 0.7); x.quadraticCurveTo(cx - r * 1.1, cy - r * 1.1, cx, cy - r); x.quadraticCurveTo(cx + r * 1.1, cy - r * 1.1, cx + r, cy + r * 0.7); x.closePath(); }
+    else if (m.t === "slime" || m.t === "golden") { x.moveTo(cx - r, cy + r * 0.7); x.quadraticCurveTo(cx - r * 1.1, cy - r * 1.1, cx, cy - r); x.quadraticCurveTo(cx + r * 1.1, cy - r * 1.1, cx + r, cy + r * 0.7); x.closePath(); }
     else x.arc(cx, cy, r, 0, 6.283);
-    x.fill(); x.stroke();
+    x.fill(); x.stroke(); x.shadowBlur = 0;
     if (m.t === "brute" || m.t === "boss") { x.fillStyle = "#fff3d6"; [-1, 1].forEach(function (sd) { x.beginPath(); x.moveTo(cx + sd * r * 0.45, cy - r * 0.8); x.lineTo(cx + sd * r * 0.95, cy - r * 1.45); x.lineTo(cx + sd * r * 0.8, cy - r * 0.6); x.closePath(); x.fill(); x.stroke(); }); }
     if (m.t === "boss") { x.fillStyle = "#ffc83d"; x.beginPath(); x.moveTo(cx - 14, cy - r + 2); x.lineTo(cx - 14, cy - r - 12); x.lineTo(cx - 7, cy - r - 5); x.lineTo(cx, cy - r - 15); x.lineTo(cx + 7, cy - r - 5); x.lineTo(cx + 14, cy - r - 12); x.lineTo(cx + 14, cy - r + 2); x.closePath(); x.fill(); x.stroke(); }
     if (m.t === "runner") { x.strokeStyle = "rgba(29,27,58,.5)"; x.lineWidth = 2; [-6, 0, 6].forEach(function (o) { x.beginPath(); x.moveTo(cx - r - 4, cy + o); x.lineTo(cx - r - 14, cy + o); x.stroke(); }); x.strokeStyle = "#1d1b3a"; x.lineWidth = 2.5; }
@@ -4799,6 +4845,237 @@ button.syncchip:hover { border-color: var(--ink); }
   $("#openFriends").addEventListener("click", openFriends);
   $("#friendsBack").addEventListener("click", function () { renderHome(); show("home"); });
   setInterval(function () { if (!$("#friends").hidden) frRender(); }, 30000);
+
+  /* ================= Power-ups for question games ================= */
+  var PUS = [
+    { id: "fifty", name: "50/50", desc: "Removes two wrong answers.", cost: 30, col: "#38b6ff",
+      icon: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#fff" stroke="currentColor" stroke-width="2.5"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>' },
+    { id: "skip", name: "Skip", desc: "Swaps the question for a new one.", cost: 25, col: "#9a4de0",
+      icon: '<svg viewBox="0 0 24 24"><path d="M4 5l8 7-8 7zM12 5l8 7-8 7z" fill="currentColor"/></svg>' },
+    { id: "shield", name: "Shield", desc: "Your next wrong answer doesn't count.", cost: 45, col: "#2fbf5f",
+      icon: '<svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z" fill="currentColor"/><path d="M8 12l3 3 5-6" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' },
+    { id: "double", name: "Double Coins", desc: "Your next 5 right answers pay double coins.", cost: 60, col: "#f2b417",
+      icon: '<svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="7" fill="currentColor"/><circle cx="15" cy="12" r="7" fill="#fff3c4" stroke="currentColor" stroke-width="2"/><text x="15" y="16" font-size="9" font-weight="800" text-anchor="middle" fill="#2a1d00">x2</text></svg>' },
+    { id: "time", name: "Extra Time", desc: "Adds 10 seconds in timed modes.", cost: 35, col: "#ff6a1f",
+      icon: '<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8" fill="#fff" stroke="currentColor" stroke-width="2.5"/><path d="M12 9v4l3 2M9 2h6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>' }
+  ];
+  var PU_ACT = { dbl: 0 };
+  function puById(id) { return PUS.filter(function (p) { return p.id === id; })[0]; }
+  function puInv() {
+    wallet.pu = wallet.pu || {};
+    if (!wallet.puGift) { PUS.forEach(function (p) { wallet.pu[p.id] = (wallet.pu[p.id] || 0) + 2; }); wallet.puGift = 1; saveWallet(); }
+    return wallet.pu;
+  }
+  function puGrant(id, n) { var inv = puInv(); id = id || pickOne(PUS).id; inv[id] = (inv[id] || 0) + (n || 1); saveWallet(); return puById(id); }
+  function puTimed() { return G && (G.qMs || G.deadline); }
+  function puBtns(ctx) {
+    var inv = puInv(), list = ctx === "mp" ? ["fifty", "double"] : PUS.map(function (p) { return p.id; });
+    return list.map(function (id) {
+      var p = puById(id), n = inv[id] || 0, off = !n;
+      if (ctx === "solo") {
+        if (!G || G.locked || G.ended || G.chestOpen) off = true;
+        if (id === "fifty" && G && G.removed && G.removed.length) off = true;
+        if (id === "shield" && G && G.shield) off = true;
+        if (id === "time" && !puTimed()) off = true;
+      }
+      if (ctx === "mp" && (MP.locked || MP.done || MP.chestOpen || (id === "fifty" && MP.removed && MP.removed.length))) off = true;
+      var active = (id === "shield" && G && G.shield && ctx === "solo") || (id === "double" && PU_ACT.dbl > 0);
+      return '<button class="pubtn' + (active ? " on" : "") + '" type="button" data-pu="' + id + '" data-ctx="' + ctx + '" style="--pc:' + p.col + '"' + (off ? " disabled" : "") + ' title="' + esc(p.desc) + '"><span class="puic">' + p.icon + '</span><span class="punm">' + p.name + (active && id === "double" ? " (" + PU_ACT.dbl + " left)" : active ? " on" : "") + '</span><b class="mono">' + n + "</b></button>";
+    }).join("");
+  }
+  function puRender() { var b = $("#puBar"); if (b) b.innerHTML = puBtns("solo"); }
+  function puRenderMP() { var b = $("#mpPu"); if (b) b.innerHTML = puBtns("mp"); }
+  function removeTwo(opts, wrap) {
+    var wrong = []; opts.forEach(function (o, i) { if (!o.ok) wrong.push(i); });
+    var gone = shuffle(wrong).slice(0, Math.min(2, wrong.length - (opts.length > 2 ? 0 : 1)));
+    var bs = $(wrap).children;
+    gone.forEach(function (i) { if (bs[i]) { bs[i].disabled = true; bs[i].classList.add("gone"); } });
+    return gone;
+  }
+  function puUse(id, ctx) {
+    var inv = puInv(); if (!(inv[id] > 0)) return;
+    var used = false;
+    if (ctx === "solo") {
+      if (!G || G.locked || G.ended || G.chestOpen) return;
+      if (id === "fifty" && !(G.removed && G.removed.length)) { G.removed = removeTwo(G.opts, "#answers"); used = true; }
+      else if (id === "skip") {
+        var L = G.order.length, idx = G.n % L;
+        if (L > 1) { var q = G.order.splice(idx, 1)[0]; G.order.push(q); }
+        else G.order = shuffle(G.order);
+        used = true; inv[id]--; saveWallet(); ask(); toast("Skipped!"); return;
+      }
+      else if (id === "shield" && !G.shield) { G.shield = true; used = true; }
+      else if (id === "double") { PU_ACT.dbl += 5; used = true; }
+      else if (id === "time" && puTimed()) {
+        if (G.deadline) { G.deadline += 10000; if (G.lastRise) G.lastRise += 10000; }
+        if (G.qMs) G.qStart = Date.now();
+        used = true;
+      }
+    } else if (ctx === "mp") {
+      if (MP.locked || MP.done || MP.chestOpen) return;
+      if (id === "fifty" && !(MP.removed && MP.removed.length)) { MP.removed = removeTwo(MP.qs[MP.qi % MP.qs.length].opts, "#mpAns"); used = true; }
+      else if (id === "double") { PU_ACT.dbl += 5; used = true; }
+    }
+    if (!used) return;
+    inv[id]--; saveWallet(); snd("coin");
+    toast(puById(id).name + (id === "double" ? ": your next 5 right answers pay double" : id === "shield" ? ": you're protected from one wrong answer" : id === "time" ? ": +10 seconds" : "!"));
+    if (ctx === "solo") puRender(); else puRenderMP();
+  }
+  document.addEventListener("click", function (e) { var b = e.target.closest("[data-pu]"); if (b && !b.disabled) puUse(b.dataset.pu, b.dataset.ctx); });
+  /* Wraps the solo answer so Shield, 50/50 and drops work in every mode */
+  function answer(k, timedOut) {
+    if (!G || G.locked || G.ended) return;
+    if (!timedOut && G.removed && G.removed.indexOf(k) > -1) return;
+    if (!timedOut && !G.opts[k]) return;
+    var ok = !timedOut && G.opts[k].ok;
+    if (!ok && G.shield) {
+      G.shield = false; G.locked = true;
+      var bs = $("#answers").children;
+      for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (G.opts[i] && G.opts[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
+      var v = $("#verdict"); v.textContent = "Your shield blocked that one. No penalty!"; v.className = "verdict ok";
+      if (G.qTimer) { clearInterval(G.qTimer); G.qTimer = null; }
+      var L = G.order.length; if (L > 1) { var q = G.order.splice(G.n % L, 1)[0]; G.order.push(q); }
+      snd("coin"); puRender();
+      G.timers.push(setTimeout(function () { if (G && !G.ended) ask(); }, 1300));
+      return;
+    }
+    answerCore(k, timedOut);
+    if (ok && Math.random() < 0.05) { var got = puGrant(); toast("You found a " + got.name + " power-up!"); }
+    puRender();
+  }
+
+  /* Power-up shop (in the Pack market) */
+  function renderPuShop() {
+    var inv = puInv(), el = $("#puShop"); if (!el) return;
+    el.innerHTML = '<div class="collection-head" style="margin:0"><h3>Power-ups</h3><span class="label">Use them in any quiz game</span></div><p class="sub">Tap a power-up during a game to use it. You also find them now and then for right answers, and on the Lucky Wheel.</p><div class="pushop">' +
+      PUS.map(function (p) {
+        return '<div class="tile have pushopt" style="--pc:' + p.col + '"><span class="puic big">' + p.icon + '</span><div class="nm">' + p.name + '</div><div class="price">' + p.desc + '</div><div class="price mono">You have ' + (inv[p.id] || 0) + '</div><button class="btn small sun" type="button" data-pubuy="' + p.id + '"' + (wallet.coins < p.cost ? " disabled" : "") + ">Buy " + p.cost + "</button></div>";
+      }).join("") + "</div>";
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-pubuy]"); if (!b || b.disabled) return;
+    var p = puById(b.dataset.pubuy); if (!p || wallet.coins < p.cost) return;
+    wallet.coins -= p.cost; puGrant(p.id); drawCoins(); snd("coin"); renderMarket();
+  });
+
+  /* ================= Challenge spells, gifts and golden monsters ================= */
+  var SPELLS = [
+    { id: "bolt", name: "Lightning", cost: 60, cd: 12, col: "#ffd24f", desc: "Zaps every monster on the path." },
+    { id: "freeze", name: "Freeze", cost: 50, cd: 15, col: "#7fd3ff", desc: "Freezes all monsters for 4 seconds." },
+    { id: "rage", name: "Rage", cost: 70, cd: 20, col: "#ff4f4f", desc: "Critters attack twice as fast for 8 seconds." },
+    { id: "meteor", name: "Meteor", cost: 110, cd: 25, col: "#ff9f1c", desc: "A huge blast where monsters are bunched up." },
+    { id: "heal", name: "Repair", cost: 80, cd: 25, col: "#2fbf5f", desc: "Fixes 5 castle health." }
+  ];
+  var SPELL_IC = {
+    bolt: '<svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-2 8 9-12h-7z" fill="currentColor" stroke="#1d1b3a" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+    freeze: '<svg viewBox="0 0 24 24"><path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M9 4l3 3 3-3M9 20l3-3 3 3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    rage: '<svg viewBox="0 0 24 24"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 0 3 1 4 2 4-1-3 0-6 1-9z" fill="currentColor" stroke="#1d1b3a" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+    meteor: '<svg viewBox="0 0 24 24"><circle cx="15" cy="15" r="6" fill="currentColor" stroke="#1d1b3a" stroke-width="1.5"/><path d="M3 3l7 7M6 2l6 6M2 7l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+    heal: '<svg viewBox="0 0 24 24"><path d="M12 21C5 16 2 12 2 8.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 10 2.5C22 12 19 16 12 21z" fill="currentColor" stroke="#1d1b3a" stroke-width="1.5"/><path d="M12 9v6M9 12h6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>'
+  };
+  var GIFT_SPOTS = [[40, 200], [40, 330], [250, 140], [250, 40], [460, 360], [560, 30], [470, 270], [700, 60], [770, 140], [600, 380], [150, 380], [360, 50]];
+  function chSpellsRender() {
+    var box = $("#chSpells"); if (!CH || !box) return;
+    CH.cds = CH.cds || {};
+    if (!box.querySelector("[data-spell]")) box.innerHTML = SPELLS.map(function (s, i) {
+      return '<button class="spell" type="button" data-spell="' + s.id + '" style="--sc:' + s.col + '" title="' + esc(s.desc) + '"><span class="spic">' + SPELL_IC[s.id] + '</span><span class="spnm">' + s.name + ' <kbd>' + "QWERT"[i] + '</kbd></span><span class="spcost mono"></span><i class="spcd"></i></button>';
+    }).join("") + '<span class="freenote" hidden>Streak bonus: your next spell is free!</span>';
+    SPELLS.forEach(function (s) {
+      var b = box.querySelector('[data-spell="' + s.id + '"]'), cd = CH.cds[s.id] || 0, free = CH.freeSpell, cost = free ? 0 : s.cost;
+      b.disabled = cd > 0 || CH.en < cost || CH.over;
+      b.classList.toggle("free", !!free && !cd);
+      b.querySelector(".spcost").textContent = cd > 0 ? Math.ceil(cd) + "s" : free ? "FREE" : s.cost + " energy";
+      b.querySelector(".spcd").style.height = (cd > 0 ? Math.round(cd / s.cd * 100) : 0) + "%";
+    });
+    box.querySelector(".freenote").hidden = !CH.freeSpell;
+  }
+  function chCast(id) {
+    var C = CH; if (!C || C.over) return;
+    var s = SPELLS.filter(function (x) { return x.id === id; })[0]; C.cds = C.cds || {};
+    if (!s || (C.cds[id] || 0) > 0) return;
+    var cost = C.freeSpell ? 0 : s.cost; if (C.en < cost) return;
+    C.en -= cost; C.freeSpell = false; C.cds[id] = s.cd;
+    var w = Math.max(1, C.wave);
+    if (id === "bolt") {
+      var dmg = 25 + w * 12; C.bolts = [];
+      C.mons.forEach(function (m) { var p = pathPos(m.d); chHit(m, dmg, false); C.bolts.push({ x: p.x, y: p.y }); chBurst(p.x, p.y, "#ffd24f", 6); });
+      C.boltT = 0.35; snd("pack", "rare");
+      if (!C.mons.length) chFloat(400, 200, "No monsters to zap!", "#ffd24f");
+    } else if (id === "freeze") { C.freezeT = 4; snd("pack", "uncommon"); chFloat(400, 200, "Frozen!", "#bfe8ff"); }
+    else if (id === "rage") { C.rageT = 8; snd("pack", "epic"); chFloat(400, 200, "Rage!", "#ff6a6a"); }
+    else if (id === "heal") { var before = C.hp; C.hp = Math.min(C.maxHp, C.hp + 5); chFloat(770, 240, "+" + (C.hp - before), "#7dff9a"); snd("level"); }
+    else if (id === "meteor") {
+      var best = null, bn = -1;
+      C.mons.forEach(function (m) { var p = pathPos(m.d), n = 0; C.mons.forEach(function (o) { var q = pathPos(o.d); if (Math.hypot(p.x - q.x, p.y - q.y) < 90) n++; }); if (n > bn) { bn = n; best = p; } });
+      var at = best || { x: 400, y: 200 };
+      C.meteor = { x: at.x, y: at.y, t: 0.55 };
+      snd("pack", "legendary");
+    }
+    chHud(); chSpellsRender();
+  }
+  function chMeteorHit(C) {
+    var mt = C.meteor, dmg = 60 + Math.max(1, C.wave) * 22;
+    C.mons.forEach(function (m) { var p = pathPos(m.d); if (Math.hypot(p.x - mt.x, p.y - mt.y) <= 95) chHit(m, dmg, true); });
+    chBurst(mt.x, mt.y, "#ff9f1c", 40); chBurst(mt.x, mt.y, "#ffd24f", 25);
+    C.ring = { x: mt.x, y: mt.y, t: 0.5 }; C.shake = 0.4; C.meteor = null;
+  }
+  function chPowerTick(C, dt) {
+    C.cds = C.cds || {};
+    Object.keys(C.cds).forEach(function (k) { if (C.cds[k] > 0) C.cds[k] = Math.max(0, C.cds[k] - dt); });
+    if (C.freezeT > 0) C.freezeT -= dt;
+    if (C.rageT > 0) C.rageT -= dt;
+    if (C.boltT > 0) C.boltT -= dt;
+    if (C.shake > 0) C.shake -= dt;
+    if (C.ring) { C.ring.t -= dt; if (C.ring.t <= 0) C.ring = null; }
+    if (C.meteor) { C.meteor.t -= dt; if (C.meteor.t <= 0) chMeteorHit(C); }
+    /* gift boxes show up now and then during waves */
+    if (C.phase === "wave") { C.giftT = (C.giftT == null ? 18 + Math.random() * 12 : C.giftT) - dt; if (C.giftT <= 0 && !C.gift) { var sp = pickOne(GIFT_SPOTS); C.gift = { x: sp[0], y: sp[1], life: 7 }; C.giftT = 25 + Math.random() * 20; snd("coin"); } }
+    if (C.gift) { C.gift.life -= dt; if (C.gift.life <= 0) C.gift = null; }
+  }
+  function chOpenGift() {
+    var C = CH, g = C.gift; if (!g) return; C.gift = null;
+    var r = Math.random(), txt;
+    if (r < 0.35) { C.en += 60; txt = "+60 energy"; }
+    else if (r < 0.55) { C.cds = {}; txt = "All spells recharged!"; }
+    else if (r < 0.7) { C.freeSpell = true; txt = "Free spell!"; }
+    else if (r < 0.85) { wallet.coins += 30; drawCoins(); saveWallet(); txt = "+30 coins"; }
+    else { var got = puGrant(); txt = "+1 " + got.name + " power-up"; }
+    chFloat(g.x, g.y - 30, txt, "#ffe58a"); chBurst(g.x, g.y, "#ff6fae", 18); chBurst(g.x, g.y, "#ffd24f", 12); snd("pack", "epic");
+    chHud(); chSpellsRender();
+  }
+  function chPowerDraw(x, C, now) {
+    if (C.rageT > 0) C.towers.forEach(function (tw, i) { if (!tw) return; var s = CH_SLOTS[i]; x.beginPath(); x.arc(s[0], s[1], 26 + Math.sin(now / 90) * 3, 0, 6.283); x.fillStyle = "rgba(255,79,79,.28)"; x.fill(); });
+    if (C.boltT > 0 && C.bolts) {
+      x.strokeStyle = "#fff6b0"; x.lineWidth = 4; x.shadowColor = "#ffd24f"; x.shadowBlur = 12;
+      C.bolts.forEach(function (b) { x.beginPath(); var y = 0, bx = b.x + (Math.random() - 0.5) * 30; x.moveTo(bx, 0); while (y < b.y) { y += 22; bx += (Math.random() - 0.5) * 26; x.lineTo(y >= b.y ? b.x : bx, Math.min(y, b.y)); } x.stroke(); });
+      x.shadowBlur = 0;
+    }
+    if (C.meteor) {
+      var f = 1 - C.meteor.t / 0.55, mx = C.meteor.x - 200 * (1 - f), my = C.meteor.y - 300 * (1 - f);
+      x.strokeStyle = "rgba(255,159,28,.6)"; x.lineWidth = 14; x.lineCap = "round"; x.beginPath(); x.moveTo(mx - 60, my - 90); x.lineTo(mx, my); x.stroke();
+      x.fillStyle = "#ff9f1c"; x.strokeStyle = "#1d1b3a"; x.lineWidth = 3; x.beginPath(); x.arc(mx, my, 18, 0, 6.283); x.fill(); x.stroke();
+      x.fillStyle = "rgba(255,80,40,.25)"; x.beginPath(); x.arc(C.meteor.x, C.meteor.y, 95 * f, 0, 6.283); x.fill();
+    }
+    if (C.ring) { x.strokeStyle = "rgba(255,210,79," + C.ring.t * 2 + ")"; x.lineWidth = 8; x.beginPath(); x.arc(C.ring.x, C.ring.y, 95 + (0.5 - C.ring.t) * 120, 0, 6.283); x.stroke(); }
+    if (C.freezeT > 0) { x.fillStyle = "rgba(160,220,255," + Math.min(0.28, C.freezeT * 0.2) + ")"; x.fillRect(0, 0, CH_W, CH_H); }
+    if (C.gift) {
+      var g = C.gift, bob = Math.sin(now / 140) * 4, blink = g.life < 2 && Math.floor(now / 150) % 2;
+      if (!blink) {
+        x.fillStyle = "rgba(0,0,0,.2)"; x.beginPath(); x.ellipse(g.x, g.y + 18, 18, 5, 0, 0, 6.283); x.fill();
+        x.strokeStyle = "#1d1b3a"; x.lineWidth = 2.5;
+        x.fillStyle = "#ff6fae"; x.fillRect(g.x - 16, g.y - 12 + bob, 32, 26); x.strokeRect(g.x - 16, g.y - 12 + bob, 32, 26);
+        x.fillStyle = "#ff4f8f"; x.fillRect(g.x - 19, g.y - 20 + bob, 38, 10); x.strokeRect(g.x - 19, g.y - 20 + bob, 38, 10);
+        x.fillStyle = "#ffd24f"; x.fillRect(g.x - 4, g.y - 20 + bob, 8, 34); x.strokeRect(g.x - 4, g.y - 20 + bob, 8, 34);
+        x.beginPath(); x.ellipse(g.x - 8, g.y - 25 + bob, 8, 5, -0.5, 0, 6.283); x.fill(); x.stroke(); x.beginPath(); x.ellipse(g.x + 8, g.y - 25 + bob, 8, 5, 0.5, 0, 6.283); x.fill(); x.stroke();
+        x.font = "800 13px system-ui, sans-serif"; x.textAlign = "center"; x.lineWidth = 3; x.strokeText("Tap me!", g.x, g.y - 36 + bob); x.fillStyle = "#fff"; x.fillText("Tap me!", g.x, g.y - 36 + bob);
+      }
+    }
+  }
+  document.addEventListener("click", function (e) { var b = e.target.closest("[data-spell]"); if (b && !b.disabled) chCast(b.dataset.spell); });
+  document.addEventListener("keydown", function (e) {
+    if ($("#challenge").hidden || !CH || CH.over || e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+    var i = "qwert".indexOf(e.key.toLowerCase()); if (i > -1 && SPELLS[i]) chCast(SPELLS[i].id);
+  });
 
   /* Pack market */
   function goMarket() { $("#reveal").hidden = true; renderMarket(); show("market"); }
