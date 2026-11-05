@@ -726,6 +726,56 @@ button.syncchip:hover { border-color: var(--ink); }
 .teamrow .tile .ct { position: absolute; top: 4px; right: 6px; }
 .teamrow .tile { position: relative; }
 
+.langsel { background: var(--surface); color: var(--ink); border: 2px solid var(--line); border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: 13px; max-width: 190px; }
+.langsel:hover { border-color: var(--ink); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Hide Google Translate's own bar and hover tips */
+iframe.skiptranslate, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame, .VIpgJd-ZVi9od-ORHb-OEVmcd, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf { display: none !important; }
+body { top: 0 !important; }
+font { background: none !important; box-shadow: none !important; }
+.rtl .qbox h2, .rtl .ans .t, .rtl .sub, .rtl .panel h3 { direction: rtl; }
+
+.duelbtn { background: #e8483c; color: #fff; }
+.duelbtn:hover { background: #d03a2f; }
+.gembtn { background: #a8e1ff; color: #0b3a5c; }
+.shop .tile .btn, #shopBody .tile .btn { width: 100%; }
+#shopBody .tile { display: grid; gap: 4px; align-content: start; }
+.trainers { display: grid; gap: 8px; }
+.trainer { display: flex; align-items: center; gap: 10px; text-align: left; border: 2px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 14px; padding: 6px 10px; cursor: pointer; }
+.trainer.on { border-color: var(--edge); box-shadow: 0 3px 0 var(--edge); outline: 3px solid var(--sun); outline-offset: 1px; }
+.trainer[disabled] { opacity: .5; cursor: default; }
+.trainer .tav .art { width: 48px; height: 48px; display: block; }
+.trainer .tbody { min-width: 0; }
+.elem { display: inline-block; background: var(--ec); color: #fff; border: 2px solid var(--edge); border-radius: 999px; font-size: 11px; font-weight: 800; padding: 0 8px; line-height: 16px; letter-spacing: .04em; }
+.duarena { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 10px; background: linear-gradient(180deg, #9fd7ff 0%, #c8ecff 55%, #8fd27f 55%, #6cbf5f 100%); border: 2px solid var(--edge); border-radius: 18px; padding: 14px; min-height: 280px; }
+.duside { display: grid; gap: 6px; justify-items: center; min-width: 0; }
+.dutop { display: flex; flex-direction: column; align-items: center; gap: 4px; background: rgba(255, 255, 255, .85); color: #1d1b3a; border: 2px solid #1d1b3a; border-radius: 12px; padding: 4px 10px; }
+.dubenchrow { display: flex; gap: 2px; }
+.dubench .art { width: 26px; height: 26px; display: block; }
+.dubench.out { opacity: .3; filter: grayscale(1); }
+.dubench.now { outline: 2px solid #1d1b3a; border-radius: 50%; }
+.dufighter { position: relative; }
+.dufighter .art { width: clamp(90px, 18vw, 150px); height: clamp(90px, 18vw, 150px); display: block; }
+.duside.foe .dufighter .art { transform: scaleX(-1); }
+.duinfo { background: rgba(255, 255, 255, .9); color: #1d1b3a; border: 2px solid #1d1b3a; border-radius: 12px; padding: 4px 10px; display: grid; gap: 4px; justify-items: center; min-width: min(220px, 100%); }
+.duhp { display: block; width: 100%; height: 10px; border-radius: 99px; background: #e7e3f7; border: 2px solid #1d1b3a; overflow: hidden; }
+.duhp i { display: block; height: 100%; transition: width .4s; }
+.duhpn { font-size: 12px; }
+.duvs { font-family: var(--font-display); font-weight: 800; font-size: clamp(24px, 5vw, 40px); color: #fff; -webkit-text-stroke: 2px #1d1b3a; }
+.lunge { animation: lunge .45s ease; }
+.lungel { animation: lungel .45s ease; }
+.hurt { animation: hurt .45s ease; }
+@keyframes lunge { 40% { transform: translateX(40px) scale(1.08); } }
+@keyframes lungel { 40% { transform: translateX(-40px) scale(1.08); } }
+@keyframes hurt { 20%, 60% { transform: translateX(-8px); filter: brightness(1.8); } 40%, 80% { transform: translateX(8px); } }
+.dudmg { position: absolute; left: 50%; top: 10%; transform: translateX(-50%); font-family: var(--font-display); font-weight: 800; font-size: 28px; color: var(--ec); -webkit-text-stroke: 1.5px #1d1b3a; animation: dmgup 1s ease forwards; pointer-events: none; }
+@keyframes dmgup { to { transform: translate(-50%, -50px); opacity: 0; } }
+@media (max-width: 560px) { .duarena { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .duvs { display: none; } }
+.lbweek { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; background: var(--surface2); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; font-size: 14px; }
+.lbweek .mono { margin-left: auto; color: var(--muted); }
+.prize { margin-left: 6px; font-size: 11px; font-weight: 800; border-radius: 999px; padding: 0 7px; border: 1.5px solid var(--edge); color: #1d1b3a; white-space: nowrap; }
+.prize.p1 { background: #ffd24f; } .prize.p2 { background: #dfe3ea; } .prize.p3 { background: #e7a16b; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
@@ -734,7 +784,8 @@ button.syncchip:hover { border-color: var(--ink); }
 <div id="toast" role="status" hidden></div>
 <div id="authGate" class="gate" hidden>
   <div class="gatecard" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
-    <div class="gatebrand"><span class="wordmark" style="font-size:40px">Quiz<span>lark</span></span></div>
+    <div class="gatebrand"><span class="wordmark notranslate" translate="no" style="font-size:40px">Quiz<span>lark</span></span></div>
+    <div class="langwrap notranslate" translate="no" style="justify-self:center"><label class="label" for="langSel2">Language</label> <select class="langsel" id="langSel2" aria-label="Language"></select></div>
     <div id="gateBody"></div>
   </div>
 </div>
@@ -750,7 +801,7 @@ button.syncchip:hover { border-color: var(--ink); }
         <circle cx="39" cy="34" r="2" fill="var(--edge)"/>
         <path d="M16 41c4-7 13-8 18-1-4 7-14 8-18 1z" fill="#ffd3cf" stroke="var(--edge)" stroke-width="2.2" stroke-linejoin="round"/>
       </svg>
-      <div class="wordmark" aria-label="Quizlark">Quiz<span>lark</span></div>
+      <div class="wordmark notranslate" translate="no" aria-label="Quizlark">Quiz<span>lark</span></div>
     </div>
     <div class="brand-right">
       <div class="wallet">
@@ -758,9 +809,11 @@ button.syncchip:hover { border-color: var(--ink); }
         <span class="coinchip gem"><span class="c">G</span>Gems <b class="gemNum">0</b></span>
         <button class="syncchip" id="syncBtn" type="button" aria-label="Account and saving"><span class="syncState">Connecting...</span></button>
         <button class="btn small ghost" id="soundBtn" type="button" aria-pressed="true">Sound on</button>
+        <span class="langwrap notranslate" translate="no"><label class="sr-only" for="langSel">Language</label><select class="langsel" id="langSel" aria-label="Language"></select></span>
         <button class="btn small" id="loginBtn" type="button" hidden>Log in</button>
         <button class="btn small primary" id="openMulti2" type="button">Play with friends</button>
         <button class="btn small chbtn" id="openChallenge2" type="button">Challenge</button>
+        <button class="btn small duelbtn" id="openDuel2" type="button">Duel</button>
         <button class="btn small" id="openShop2" type="button">Shop</button>
         <button class="btn small sun" id="openMarket" type="button">Pack market</button>
       </div>
@@ -807,6 +860,7 @@ button.syncchip:hover { border-color: var(--ink); }
       <button class="btn primary" id="startBtn" type="button">Start game</button>
       <button class="btn sun" id="openMulti" type="button" style="font-size:18px;padding:12px 22px">Play with friends</button>
       <button class="btn chbtn" id="openChallenge" type="button" style="font-size:18px;padding:12px 22px">Monster Challenge</button>
+      <button class="btn duelbtn" id="openDuel" type="button" style="font-size:18px;padding:12px 22px">Critter Duel</button>
       <span class="hint" id="startHint"></span>
     </div>
   </main>
@@ -1030,6 +1084,25 @@ button.syncchip:hover { border-color: var(--ink); }
         <div class="panel chq"><span class="label" id="chQc"></span><h3 id="chQ"></h3><div class="answers" id="chAns"></div><div class="verdict" id="chVerdict" aria-live="polite"></div></div>
         <div class="panel"><div class="collection-head" style="margin:0"><h3>Your team</h3><span class="label">Pick one, then tap the map</span></div><p class="label" style="margin:6px 0 4px">Place as</p><div class="filterbar" id="chRoles"></div><div class="teamrow" id="chTeam"></div><div id="chSel"></div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- DUEL -->
+  <section id="duel" hidden aria-labelledby="du-title">
+    <div class="market-top">
+      <h2 id="du-title">Critter Duel</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <span class="coinchip gem"><span class="c">G</span>Gems <b class="gemNum">0</b></span>
+        <button class="btn small" id="duelBack" type="button">Back</button>
+      </div>
+    </div>
+    <div id="duIntro"></div>
+    <div id="duPlay" hidden>
+      <div class="duarena" id="duArena"></div>
+      <div class="timebar" id="duTime"><i></i></div>
+      <div class="panel chq" style="margin-top:12px"><span class="label" id="duQc"></span><h3 id="duQ"></h3><div class="answers" id="duAns"></div><div class="verdict" id="duVerdict" aria-live="polite"></div>
+        <div class="btnrow"><button class="btn small ghost" id="duQuit" type="button">Give up</button></div></div>
     </div>
   </section>
 
@@ -2165,7 +2238,7 @@ button.syncchip:hover { border-color: var(--ink); }
   var editingId = null, pendingDelete = null;
 
   function show(id) {
-    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop"].forEach(function (s) { $("#" + s).hidden = s !== id; });
+    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel"].forEach(function (s) { $("#" + s).hidden = s !== id; });
     $("#topHeader").hidden = id === "game";
     window.scrollTo(0, 0);
   }
@@ -3998,7 +4071,7 @@ button.syncchip:hover { border-color: var(--ink); }
     MP.shell = "lobby";
     var setOpts = '<optgroup label="Mixed">' + BUILTIN.filter(function (s) { return !s.grade; }).map(function (s) { return '<option value="' + s.id + '">' + esc(s.name) + "</option>"; }).join("") + "</optgroup>";
     for (var g = 1; g <= 8; g++) setOpts += '<optgroup label="Grade ' + g + '">' + BUILTIN.filter(function (s) { return s.grade === g; }).map(function (s) { return '<option value="' + s.id + '">' + subjName(s.subject) + ": " + esc(s.name) + "</option>"; }).join("") + "</optgroup>";
-    $("#mpBody").innerHTML = '<div class="lobbygrid"><div class="panel lobby"><div class="nestrow"><div style="flex:1;min-width:180px"><p class="label">Game code</p><div class="codebig mono">' + MP.code + '</div><p class="sub" id="mpSetInfo"></p></div><div class="btnrow" id="mpStartWrap"></div></div>' +
+    $("#mpBody").innerHTML = '<div class="lobbygrid"><div class="panel lobby"><div class="nestrow"><div style="flex:1;min-width:180px"><p class="label">Game code</p><div class="codebig mono notranslate" translate="no">' + MP.code + '</div><p class="sub" id="mpSetInfo"></p></div><div class="btnrow" id="mpStartWrap"></div></div>' +
       (MP.isHost ? '<div class="hostctl"><p class="label">Mode</p><div class="filterbar" id="mpModeChips">' + MPMODES.map(function (m) { return '<button class="fchip" type="button" data-pickmode="' + m.id + '">' + m.name + "</button>"; }).join("") + '</div>' +
         '<label class="label" for="mpSetSel">Question set</label><select id="mpSetSel" class="setsel">' + setOpts + '</select>' +
         '<p class="label">Length</p><div class="filterbar" id="mpLenChips">' + LENS.map(function (l) { return '<button class="fchip sub" type="button" data-len="' + l[1] + '">' + l[0] + "</button>"; }).join("") + "</div></div>" : "") +
@@ -4451,7 +4524,7 @@ button.syncchip:hover { border-color: var(--ink); }
         var on = team.indexOf(c.id) > -1;
         return '<button class="tile r-' + c.rar + ' have" type="button" role="checkbox" aria-checked="' + on + '" data-chpick="' + c.id + '">' + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><div class="price mono">' + baseCost(c, "atk") + " energy</div></button>";
       }).join("") + '</div><div class="btnrow"><button class="btn primary" type="button" id="chStart" style="font-size:20px;padding:12px 26px">Start challenge</button><span class="sub">Personal best: <b class="mono">' + best.score.toLocaleString() + "</b>" + (best.wave ? " (wave " + best.wave + (best.diff ? ", " + chDiff(best.diff).name : "") + ")" : "") + "</span></div></div>" +
-      '<div class="panel"><div class="collection-head" style="margin:0"><h3>Leaderboard</h3><div class="filterbar" style="margin:0"><button class="fchip" type="button" data-lbtab="global" aria-pressed="' + (LB.tab === "global") + '">Everyone</button><button class="fchip" type="button" data-lbtab="friends" aria-pressed="' + (LB.tab === "friends") + '">Friends</button></div></div><p class="sub">Harder difficulties score more points.</p><div class="lbbox"></div></div></div>';
+      '<div class="panel"><div class="collection-head" style="margin:0"><h3>Leaderboard</h3><div class="filterbar" style="margin:0"><button class="fchip" type="button" data-lbtab="week" aria-pressed="' + (LB.tab === "week") + '">This week</button><button class="fchip" type="button" data-lbtab="global" aria-pressed="' + (LB.tab === "global") + '">All time</button><button class="fchip" type="button" data-lbtab="friends" aria-pressed="' + (LB.tab === "friends") + '">Friends</button></div></div><p class="sub">Harder difficulties score more points.</p><div class="lbbox"></div></div></div>';
     chDiffNote();
     document.querySelectorAll("[data-mapthumb]").forEach(function (cv) {
       var x = cv.getContext ? cv.getContext("2d") : null, bg = chBg(chMap(cv.dataset.mapthumb));
@@ -4474,7 +4547,7 @@ button.syncchip:hover { border-color: var(--ink); }
     } else if (b.dataset.chmap) { wallet.chMap = b.dataset.chmap; saveWallet(); document.querySelectorAll("[data-chmap]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.chmap === wallet.chMap); }); }
     else if (b.dataset.chdiff) { wallet.chDiff = b.dataset.chdiff; saveWallet(); document.querySelectorAll("[data-chdiff]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.chdiff === wallet.chDiff); }); chDiffNote(); }
     else if (b.id === "chStart" || b.id === "chStart2") chStart();
-    else if (b.dataset.lbtab) { LB.tab = b.dataset.lbtab; document.querySelectorAll("[data-lbtab]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.lbtab === LB.tab); }); lbRender(); }
+    else if (b.dataset.lbtab) { LB.tab = b.dataset.lbtab; document.querySelectorAll("[data-lbtab]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.lbtab === LB.tab); }); if (LB.tab === "friends") lbRender(); else lbLoad(); }
   });
   $("#chIntro").addEventListener("change", function (e) { if (e.target.id === "chSetSel") { wallet.chSet = e.target.value; saveWallet(); } });
 
@@ -4896,6 +4969,7 @@ button.syncchip:hover { border-color: var(--ink); }
     C.over = true;
     var wave = Math.max(1, C.wave), coins = Math.min(600, Math.floor(C.score / 40)), best = wallet.chBest || { score: 0, wave: 0 }, newBest = C.score > best.score;
     if (newBest) wallet.chBest = { score: C.score, wave: wave, kills: C.kills, diff: C.diff.id, map: C.map.id };
+    if (C.score > weekScore()) wallet.chWeek = { key: wkField(), score: C.score };
     wallet.coins += coins; wallet.stats.games++; wallet.stats.chGames = (wallet.stats.chGames || 0) + 1;
     wallet.stats.score += C.score;
     dayState().games++; weekState().modes.challenge = 1;
@@ -5041,24 +5115,24 @@ button.syncchip:hover { border-color: var(--ink); }
     if (SHOP.tab === "critters") {
       var rars = RAR_ORDER.filter(function (r) { return CRITTERS.some(function (c) { return c.rar === r && !c.season; }); });
       h = '<div class="filterbar">' + [["all", "All"]].concat(rars.map(function (r) { return [r, cap(r)]; })).map(function (r) { return '<button class="fchip sub" type="button" data-shoprar="' + r[0] + '" aria-pressed="' + (SHOP.rar === r[0]) + '">' + r[1] + "</button>"; }).join("") + "</div>" +
-        '<p class="sect-note">Buy the exact critter you want. Seasonal critters only come from seasonal packs.</p><div class="grid">' +
+        '<p class="sect-note">Buy the exact critter you want with coins, or with gems at a quarter of the coin price. Seasonal critters only come from seasonal packs.</p><div class="grid">' +
         CRITTERS.filter(function (c) { return !c.season && (SHOP.rar === "all" || c.rar === SHOP.rar); }).sort(function (a, b) { return RAR_ORDER.indexOf(a.rar) - RAR_ORDER.indexOf(b.rar); }).map(function (c) {
           var n = wallet.owned[c.id] || 0, price = CR_PRICE[c.rar] || 100;
-          return '<div class="tile r-' + c.rar + ' have">' + (n ? '<span class="ct">x' + n + "</span>" : "") + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><div class="rar ' + c.rar + '">' + c.rar + "</div>" + (c.theme ? '<div class="price">' + THEME_NAMES[c.theme] + "</div>" : "") + '<button class="btn small sun" type="button" data-shopcr="' + c.id + '"' + (wallet.coins < price ? " disabled" : "") + ">Buy " + price.toLocaleString() + "</button></div>";
+          return '<div class="tile r-' + c.rar + ' have">' + (n ? '<span class="ct">x' + n + "</span>" : "") + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><div class="rar ' + c.rar + '">' + c.rar + "</div>" + (c.theme ? '<div class="price">' + THEME_NAMES[c.theme] + "</div>" : "") + '<button class="btn small sun" type="button" data-shopcr="' + c.id + '"' + (wallet.coins < price ? " disabled" : "") + ">" + price.toLocaleString() + " coins</button>" + gemBtn("data-shopcr", c.id, price) + "</div>";
         }).join("") + "</div>";
     } else if (SHOP.tab === "accs") {
       var b = buddy();
       h = '<p class="sect-note">Previewed on your buddy, ' + esc(b.name) + '. Owned items can be worn or taken off here too.</p><div class="grid">' + ACCS.map(function (a) {
         var own = wallet.accOwned[a.id], on = wallet.equip[a.slot] === a.id, eq = {}; eq[a.slot] = a.id;
         return '<div class="tile ' + (own ? "have" : "") + '">' + critterArt(b, eq) + '<div class="nm">' + a.name + '</div><div class="price">' + cap(a.slot) + (own ? " · owned" : "") + "</div>" +
-          (own ? '<button class="btn small' + (on ? " sun" : "") + '" type="button" data-shopacc="' + a.id + '">' + (on ? "Take off" : "Wear") + "</button>" : '<button class="btn small sun" type="button" data-shopacc="' + a.id + '"' + (wallet.coins >= a.cost ? "" : " disabled") + ">Buy " + a.cost + "</button>") + "</div>";
+          (own ? '<button class="btn small' + (on ? " sun" : "") + '" type="button" data-shopacc="' + a.id + '">' + (on ? "Take off" : "Wear") + "</button>" : '<button class="btn small sun" type="button" data-shopacc="' + a.id + '"' + (wallet.coins >= a.cost ? "" : " disabled") + ">" + a.cost + " coins</button>" + gemBtn("data-shopacc", a.id, a.cost)) + "</div>";
       }).join("") + "</div>";
     } else if (SHOP.tab === "banners") {
       wallet.banners = wallet.banners || { none: true };
       h = '<p class="sect-note">Your banner shows on your profile, in multiplayer and on the podium.</p><div class="grid bannergrid">' + BANNERS.map(function (bn) {
         var own = bn.cost === 0 || wallet.banners[bn.id], on = (wallet.banner || "none") === bn.id;
         return '<div class="tile ' + (own ? "have" : "") + '"><span class="bnr' + (bn.anim ? " anim" : "") + '" style="background:' + bn.bg + '"></span><div class="nm">' + bn.name + "</div>" +
-          (own ? '<button class="btn small' + (on ? " sun" : "") + '" type="button" data-shopbn="' + bn.id + '"' + (on ? " disabled" : "") + ">" + (on ? "Using" : "Use") + "</button>" : '<button class="btn small sun" type="button" data-shopbn="' + bn.id + '"' + (wallet.coins >= bn.cost ? "" : " disabled") + ">Buy " + bn.cost.toLocaleString() + "</button>") + "</div>";
+          (own ? '<button class="btn small' + (on ? " sun" : "") + '" type="button" data-shopbn="' + bn.id + '"' + (on ? " disabled" : "") + ">" + (on ? "Using" : "Use") + "</button>" : '<button class="btn small sun" type="button" data-shopbn="' + bn.id + '"' + (wallet.coins >= bn.cost ? "" : " disabled") + ">" + bn.cost.toLocaleString() + " coins</button>" + gemBtn("data-shopbn", bn.id, bn.cost)) + "</div>";
       }).join("") + "</div>";
     } else h = '<div class="panel">' + puShopHtml() + "</div>";
     $("#shopBody").innerHTML = h;
@@ -5069,20 +5143,21 @@ button.syncchip:hover { border-color: var(--ink); }
     else if (b.dataset.shoprar) { SHOP.rar = b.dataset.shoprar; renderShop(); }
     else if (b.dataset.shopcr) {
       var c = CRITTERS.filter(function (x) { return x.id === b.dataset.shopcr; })[0], price = c && CR_PRICE[c.rar];
-      if (!c || wallet.coins < price) return;
+      var useG = b.dataset.pay === "gems";
+      if (!c || (useG ? wallet.gems < gemPrice(price) : wallet.coins < price)) return;
       var isNew = !wallet.owned[c.id];
-      wallet.coins -= price; wallet.owned[c.id] = (wallet.owned[c.id] || 0) + 1; saveWallet(); renderShop(); fxBurst(c.rar);
+      if (useG) spendGems(gemPrice(price)); else wallet.coins -= price; wallet.owned[c.id] = (wallet.owned[c.id] || 0) + 1; saveWallet(); renderShop(); fxBurst(c.rar);
       toast((isNew ? "New critter: " : "Got another ") + c.name + "!");
     }
     else if (b.dataset.shopacc) {
       var a = ACCS.filter(function (x) { return x.id === b.dataset.shopacc; })[0]; if (!a) return;
       if (wallet.accOwned[a.id]) wallet.equip[a.slot] = wallet.equip[a.slot] === a.id ? null : a.id;
-      else if (wallet.coins >= a.cost) { wallet.coins -= a.cost; wallet.accOwned[a.id] = true; wallet.equip[a.slot] = a.id; snd("coin"); }
+      else if (b.dataset.pay === "gems" ? wallet.gems >= gemPrice(a.cost) : wallet.coins >= a.cost) { if (b.dataset.pay === "gems") spendGems(gemPrice(a.cost)); else wallet.coins -= a.cost; wallet.accOwned[a.id] = true; wallet.equip[a.slot] = a.id; snd("coin"); }
       saveWallet(); renderShop(); renderAvatar(); if (MP.code) mpPub(myBase());
     }
     else if (b.dataset.shopbn) {
       var bn = bannerById(b.dataset.shopbn); wallet.banners = wallet.banners || { none: true };
-      if (!(bn.cost === 0 || wallet.banners[bn.id])) { if (wallet.coins < bn.cost) return; wallet.coins -= bn.cost; wallet.banners[bn.id] = true; snd("coin"); }
+      if (!(bn.cost === 0 || wallet.banners[bn.id])) { var bg = b.dataset.pay === "gems"; if (bg ? wallet.gems < gemPrice(bn.cost) : wallet.coins < bn.cost) return; if (bg) spendGems(gemPrice(bn.cost)); else wallet.coins -= bn.cost; wallet.banners[bn.id] = true; snd("coin"); }
       wallet.banner = bn.id; saveWallet(); renderShop(); drawBanner(); if (MP.code) mpPub({ bn: bn.id });
     }
   });
@@ -5092,7 +5167,7 @@ button.syncchip:hover { border-color: var(--ink); }
   $("#shopBack").addEventListener("click", function () { renderHome(); show("home"); });
 
   /* ================= Leaderboard ================= */
-  var LB = { tab: "global", rows: null, err: "" };
+  var LB = { tab: "week", rows: null, err: "", key: "" };
   function fbUser() { var u = FB && FB.auth.currentUser; return u && u.emailVerified ? u : null; }
   function lbArt(p) {
     var c = CRITTERS.filter(function (x) { return x.id === p.av; })[0] || CRITTERS[0], e = p.eq || {}, eq = { plain: true };
@@ -5101,9 +5176,9 @@ button.syncchip:hover { border-color: var(--ink); }
   }
   function lbLoad() {
     if (!fbUser()) { LB.rows = null; LB.err = "Log in to see the leaderboard and post your score."; lbRender(); return; }
-    LB.err = ""; if (!LB.rows) lbRender();
-    FB.db.collection("profiles").orderBy("best", "desc").limit(50).get().then(function (s) {
-      LB.rows = []; s.forEach(function (d) { var p = d.data(); p.uid = d.id; if ((+p.best || 0) > 0) LB.rows.push(p); }); lbRender();
+    LB.err = ""; var key = LB.tab === "week" ? wkField() : "best"; if (!LB.rows || LB.key !== key) { LB.rows = null; lbRender(); }
+    FB.db.collection("profiles").orderBy(key, "desc").limit(50).get().then(function (s) {
+      LB.key = key; LB.rows = []; s.forEach(function (d) { var p = d.data(); p.uid = d.id; p._v = +p[key] || 0; if (p._v > 0) LB.rows.push(p); }); lbRender();
     }, function () { LB.err = "The leaderboard couldn't load. Check that the new Firestore rules are published."; lbRender(); });
   }
   function lbRender() {
@@ -5111,18 +5186,20 @@ button.syncchip:hover { border-color: var(--ink); }
     if (LB.tab === "friends") {
       if (!u) rows = null;
       else {
-        var mine = profilePatch(); mine.uid = me;
-        rows = FR.list.map(function (id) { var p = FR.profiles[id]; if (!p) return null; p = Object.assign({}, p); p.uid = id; return p; }).filter(Boolean).concat([mine]).filter(function (p) { return (+p.best || 0) > 0 || p.uid === me; });
-        rows.sort(function (a, b) { return (+b.best || 0) - (+a.best || 0); });
+        var mine = profilePatch(); mine.uid = me; mine._v = +mine.best || 0;
+        rows = FR.list.map(function (id) { var p = FR.profiles[id]; if (!p) return null; p = Object.assign({}, p); p.uid = id; p._v = +p.best || 0; return p; }).filter(Boolean).concat([mine]).filter(function (p) { return p._v > 0 || p.uid === me; });
+        rows.sort(function (a, b) { return b._v - a._v; });
       }
-    } else rows = LB.rows;
+    } else rows = LB.rows && LB.key === (LB.tab === "week" ? wkField() : "best") ? LB.rows : null;
     var h;
     if (LB.err) h = '<p class="sub">' + esc(LB.err) + "</p>" + (u ? "" : '<div class="btnrow"><button class="btn small primary" type="button" data-lblogin="1">Log in</button></div>');
     else if (!rows) h = '<p class="sub">Loading...</p>';
-    else if (!rows.length) h = '<p class="sub">' + (LB.tab === "friends" ? "Add friends to compare scores." : "No scores yet. Be the first!") + "</p>";
+    else if (!rows.length) h = '<p class="sub">' + (LB.tab === "friends" ? "Add friends to compare scores." : LB.tab === "week" ? "No scores this week yet. Play Monster Challenge to take first place!" : "No scores yet. Be the first!") + "</p>";
     else h = rows.slice(0, 50).map(function (p, i) {
-      return '<div class="mprow' + (p.uid === me ? " me" : "") + '"><span class="pos mono">' + (i + 1) + '</span><span class="mini">' + lbArt(p) + '</span><span class="nm">' + esc(String(p.nm || "Player").slice(0, 14)) + '</span><b class="mono">' + (+p.best || 0).toLocaleString() + '</b><span class="sub">Wave ' + (+p.bestWave || 0) + (p.bestDiff ? " \u00b7 " + chDiff(p.bestDiff).name : "") + "</span></div>";
+      var prize = LB.tab === "week" && i < 3 ? '<span class="prize p' + (i + 1) + '">' + LB_PRIZES[i] + " gems</span>" : "";
+      return '<div class="mprow' + (p.uid === me ? " me" : "") + (prize ? " top" + (i + 1) : "") + '"><span class="pos mono">' + (i + 1) + '</span><span class="mini">' + lbArt(p) + '</span><span class="nm">' + esc(String(p.nm || "Player").slice(0, 14)) + prize + '</span><b class="mono">' + (p._v || 0).toLocaleString() + '</b><span class="sub">Wave ' + (+p.bestWave || 0) + (p.bestDiff ? " \u00b7 " + chDiff(p.bestDiff).name : "") + "</span></div>";
     }).join("");
+    if (LB.tab === "week") h = '<div class="lbweek"><b>Weekly prizes</b><span>1st: 100 gems \u00b7 2nd: 75 gems \u00b7 3rd: 50 gems</span><span class="mono">Resets in ' + weekResetIn() + "</span></div>" + h;
     document.querySelectorAll(".lbbox").forEach(function (b) { b.innerHTML = h; });
   }
   document.addEventListener("click", function (e) { if (e.target.closest("[data-lblogin]")) openGate("login"); });
@@ -5145,7 +5222,7 @@ button.syncchip:hover { border-color: var(--ink); }
   function profilePatch() {
     var b = wallet.chBest || {};
     return { nm: playerName(), av: buddy().id, eq: { hat: wallet.equip.hat || null, face: wallet.equip.face || null, neck: wallet.equip.neck || null, back: wallet.equip.back || null }, bn: wallet.banner || "none",
-      code: wallet.fcode || "", best: +b.score || 0, bestWave: +b.wave || 0, bestDiff: b.diff || "", seen: Date.now(), room: (MP.code && MP.isHost && MP.ph === "lobby") ? MP.code : null };
+      code: wallet.fcode || "", best: +b.score || 0, bestWave: +b.wave || 0, bestDiff: b.diff || "", [wkField()]: weekScore(), seen: Date.now(), room: (MP.code && MP.isHost && MP.ph === "lobby") ? MP.code : null };
   }
   function pushProfile() { var u = fbUser(); if (!u || !wallet.fcode) return; FB.db.collection("profiles").doc(u.uid).set(profilePatch(), { merge: true }).catch(function () { /* retried by the heartbeat */ }); }
   var frBeat = null;
@@ -5154,7 +5231,7 @@ button.syncchip:hover { border-color: var(--ink); }
     FR.unsubs.forEach(function (f) { f(); }); FR.unsubs = [];
     FR.uid = user.uid; FR.list = []; FR.inc = []; FR.out = [];
     var db = FB.db;
-    ensureCode(user.uid).then(pushProfile);
+    ensureCode(user.uid).then(function () { pushProfile(); lbClaim(); });
     FR.unsubs.push(db.collection("friends").doc(user.uid).onSnapshot(function (d) { FR.list = (d.exists && d.data().list) || []; frWatch(); frRender(); }, function () { /* rules not published yet */ }));
     FR.unsubs.push(db.collection("requests").where("to", "==", user.uid).onSnapshot(function (s) {
       FR.inc = []; s.forEach(function (d) { var r = d.data(); r.id = d.id; if (r.status !== "accepted") FR.inc.push(r); }); frRender();
@@ -5212,7 +5289,7 @@ button.syncchip:hover { border-color: var(--ink); }
   function frShell() {
     var u = fbUser(), b = $("#frBody");
     if (!u) { b.innerHTML = '<div class="panel"><h3>Log in to add friends</h3><p class="sub">Friends need an account with a verified email. Any email works.</p><div class="btnrow"><button class="btn primary" type="button" data-lblogin="1">Log in or sign up</button></div></div>'; return; }
-    b.innerHTML = '<div class="daily-grid"><div class="panel"><p class="label">Your friend code</p><div class="codebig mono" id="frMine">' + esc(wallet.fcode || "......") + '</div><p class="sub">Share this code with friends so they can add you.</p><div class="btnrow"><button class="btn small" type="button" id="frCopy">Copy code</button></div></div>' +
+    b.innerHTML = '<div class="daily-grid"><div class="panel"><p class="label">Your friend code</p><div class="codebig mono notranslate" translate="no" id="frMine">' + esc(wallet.fcode || "......") + '</div><p class="sub">Share this code with friends so they can add you.</p><div class="btnrow"><button class="btn small" type="button" id="frCopy">Copy code</button></div></div>' +
       '<div class="panel"><h3>Add a friend</h3><p class="sub">Type your friend\'s 6-character code.</p><div class="btnrow"><input id="frCode" class="codein" style="width:170px" maxlength="6" autocomplete="off" placeholder="ABC123" aria-label="Friend code"><button class="btn primary" type="button" id="frSendBtn">Send request</button></div><p id="frMsg" aria-live="polite"></p></div></div>' +
       '<div id="frReq"></div><div class="panel" style="margin-top:18px"><h3 id="frHead">Friends</h3><div id="frList"></div></div>';
   }
@@ -5363,15 +5440,180 @@ button.syncchip:hover { border-color: var(--ink); }
     var inv = puInv();
     return '<div class="collection-head" style="margin:0"><h3>Power-ups</h3><span class="label">Use them in any quiz game</span></div><p class="sub">Tap a power-up during a game to use it. You also find them now and then for right answers, and on the Lucky Wheel.</p><div class="pushop">' +
       PUS.map(function (p) {
-        return '<div class="tile have pushopt" style="--pc:' + p.col + '"><span class="puic big">' + p.icon + '</span><div class="nm">' + p.name + '</div><div class="price">' + p.desc + '</div><div class="price mono">You have ' + (inv[p.id] || 0) + '</div><button class="btn small sun" type="button" data-pubuy="' + p.id + '"' + (wallet.coins < p.cost ? " disabled" : "") + ">Buy " + p.cost + "</button></div>";
+        return '<div class="tile have pushopt" style="--pc:' + p.col + '"><span class="puic big">' + p.icon + '</span><div class="nm">' + p.name + '</div><div class="price">' + p.desc + '</div><div class="price mono">You have ' + (inv[p.id] || 0) + '</div><button class="btn small sun" type="button" data-pubuy="' + p.id + '"' + (wallet.coins < p.cost ? " disabled" : "") + ">" + p.cost + " coins</button>" + gemBtn("data-pubuy", p.id, p.cost) + "</div>";
       }).join("") + "</div>";
   }
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-pubuy]"); if (!b || b.disabled) return;
-    var p = puById(b.dataset.pubuy); if (!p || wallet.coins < p.cost) return;
-    wallet.coins -= p.cost; puGrant(p.id); drawCoins(); snd("coin"); if (!$("#market").hidden) renderMarket(); if (!$("#shop").hidden) renderShop();
+    var p = puById(b.dataset.pubuy), pg = b.dataset.pay === "gems"; if (!p || (pg ? wallet.gems < gemPrice(p.cost) : wallet.coins < p.cost)) return;
+    if (pg) spendGems(gemPrice(p.cost)); else wallet.coins -= p.cost; puGrant(p.id); drawCoins(); snd("coin"); if (!$("#market").hidden) renderMarket(); if (!$("#shop").hidden) renderShop();
   });
 
+  /* ================= Critter Duel ================= */
+  var ELEM = { fire: { name: "Fire", col: "#ff6a1f", beats: "leaf" }, water: { name: "Water", col: "#38b6ff", beats: "fire" }, leaf: { name: "Leaf", col: "#2fbf5f", beats: "water" } };
+  function critElem(c) { var h = 0; for (var i = 0; i < c.id.length; i++) h = (h * 31 + c.id.charCodeAt(i)) >>> 0; return ["fire", "water", "leaf"][h % 3]; }
+  function duelStats(c) { var i = rIdx(c), sh = wallet.shiny && wallet.shiny[c.id] ? 1.15 : 1; return { hp: Math.round((60 + i * 16) * sh), atk: Math.round((14 + i * 5) * sh) }; }
+  var TRAINERS = [
+    { name: "Rookie Rex", rars: ["common"], coins: 40, gems: 3, hat: "cap" },
+    { name: "Sporty Sasha", rars: ["common", "uncommon"], coins: 60, gems: 5, hat: "beanie" },
+    { name: "Clever Kai", rars: ["uncommon", "rare"], coins: 90, gems: 8, hat: "phones" },
+    { name: "Wizard Wren", rars: ["rare", "epic"], coins: 130, gems: 12, hat: "wizard" },
+    { name: "Captain Cole", rars: ["epic", "legendary"], coins: 180, gems: 18, hat: "cowboy" },
+    { name: "Queen Mira", rars: ["legendary", "mythic"], coins: 250, gems: 25, hat: "crown" },
+    { name: "Champion Zed", rars: ["mythic", "mystical", "supreme", "chroma"], coins: 400, gems: 40, hat: "viking" }
+  ];
+  var DU = null;
+  function duelTeamSaved() {
+    var ids = (wallet.duelTeam || []).filter(function (id) { return wallet.owned[id]; });
+    if (!ids.length) ids = ownedSorted().slice(0, 3).map(function (c) { return c.id; });
+    return ids.slice(0, 3);
+  }
+  function trainerTeam(t, idx) {
+    var r = mulberry(idx * 97 + 13), pool = CRITTERS.filter(function (c) { return t.rars.indexOf(c.rar) > -1 && !c.season; }), out = [];
+    while (out.length < 3 && pool.length) out.push(pool.splice(Math.floor(r() * pool.length), 1)[0]);
+    return out;
+  }
+  function duelIntro(res) {
+    $("#duPlay").hidden = true; $("#duIntro").hidden = false;
+    var team = duelTeamSaved(), won = wallet.duelWins || {}, unlocked = 0;
+    while (unlocked < TRAINERS.length - 1 && won[unlocked]) unlocked++;
+    var pick = Math.min(wallet.duelPick || 0, unlocked);
+    var setId = wallet.chSet && allSets().some(function (s) { return s.id === wallet.chSet; }) ? wallet.chSet : sel.setId;
+    var head = res ? '<div class="panel chend"><h2>' + (res.win ? "You won the duel!" : "You lost the duel") + '</h2><p class="sub">' + (res.win ? "You beat " + esc(res.trainer) + "." + (res.first ? " New trainer unlocked!" : "") : esc(res.trainer) + " won this time. Try a different team, or watch the elements.") + '</p><div class="acstats">' + [["+" + res.coins, "Coins"], ["+" + res.gems, "Gems"], [res.right, "Right answers"]].map(function (x) { return '<div class="stat"><b>' + x[0] + "</b><span>" + x[1] + "</span></div>"; }).join("") + "</div></div>" : "";
+    $("#duIntro").innerHTML = head + '<div class="chgrid"><div class="panel"><h3>Pick your opponent</h3><p class="sub">Beat each trainer to unlock the next one. Every critter has an element: Fire beats Leaf, Leaf beats Water, Water beats Fire. Hitting with the right element does 50% more damage.</p><div class="trainers">' +
+      TRAINERS.map(function (t, i) {
+        var lock = i > unlocked, tm = trainerTeam(t, i), face = tm[0] || CRITTERS[0], eq = { hat: t.hat };
+        return '<button class="trainer' + (i === pick ? " on" : "") + '" type="button" data-trainer="' + i + '"' + (lock ? " disabled" : "") + '><span class="tav">' + critterArt(face, eq) + '</span><span class="tbody"><b>' + t.name + "</b>" + (won[i] ? ' <span class="titlechip">Beaten</span>' : "") + '<br><span class="sub">' + (lock ? "Beat the trainer before to unlock" : t.rars.map(cap).join(", ") + " critters · " + t.coins + " coins" + (won[i] ? "" : " + " + t.gems + " gems")) + "</span></span></button>";
+      }).join("") + "</div></div>" +
+      '<div class="panel"><h3>Your team of 3</h3><p class="sub">Tap critters to choose. The first one goes out first.</p><div class="chpick" id="duPick">' + ownedSorted().map(function (c) {
+        var i = team.indexOf(c.id), st = duelStats(c), el = critElem(c);
+        return '<button class="tile r-' + c.rar + ' have" type="button" role="checkbox" aria-checked="' + (i > -1) + '" data-dupick="' + c.id + '">' + (i > -1 ? '<span class="ct">' + (i + 1) + "</span>" : "") + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><span class="elem" style="--ec:' + ELEM[el].col + '">' + ELEM[el].name + '</span><div class="price mono">' + st.hp + " HP · " + st.atk + " ATK</div></button>";
+      }).join("") + '</div><label class="label" for="duSetSel" style="margin-top:10px">Questions from</label><select id="duSetSel" class="setsel">' + setOptionsHtml(setId) + '</select><div class="btnrow"><button class="btn primary" type="button" id="duStart" style="font-size:20px;padding:12px 26px">Start duel</button></div></div></div>';
+  }
+  $("#duIntro").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    if (b.dataset.trainer) { wallet.duelPick = +b.dataset.trainer; saveWallet(); duelIntro(); }
+    else if (b.dataset.dupick) {
+      var t = duelTeamSaved(), id = b.dataset.dupick, i = t.indexOf(id);
+      if (i > -1) { if (t.length > 1) t.splice(i, 1); } else { if (t.length >= 3) t.shift(); t.push(id); }
+      wallet.duelTeam = t; saveWallet(); duelIntro();
+    } else if (b.id === "duStart") duelStart();
+  });
+  $("#duIntro").addEventListener("change", function (e) { if (e.target.id === "duSetSel") { wallet.chSet = e.target.value; saveWallet(); } });
+  function mkFighter(c) { var st = duelStats(c); return { c: c, hp: st.hp, max: st.hp, atk: st.atk, el: critElem(c) }; }
+  function duelStart() {
+    var idx = wallet.duelPick || 0, t = TRAINERS[idx], mine = duelTeamSaved().map(function (id) { return CRITTERS.filter(function (c) { return c.id === id; })[0]; }).filter(Boolean);
+    if (!mine.length) { toast("You need at least one critter. Open a pack first!"); return; }
+    var set = allSets().filter(function (s) { return s.id === (wallet.chSet || sel.setId); })[0] || allSets()[0];
+    DU = { t: t, idx: idx, me: mine.map(mkFighter), foe: trainerTeam(t, idx).map(mkFighter), mi: 0, fi: 0, set: set, qs: [], qi: 0, cur: null, lock: false, streak: 0, right: 0, timer: null, qStart: 0, over: false };
+    $("#duIntro").hidden = true; $("#duPlay").hidden = false;
+    duelArena(); duelNextQ();
+  }
+  function hpBar(f) { var p = Math.max(0, f.hp / f.max * 100); return '<span class="duhp"><i style="width:' + p + '%;background:' + (p > 50 ? "#2fbf5f" : p > 20 ? "#ffc83d" : "#ff4f4f") + '"></i></span><span class="mono duhpn">' + Math.max(0, Math.ceil(f.hp)) + "/" + f.max + "</span>"; }
+  function bench(list, cur) { return list.map(function (f, i) { return '<span class="dubench' + (f.hp <= 0 ? " out" : i === cur ? " now" : "") + '">' + critterArt(f.c) + "</span>"; }).join(""); }
+  function duelArena() {
+    var a = DU.me[DU.mi], b = DU.foe[DU.fi];
+    $("#duArena").innerHTML = '<div class="duside me"><div class="dutop"><b>' + esc(playerName()) + '</b><span class="dubenchrow">' + bench(DU.me, DU.mi) + '</span></div><div class="dufighter" id="duMe">' + critterArt(a.c, wallet.equip) + '</div><div class="duinfo"><b>' + esc(a.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[a.el].col + '">' + ELEM[a.el].name + "</span>" + hpBar(a) + "</div></div>" +
+      '<div class="duvs">VS</div>' +
+      '<div class="duside foe"><div class="dutop"><b>' + esc(DU.t.name) + '</b><span class="dubenchrow">' + bench(DU.foe, DU.fi) + '</span></div><div class="dufighter" id="duFoe">' + critterArt(b.c, { hat: DU.t.hat }) + '</div><div class="duinfo"><b>' + esc(b.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[b.el].col + '">' + ELEM[b.el].name + "</span>" + hpBar(b) + "</div></div>";
+  }
+  function duelNextQ() {
+    if (!DU || DU.over) return;
+    if (DU.qi >= DU.qs.length) { DU.qs = shuffle(DU.set.gen ? DU.set.gen() : DU.set.questions); DU.qi = 0; }
+    var q = DU.qs[DU.qi++];
+    DU.cur = shuffle(q.a.map(function (t, i) { return { t: t, ok: i === 0 }; })); DU.lock = false; DU.qStart = Date.now();
+    $("#duQc").textContent = "Answer right to attack. Wrong or too slow, and " + DU.t.name + " attacks." + (DU.streak >= 2 ? " Streak " + DU.streak + "!" : "");
+    $("#duQ").textContent = q.q;
+    $("#duAns").innerHTML = DU.cur.map(function (o, i) { return '<button class="ans" type="button" data-duk="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
+    $("#duVerdict").textContent = ""; $("#duVerdict").className = "verdict";
+    clearInterval(DU.timer);
+    DU.timer = setInterval(function () {
+      if (!DU || DU.lock || DU.over) return;
+      var left = Math.max(0, 15000 - (Date.now() - DU.qStart)), bar = $("#duTime i"); if (bar) bar.style.transform = "scaleX(" + left / 15000 + ")";
+      if (left <= 0 || $("#duel").hidden) duelAnswer(-1);
+    }, 100);
+  }
+  function duelHit(att, def, mine) {
+    var adv = ELEM[att.el].beats === def.el, weak = ELEM[def.el].beats === att.el, crit = Math.random() < 0.15, special = mine && DU.streak > 0 && DU.streak % 3 === 0;
+    var dmg = Math.round(att.atk * (adv ? 1.5 : weak ? 0.75 : 1) * (crit ? 1.5 : 1) * (special ? 2 : 1) * (0.9 + Math.random() * 0.2));
+    def.hp -= dmg;
+    var who = mine ? "#duFoe" : "#duMe", from = mine ? "#duMe" : "#duFoe";
+    var notes = [special ? "Special move!" : "", crit ? "Critical hit!" : "", adv ? "Super effective!" : weak ? "Not very effective" : ""].filter(Boolean).join(" ");
+    var el = $(from); if (el) { el.classList.remove("lunge", "lungel"); void el.offsetWidth; el.classList.add(mine ? "lunge" : "lungel"); }
+    var tg = $(who); if (tg) { tg.classList.remove("hurt"); void tg.offsetWidth; tg.classList.add("hurt"); tg.insertAdjacentHTML("beforeend", '<span class="dudmg" style="--ec:' + ELEM[att.el].col + '">-' + dmg + "</span>"); }
+    return { dmg: dmg, notes: notes };
+  }
+  function duelAnswer(k) {
+    if (!DU || DU.lock || DU.over) return;
+    DU.lock = true; clearInterval(DU.timer);
+    var ok = k > -1 && DU.cur[k].ok, bs = $("#duAns").children, v = $("#duVerdict"), a = DU.me[DU.mi], b = DU.foe[DU.fi], r;
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (DU.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
+    if (ok) {
+      DU.streak++; DU.right++; wallet.stats.correct++; var ds = dayState(); ds.right++; ds.streak = Math.max(ds.streak, DU.streak); addBuddyXp(1); eggTick(); snd("right");
+      r = duelHit(a, b, true); v.textContent = a.c.name + " hit for " + r.dmg + ". " + r.notes; v.className = "verdict ok";
+    } else {
+      DU.streak = 0; wallet.stats.wrong++; snd("wrong");
+      r = duelHit(b, a, false); v.textContent = (k < 0 ? "Too slow! " : "") + b.c.name + " hit you for " + r.dmg + ". " + r.notes; v.className = "verdict no";
+    }
+    setTimeout(function () {
+      if (!DU) return;
+      if (b.hp <= 0) { DU.fi++; if (DU.fi >= DU.foe.length) { duelEnd(true); return; } toast(b.c.name + " fainted! " + DU.t.name + " sends out " + DU.foe[DU.fi].c.name + "."); }
+      if (a.hp <= 0) { DU.mi++; if (DU.mi >= DU.me.length) { duelEnd(false); return; } toast(a.c.name + " fainted! Go, " + DU.me[DU.mi].c.name + "!"); }
+      duelArena(); duelNextQ();
+    }, 1300);
+    duelArenaBars();
+  }
+  function duelArenaBars() {
+    var a = DU.me[DU.mi], b = DU.foe[DU.fi];
+    var bars = document.querySelectorAll("#duArena .duinfo");
+    if (bars[0]) bars[0].innerHTML = "<b>" + esc(a.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[a.el].col + '">' + ELEM[a.el].name + "</span>" + hpBar(a);
+    if (bars[1]) bars[1].innerHTML = "<b>" + esc(b.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[b.el].col + '">' + ELEM[b.el].name + "</span>" + hpBar(b);
+  }
+  function duelEnd(win) {
+    var d = DU; d.over = true; clearInterval(d.timer);
+    wallet.duelWins = wallet.duelWins || {};
+    var first = win && !wallet.duelWins[d.idx], coins = win ? d.t.coins : Math.round(d.t.coins / 4), gems = first ? d.t.gems : 0;
+    if (win) wallet.duelWins[d.idx] = true;
+    if (first && d.idx < TRAINERS.length - 1) wallet.duelPick = d.idx + 1;
+    wallet.coins += coins; if (gems) addGems(gems); wallet.stats.games++; wallet.stats.duels = (wallet.stats.duels || 0) + 1; if (win) wallet.stats.duelWins = (wallet.stats.duelWins || 0) + 1;
+    dayState().games++; weekState().modes.duel = 1;
+    saveWallet(); drawCoins();
+    fxBurst(win ? (first ? "mythic" : "epic") : "common");
+    DU = null;
+    duelIntro({ win: win, trainer: d.t.name, coins: coins, gems: gems, right: d.right, first: first && d.idx < TRAINERS.length - 1 });
+  }
+  $("#duAns").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b && b.dataset.duk != null) duelAnswer(+b.dataset.duk); });
+  document.addEventListener("keydown", function (e) {
+    if ($("#duel").hidden || !DU || e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = "1234".indexOf(e.key); if (k > -1 && DU.cur && DU.cur[k]) duelAnswer(k);
+  });
+  $("#duQuit").addEventListener("click", function () { if (DU) { clearInterval(DU.timer); DU = null; } duelIntro(); });
+  function openDuel() { show("duel"); if (!DU) duelIntro(); }
+  $("#openDuel").addEventListener("click", openDuel);
+  $("#openDuel2").addEventListener("click", openDuel);
+  $("#duelBack").addEventListener("click", function () { if (DU) { clearInterval(DU.timer); DU = null; } renderHome(); show("home"); });
+
+  /* ================= Weekly leaderboard prizes ================= */
+  var LB_PRIZES = [100, 75, 50];
+  function mondayOf(d) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+  function wkField(d) { var m = mondayOf(d || new Date()); return "wk" + m.getFullYear() + String(m.getMonth() + 1).padStart(2, "0") + String(m.getDate()).padStart(2, "0"); }
+  function lastWkField() { var d = new Date(); d.setDate(d.getDate() - 7); return wkField(d); }
+  function weekResetIn() { var n = new Date(), m = mondayOf(n); m.setDate(m.getDate() + 7); var h = Math.max(0, Math.round((m - n) / 3600000)); return h >= 24 ? Math.floor(h / 24) + "d " + (h % 24) + "h" : h + "h"; }
+  function weekScore() { var w = wallet.chWeek; return w && w.key === wkField() ? w.score : 0; }
+  function lbClaim() {
+    var u = fbUser(); if (!u) return;
+    var key = lastWkField(); wallet.lbClaimed = wallet.lbClaimed || {};
+    if (wallet.lbClaimed[key]) return;
+    FB.db.collection("profiles").orderBy(key, "desc").limit(3).get().then(function (s) {
+      var rank = 0; s.docs.forEach(function (d, i) { if (d.id === u.uid && (+d.data()[key] || 0) > 0) rank = i + 1; });
+      wallet.lbClaimed[key] = rank || -1;
+      if (rank) { var g = LB_PRIZES[rank - 1]; addGems(g); drawCoins(); fxBurst("chroma"); toast("You finished #" + rank + " on last week's leaderboard! +" + g + " gems"); }
+      saveWallet();
+    }, function () { /* try again next time */ });
+  }
+
+  function gemPrice(c) { return Math.max(1, Math.ceil(c / 4)); }
+  function gemBtn(attr, id, coins) { var g = gemPrice(coins); return '<button class="btn small gembtn" type="button" ' + attr + '="' + id + '" data-pay="gems"' + (wallet.gems < g ? " disabled" : "") + '>' + g.toLocaleString() + " gems</button>"; }
   /* Pack market */
   function goMarket() { $("#reveal").hidden = true; renderMarket(); show("market"); }
   $("#openMarket").addEventListener("click", goMarket);
@@ -5390,6 +5632,39 @@ button.syncchip:hover { border-color: var(--ink); }
   syncLabel();
   drawSound();
   connectCloud();
+})();
+</script>
+<div id="google_translate_element" hidden></div>
+<script>
+/* Language menu: translates the whole page with Google Translate */
+(function () {
+  var LANGS = [["en", "English"], ["es", "Español"], ["fr", "Français"], ["pa", "ਪੰਜਾਬੀ (Punjabi)"], ["hi", "हिन्दी (Hindi)"], ["ur", "اردو (Urdu)"], ["gu", "ગુજરાતી (Gujarati)"], ["bn", "বাংলা (Bengali)"], ["ta", "தமிழ் (Tamil)"], ["te", "తెలుగు (Telugu)"], ["ml", "മലയാളം (Malayalam)"], ["mr", "मराठी (Marathi)"], ["kn", "ಕನ್ನಡ (Kannada)"], ["ne", "नेपाली (Nepali)"], ["si", "සිංහල (Sinhala)"], ["zh-CN", "中文 简体 (Chinese)"], ["zh-TW", "中文 繁體 (Chinese)"], ["ja", "日本語 (Japanese)"], ["ko", "한국어 (Korean)"], ["vi", "Tiếng Việt"], ["tl", "Filipino"], ["th", "ไทย (Thai)"], ["id", "Bahasa Indonesia"], ["ms", "Bahasa Melayu"], ["km", "ខ្មែរ (Khmer)"], ["my", "မြန်မာ (Burmese)"], ["ar", "العربية (Arabic)"], ["fa", "فارسی (Persian)"], ["ps", "پښتو (Pashto)"], ["ku", "Kurdî (Kurdish)"], ["iw", "עברית (Hebrew)"], ["tr", "Türkçe"], ["ru", "Русский"], ["uk", "Українська"], ["pl", "Polski"], ["pt", "Português"], ["it", "Italiano"], ["de", "Deutsch"], ["nl", "Nederlands"], ["el", "Ελληνικά"], ["ro", "Română"], ["hu", "Magyar"], ["cs", "Čeština"], ["sk", "Slovenčina"], ["bg", "Български"], ["sr", "Српски"], ["hr", "Hrvatski"], ["bs", "Bosanski"], ["sq", "Shqip"], ["hy", "Հայերեն (Armenian)"], ["ka", "ქართული (Georgian)"], ["sv", "Svenska"], ["no", "Norsk"], ["da", "Dansk"], ["fi", "Suomi"], ["et", "Eesti"], ["lv", "Latviešu"], ["lt", "Lietuvių"], ["so", "Soomaali"], ["sw", "Kiswahili"], ["am", "አማርኛ (Amharic)"], ["ti", "ትግርኛ (Tigrinya)"], ["ha", "Hausa"], ["yo", "Yorùbá"], ["ig", "Igbo"], ["zu", "isiZulu"], ["ht", "Kreyòl ayisyen"], ["uz", "Oʻzbek"], ["kk", "Қазақ"], ["mn", "Монгол"], ["ca", "Català"], ["eu", "Euskara"], ["ga", "Gaeilge"], ["cy", "Cymraeg"]];
+  function getLang() { var m = document.cookie.match(/(?:^|; )googtrans=\/[^/]*\/([^;]+)/); if (m) return decodeURIComponent(m[1]); try { return localStorage.getItem("quizlark.lang") || "en"; } catch (e) { return "en"; } }
+  function setCookie(v) {
+    var host = location.hostname, exp = v ? "" : "; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "googtrans=" + (v || "") + exp + "; path=/";
+    if (host.indexOf(".") > -1) { document.cookie = "googtrans=" + (v || "") + exp + "; path=/; domain=" + host; document.cookie = "googtrans=" + (v || "") + exp + "; path=/; domain=." + host; }
+  }
+  var cur = getLang();
+  if (cur !== "en" && !/googtrans=/.test(document.cookie)) setCookie("/en/" + cur);
+  ["langSel", "langSel2"].forEach(function (id) {
+    var s = document.getElementById(id); if (!s) return;
+    s.innerHTML = LANGS.map(function (l) { return '<option value="' + l[0] + '"' + (l[0] === cur ? " selected" : "") + ">" + l[1] + "</option>"; }).join("");
+    s.addEventListener("change", function () {
+      var v = s.value;
+      try { localStorage.setItem("quizlark.lang", v); } catch (e) { /* ignore */ }
+      if (v === "en") setCookie(""); else setCookie("/en/" + v);
+      location.reload();
+    });
+  });
+  var rtl = { ar: 1, fa: 1, ur: 1, ps: 1, iw: 1 };
+  document.documentElement.lang = cur === "iw" ? "he" : cur;
+  if (rtl[cur]) document.documentElement.classList.add("rtl");
+  if (cur !== "en") {
+    window.googleTranslateElementInit = function () { new google.translate.TranslateElement({ pageLanguage: "en", autoDisplay: false }, "google_translate_element"); };
+    var sc = document.createElement("script"); sc.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"; sc.async = true;
+    document.body.appendChild(sc);
+  }
 })();
 </script>
 </html>
