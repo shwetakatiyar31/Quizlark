@@ -1162,6 +1162,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <h2 id="vl-title">Critter Village</h2>
       <div class="wallet">
         <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <span class="coinchip gem"><span class="c">G</span>Gems <b class="gemNum">0</b></span>
         <button class="btn small" id="villageBack" type="button">Back</button>
       </div>
     </div>
@@ -1175,6 +1176,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <h2 id="rt-title">Treasure Route</h2>
       <div class="wallet">
         <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <span class="coinchip gem"><span class="c">G</span>Gems <b class="gemNum">0</b></span>
         <button class="btn small" id="routeBack" type="button">Back</button>
       </div>
     </div>
@@ -1187,6 +1189,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <h2 id="sh-title">Shop</h2>
       <div class="wallet">
         <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <span class="coinchip gem"><span class="c">G</span>Gems <b class="gemNum">0</b></span>
         <button class="btn small" id="shopBack" type="button">Back</button>
       </div>
     </div>
@@ -2124,7 +2127,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     return pool[Math.floor(Math.random() * pool.length)];
   }
   function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
-  var GEM_VALUE = 10, GEM_SELL = 8;
+  var GEM_VALUE = 20, GEM_SELL = 8;
   function packPrice(p) {
     var base = Math.max(1, Math.round(p.cost * (1 - discountPct() / 100) * (1 - (eventNow().sale || 0) / 100))), g = 0;
     if (wallet.useGems) g = Math.min(wallet.gems, Math.floor(base * 0.5 / GEM_VALUE));
@@ -3395,9 +3398,9 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     wallet.gems -= n; wallet.cashable -= (n - useBought);
   }
   var GEM_BUNDLES = [
-    { id: "g50", name: "Handful of gems", gems: 50, cost: 200 },
-    { id: "g500", name: "Pouch of gems", gems: 500, cost: 1500 },
-    { id: "g2500", name: "Chest of gems", gems: 2500, cost: 6000 }
+    { id: "g50", name: "Handful of gems", gems: 50, cost: 1250 },
+    { id: "g500", name: "Pouch of gems", gems: 500, cost: 11500 },
+    { id: "g2500", name: "Chest of gems", gems: 2500, cost: 55000 }
   ];
   var MAXLV = 10;
   var WEAPONS = [
