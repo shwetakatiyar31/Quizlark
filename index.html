@@ -776,6 +776,53 @@ font { background: none !important; box-shadow: none !important; }
 .prize { margin-left: 6px; font-size: 11px; font-weight: 800; border-radius: 999px; padding: 0 7px; border: 1.5px solid var(--edge); color: #1d1b3a; white-space: nowrap; }
 .prize.p1 { background: #ffd24f; } .prize.p2 { background: #dfe3ea; } .prize.p3 { background: #e7a16b; }
 
+.routebtn { background: #e0a800; color: #1d1b3a; }
+.villbtn { background: #2fbf5f; color: #fff; }
+.dulog { min-height: 24px; margin: 10px 0 0; font-weight: 700; text-align: center; }
+.turnchip { background: var(--sun); color: #1d1b3a; border: 2px solid #1d1b3a; border-radius: 999px; font-size: 11px; padding: 0 6px; }
+.charge { display: flex; gap: 3px; }
+.charge i { width: 12px; height: 8px; border-radius: 3px; border: 1.5px solid #1d1b3a; background: #fff; }
+.charge i.on { background: #ffd24f; }
+button.dubench { background: none; border: 0; padding: 0; cursor: pointer; }
+button.dubench[disabled] { cursor: default; }
+button.dubench:not([disabled]):hover { transform: scale(1.15); }
+.actchip:not([disabled])[aria-pressed="true"] { background: #e8483c; color: #fff; border-color: var(--edge); }
+.actchip[disabled] { opacity: .45; }
+.duwait { grid-column: 1 / -1; text-align: center; display: grid; gap: 6px; justify-items: center; background: rgba(255,255,255,.85); color: #1d1b3a; border: 2px solid #1d1b3a; border-radius: 14px; padding: 18px; }
+.village { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 14px; background: linear-gradient(180deg, #bfe6ff, #dff4ff 40%, #9fd99a 40%, #7cc46f); border: 2px solid var(--edge); border-radius: 18px; padding: 16px; }
+.plot { background: rgba(255,255,255,.88); color: #1d1b3a; border: 2px solid #1d1b3a; border-radius: 14px; padding: 10px; display: grid; gap: 6px; justify-items: center; text-align: center; }
+.plot .price { color: #46427a; }
+.plot.empty { background: rgba(255,255,255,.55); border-style: dashed; }
+.plot.ready { box-shadow: 0 0 0 4px #ffd24f; }
+.plot .nm { font-weight: 800; font-size: 18px; }
+.plot .mbar { width: 100%; }
+.house { width: 150px; height: 125px; display: block; }
+.hsmoke { animation: smoke 2.4s ease-in-out infinite; }
+@keyframes smoke { 0% { transform: translateY(4px); opacity: .2; } 50% { opacity: 1; } 100% { transform: translateY(-8px); opacity: 0; } }
+.hbubble { animation: bob 1s ease-in-out infinite; transform-box: fill-box; }
+@keyframes bob { 50% { transform: translateY(-4px); } }
+.buildrow { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.rtmap { border: 2px solid var(--edge); border-radius: 16px; overflow: hidden; background: linear-gradient(180deg, #a7dc8f, #7cc46f); margin: 10px 0; }
+.rtmap svg { display: block; width: 100%; height: auto; }
+.rnode.cur { cursor: pointer; }
+.rnode.cur circle { animation: pulse 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes pulse { 50% { transform: scale(1.12); } }
+.rtbattle { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; background: linear-gradient(180deg, #ffd9a8, #ffe9c8 55%, #c9a06a 55%, #b0884f); border: 2px solid var(--edge); border-radius: 18px; padding: 14px; }
+.rtside { display: grid; gap: 6px; justify-items: center; min-width: 0; color: #1d1b3a; }
+.rtside .label { color: #1d1b3a; }
+.rtunits { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; min-height: 70px; }
+.rtunits .art, .rtunits .mon { width: clamp(38px, 7vw, 62px); height: clamp(38px, 7vw, 62px); display: block; }
+.rtside.foe .rtunits .mon { animation: bob 1.2s ease-in-out infinite; }
+.rtunits.charge { animation: lunge .5s ease; }
+.rtunits.charge2 { animation: lungel .5s ease; }
+.rtside .duhp { max-width: 260px; }
+.chestscreen { text-align: center; justify-items: center; }
+.bigchest { background: none; border: 0; cursor: pointer; display: grid; justify-items: center; gap: 6px; font-weight: 800; color: var(--ink); }
+.bigchest svg { width: min(320px, 80vw); height: auto; animation: wiggle .8s ease-in-out infinite; }
+.bigchest.open svg { animation: none; }
+.bigchest .lid { transition: transform .8s cubic-bezier(.2, 1.4, .4, 1); transform-origin: 20px 70px; }
+.bigchest.open .lid { transform: rotate(-35deg) translate(-10px, -20px); }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
@@ -861,6 +908,8 @@ font { background: none !important; box-shadow: none !important; }
       <button class="btn sun" id="openMulti" type="button" style="font-size:18px;padding:12px 22px">Play with friends</button>
       <button class="btn chbtn" id="openChallenge" type="button" style="font-size:18px;padding:12px 22px">Monster Challenge</button>
       <button class="btn duelbtn" id="openDuel" type="button" style="font-size:18px;padding:12px 22px">Critter Duel</button>
+      <button class="btn routebtn" id="openRoute" type="button" style="font-size:18px;padding:12px 22px">Treasure Route</button>
+      <button class="btn villbtn" id="openVillage" type="button" style="font-size:18px;padding:12px 22px">Critter Village</button>
       <span class="hint" id="startHint"></span>
     </div>
   </main>
@@ -1100,10 +1149,36 @@ font { background: none !important; box-shadow: none !important; }
     <div id="duIntro"></div>
     <div id="duPlay" hidden>
       <div class="duarena" id="duArena"></div>
+      <p class="dulog" id="duLog" aria-live="polite"></p>
       <div class="timebar" id="duTime"><i></i></div>
-      <div class="panel chq" style="margin-top:12px"><span class="label" id="duQc"></span><h3 id="duQ"></h3><div class="answers" id="duAns"></div><div class="verdict" id="duVerdict" aria-live="polite"></div>
+      <div class="panel chq" style="margin-top:12px"><p class="sub" id="duTurn"></p><div class="filterbar" id="duActs"></div><h3 id="duQ"></h3><div class="answers" id="duAns"></div>
         <div class="btnrow"><button class="btn small ghost" id="duQuit" type="button">Give up</button></div></div>
     </div>
+  </section>
+
+  <!-- VILLAGE -->
+  <section id="village" hidden aria-labelledby="vl-title">
+    <div class="market-top">
+      <h2 id="vl-title">Critter Village</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <button class="btn small" id="villageBack" type="button">Back</button>
+      </div>
+    </div>
+    <p class="sect-note">Build houses, then play any game. Every right answer fills your houses, and when one is full a critter moves in. Collect it to keep it. Bigger houses attract rarer critters.</p>
+    <div class="village" id="vlPlots"></div>
+  </section>
+
+  <!-- ROUTE -->
+  <section id="route" hidden aria-labelledby="rt-title">
+    <div class="market-top">
+      <h2 id="rt-title">Treasure Route</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <button class="btn small" id="routeBack" type="button">Back</button>
+      </div>
+    </div>
+    <div id="rtBody"></div>
   </section>
 
   <!-- SHOP -->
@@ -2238,7 +2313,7 @@ font { background: none !important; box-shadow: none !important; }
   var editingId = null, pendingDelete = null;
 
   function show(id) {
-    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel"].forEach(function (s) { $("#" + s).hidden = s !== id; });
+    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route"].forEach(function (s) { $("#" + s).hidden = s !== id; });
     $("#topHeader").hidden = id === "game";
     window.scrollTo(0, 0);
   }
@@ -3077,6 +3152,7 @@ font { background: none !important; box-shadow: none !important; }
     return n;
   }
   function updateGift() {
+    var vr = villageReady(), vb = $("#openVillage"); if (vb) vb.innerHTML = "Critter Village" + (vr ? '<span class="notif">' + vr + "</span>" : "");
     var n = dailyCount(), b = $("#openDaily");
     b.innerHTML = "Daily" + (n ? '<span class="notif">' + n + "</span>" : "");
     var st = SETS.filter(function (x) { return x.id === wallet.title; })[0], t = $("#pfTitle");
@@ -3552,6 +3628,7 @@ font { background: none !important; box-shadow: none !important; }
     return '<svg class="egg' + (ready ? " ready" : "") + '" viewBox="0 0 64 72" aria-label="' + e.name + '"><path d="M32 6C46 6 56 30 56 46a24 24 0 0 1-48 0C8 30 18 6 32 6z" fill="' + e.col + '" stroke="var(--edge)" stroke-width="3"/><circle cx="22" cy="30" r="5" fill="' + e.spot + '"/><circle cx="40" cy="22" r="4" fill="' + e.spot + '"/><circle cx="42" cy="50" r="6" fill="' + e.spot + '"/><circle cx="24" cy="54" r="3.5" fill="' + e.spot + '"/>' + cracks + "</svg>";
   }
   function eggTick() {
+    villageTick();
     var g = wallet.egg; if (!g) return;
     var e = EGGS.filter(function (x) { return x.id === g.id; })[0]; if (!e) return;
     if (g.prog < e.need) { g.prog++; if (g.prog === e.need) toast("Your " + e.name + " is ready to hatch!"); }
@@ -5115,7 +5192,7 @@ font { background: none !important; box-shadow: none !important; }
     if (SHOP.tab === "critters") {
       var rars = RAR_ORDER.filter(function (r) { return CRITTERS.some(function (c) { return c.rar === r && !c.season; }); });
       h = '<div class="filterbar">' + [["all", "All"]].concat(rars.map(function (r) { return [r, cap(r)]; })).map(function (r) { return '<button class="fchip sub" type="button" data-shoprar="' + r[0] + '" aria-pressed="' + (SHOP.rar === r[0]) + '">' + r[1] + "</button>"; }).join("") + "</div>" +
-        '<p class="sect-note">Buy the exact critter you want with coins, or with gems at a quarter of the coin price. Seasonal critters only come from seasonal packs.</p><div class="grid">' +
+        '<p class="sect-note">Buy the exact critter you want with coins, or with gems at one twentieth of the coin price. Seasonal critters only come from seasonal packs.</p><div class="grid">' +
         CRITTERS.filter(function (c) { return !c.season && (SHOP.rar === "all" || c.rar === SHOP.rar); }).sort(function (a, b) { return RAR_ORDER.indexOf(a.rar) - RAR_ORDER.indexOf(b.rar); }).map(function (c) {
           var n = wallet.owned[c.id] || 0, price = CR_PRICE[c.rar] || 100;
           return '<div class="tile r-' + c.rar + ' have">' + (n ? '<span class="ct">x' + n + "</span>" : "") + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><div class="rar ' + c.rar + '">' + c.rar + "</div>" + (c.theme ? '<div class="price">' + THEME_NAMES[c.theme] + "</div>" : "") + '<button class="btn small sun" type="button" data-shopcr="' + c.id + '"' + (wallet.coins < price ? " disabled" : "") + ">" + price.toLocaleString() + " coins</button>" + gemBtn("data-shopcr", c.id, price) + "</div>";
@@ -5449,19 +5526,22 @@ font { background: none !important; box-shadow: none !important; }
     if (pg) spendGems(gemPrice(p.cost)); else wallet.coins -= p.cost; puGrant(p.id); drawCoins(); snd("coin"); if (!$("#market").hidden) renderMarket(); if (!$("#shop").hidden) renderShop();
   });
 
-  /* ================= Critter Duel ================= */
+  /* ================= Critter Duel (turn-based, vs trainers or real players) ================= */
   var ELEM = { fire: { name: "Fire", col: "#ff6a1f", beats: "leaf" }, water: { name: "Water", col: "#38b6ff", beats: "fire" }, leaf: { name: "Leaf", col: "#2fbf5f", beats: "water" } };
   function critElem(c) { var h = 0; for (var i = 0; i < c.id.length; i++) h = (h * 31 + c.id.charCodeAt(i)) >>> 0; return ["fire", "water", "leaf"][h % 3]; }
-  function duelStats(c) { var i = rIdx(c), sh = wallet.shiny && wallet.shiny[c.id] ? 1.15 : 1; return { hp: Math.round((60 + i * 16) * sh), atk: Math.round((14 + i * 5) * sh) }; }
+  function critById(id) { return CRITTERS.filter(function (c) { return c.id === id; })[0] || CRITTERS[0]; }
+  function duelStats(c) { var i = rIdx(c); return { hp: 60 + i * 16, atk: 14 + i * 5 }; }
   var TRAINERS = [
-    { name: "Rookie Rex", rars: ["common"], coins: 40, gems: 3, hat: "cap" },
-    { name: "Sporty Sasha", rars: ["common", "uncommon"], coins: 60, gems: 5, hat: "beanie" },
-    { name: "Clever Kai", rars: ["uncommon", "rare"], coins: 90, gems: 8, hat: "phones" },
-    { name: "Wizard Wren", rars: ["rare", "epic"], coins: 130, gems: 12, hat: "wizard" },
-    { name: "Captain Cole", rars: ["epic", "legendary"], coins: 180, gems: 18, hat: "cowboy" },
-    { name: "Queen Mira", rars: ["legendary", "mythic"], coins: 250, gems: 25, hat: "crown" },
-    { name: "Champion Zed", rars: ["mythic", "mystical", "supreme", "chroma"], coins: 400, gems: 40, hat: "viking" }
+    { name: "Rookie Rex", rars: ["common", "uncommon"], coins: 50, gems: 3, hat: "cap" },
+    { name: "Sporty Sasha", rars: ["uncommon", "rare"], coins: 80, gems: 5, hat: "beanie" },
+    { name: "Clever Kai", rars: ["rare", "epic"], coins: 120, gems: 8, hat: "phones" },
+    { name: "Wizard Wren", rars: ["epic", "legendary"], coins: 170, gems: 12, hat: "wizard" },
+    { name: "Captain Cole", rars: ["legendary", "mythic"], coins: 240, gems: 18, hat: "cowboy" },
+    { name: "Queen Mira", rars: ["mythic", "mystical"], coins: 330, gems: 25, hat: "crown" },
+    { name: "Champion Zed", rars: ["mystical", "supreme", "chroma"], coins: 500, gems: 40, hat: "viking" }
   ];
+  function trainerMult(i) { return 1.1 + i * 0.12; }
+  function trainerAcc(i) { return 0.6 + i * 0.05; }
   var DU = null;
   function duelTeamSaved() {
     var ids = (wallet.duelTeam || []).filter(function (id) { return wallet.owned[id]; });
@@ -5470,26 +5550,57 @@ font { background: none !important; box-shadow: none !important; }
   }
   function trainerTeam(t, idx) {
     var r = mulberry(idx * 97 + 13), pool = CRITTERS.filter(function (c) { return t.rars.indexOf(c.rar) > -1 && !c.season; }), out = [];
-    while (out.length < 3 && pool.length) out.push(pool.splice(Math.floor(r() * pool.length), 1)[0]);
+    while (out.length < 3 && pool.length) out.push(pool.splice(Math.floor(r() * pool.length), 1)[0].id);
     return out;
+  }
+  function mkSide(ids, mult) { return { team: ids.map(function (id) { var hp = Math.round(duelStats(critById(id)).hp * mult); return { id: id, hp: hp, max: hp }; }), cur: 0, charge: 0, heals: 2, mult: mult }; }
+  function sideAtk(sd) { return Math.round(duelStats(critById(sd.team[sd.cur].id)).atk * sd.mult); }
+  /* One move. `who` is "a" or "b". Mutates the duel state and returns the line for the battle log. */
+  function applyMove(st, who, mv) {
+    var me = st.sides[who], foe = st.sides[who === "a" ? "b" : "a"], att = me.team[me.cur], def = foe.team[foe.cur], ac = critById(att.id), dc = critById(def.id), line = "", dmg = 0;
+    var ea = critElem(ac), ed = critElem(dc), mult = ELEM[ea].beats === ed ? 1.5 : ELEM[ed].beats === ea ? 0.7 : 1;
+    if (mv.kind === "swap") { if (me.team[mv.to] && me.team[mv.to].hp > 0) { me.cur = mv.to; line = "switched to " + critById(me.team[mv.to].id).name; } }
+    else if (mv.kind === "miss") line = mv.timeout ? "ran out of time" : "missed";
+    else if (mv.kind === "heal" && me.heals > 0) { var h = Math.round(att.max * 0.35); att.hp = Math.min(att.max, att.hp + h); me.heals--; me.charge = Math.min(3, me.charge + 1); line = "healed " + ac.name + " for " + h; }
+    else {
+      var special = mv.kind === "special" && me.charge >= 3, crit = mv.r1 < 0.15;
+      dmg = Math.round(sideAtk(me) * mult * (crit ? 1.5 : 1) * (special ? 2.2 : 1) * (0.9 + mv.r2 * 0.2));
+      def.hp = Math.max(0, def.hp - dmg);
+      me.charge = special ? 0 : Math.min(3, me.charge + 1);
+      line = (special ? "used a SPECIAL MOVE! " : "") + ac.name + " hit " + dc.name + " for " + dmg + (crit ? ". Critical hit!" : "") + (mult > 1 ? " Super effective!" : mult < 1 ? " Not very effective." : "");
+      if (def.hp <= 0) {
+        line += " " + dc.name + " fainted!";
+        var nx = foe.team.findIndex(function (f) { return f.hp > 0; });
+        if (nx < 0) { st.winner = who; st.state = "done"; } else foe.cur = nx;
+      }
+    }
+    st.last = { who: who, kind: mv.kind, dmg: dmg, el: ea };
+    st.turn = who === "a" ? "b" : "a"; st.n = (st.n || 0) + 1; st.tTurn = Date.now();
+    return line;
   }
   function duelIntro(res) {
     $("#duPlay").hidden = true; $("#duIntro").hidden = false;
     var team = duelTeamSaved(), won = wallet.duelWins || {}, unlocked = 0;
     while (unlocked < TRAINERS.length - 1 && won[unlocked]) unlocked++;
     var pick = Math.min(wallet.duelPick || 0, unlocked);
-    var setId = wallet.chSet && allSets().some(function (s) { return s.id === wallet.chSet; }) ? wallet.chSet : sel.setId;
-    var head = res ? '<div class="panel chend"><h2>' + (res.win ? "You won the duel!" : "You lost the duel") + '</h2><p class="sub">' + (res.win ? "You beat " + esc(res.trainer) + "." + (res.first ? " New trainer unlocked!" : "") : esc(res.trainer) + " won this time. Try a different team, or watch the elements.") + '</p><div class="acstats">' + [["+" + res.coins, "Coins"], ["+" + res.gems, "Gems"], [res.right, "Right answers"]].map(function (x) { return '<div class="stat"><b>' + x[0] + "</b><span>" + x[1] + "</span></div>"; }).join("") + "</div></div>" : "";
-    $("#duIntro").innerHTML = head + '<div class="chgrid"><div class="panel"><h3>Pick your opponent</h3><p class="sub">Beat each trainer to unlock the next one. Every critter has an element: Fire beats Leaf, Leaf beats Water, Water beats Fire. Hitting with the right element does 50% more damage.</p><div class="trainers">' +
+    var setId = wallet.chSet && BUILTIN.some(function (s) { return s.id === wallet.chSet; }) ? wallet.chSet : (BUILTIN.some(function (s) { return s.id === sel.setId; }) ? sel.setId : BUILTIN[0].id);
+    var head = res ? '<div class="panel chend"><h2>' + (res.win ? "You won the duel!" : "You lost the duel") + '</h2><p class="sub">' + esc(res.msg) + '</p><div class="acstats">' + [["+" + res.coins, "Coins"], ["+" + res.gems, "Gems"], [res.right, "Right answers"]].map(function (x) { return '<div class="stat"><b>' + x[0] + "</b><span>" + x[1] + "</span></div>"; }).join("") + "</div></div>" : "";
+    var u = fbUser();
+    $("#duIntro").innerHTML = head + '<div class="chgrid"><div style="display:grid;gap:18px;align-content:start"><div class="panel"><h3>Duel a real player</h3><p class="sub">Take turns answering questions. Pick a move, then answer: right and your move works, wrong and it misses. The winner gets 150 coins and 5 gems.</p>' +
+      (u ? '<div class="btnrow"><button class="btn primary" type="button" id="duFind">Find an opponent</button><button class="btn" type="button" id="duHost">Make a code for a friend</button></div><div class="btnrow"><input id="duCode" class="codein" maxlength="6" autocomplete="off" placeholder="CODE" aria-label="Duel code"><button class="btn" type="button" id="duJoin">Join</button></div><p id="duMsg" aria-live="polite"></p>'
+        : '<p class="sub">Log in to duel real players.</p><div class="btnrow"><button class="btn primary" type="button" data-lblogin="1">Log in</button></div>') + "</div>" +
+      '<div class="panel"><h3>Practice against trainers</h3><p class="sub">Trainers get tougher and smarter as you go. Beat each one to unlock the next.</p><div class="trainers">' +
       TRAINERS.map(function (t, i) {
-        var lock = i > unlocked, tm = trainerTeam(t, i), face = tm[0] || CRITTERS[0], eq = { hat: t.hat };
-        return '<button class="trainer' + (i === pick ? " on" : "") + '" type="button" data-trainer="' + i + '"' + (lock ? " disabled" : "") + '><span class="tav">' + critterArt(face, eq) + '</span><span class="tbody"><b>' + t.name + "</b>" + (won[i] ? ' <span class="titlechip">Beaten</span>' : "") + '<br><span class="sub">' + (lock ? "Beat the trainer before to unlock" : t.rars.map(cap).join(", ") + " critters · " + t.coins + " coins" + (won[i] ? "" : " + " + t.gems + " gems")) + "</span></span></button>";
-      }).join("") + "</div></div>" +
-      '<div class="panel"><h3>Your team of 3</h3><p class="sub">Tap critters to choose. The first one goes out first.</p><div class="chpick" id="duPick">' + ownedSorted().map(function (c) {
+        var lock = i > unlocked, face = critById(trainerTeam(t, i)[0]);
+        return '<button class="trainer' + (i === pick ? " on" : "") + '" type="button" data-trainer="' + i + '"' + (lock ? " disabled" : "") + '><span class="tav">' + critterArt(face, { hat: t.hat }) + '</span><span class="tbody"><b>' + t.name + "</b>" + (won[i] ? ' <span class="titlechip">Beaten</span>' : "") + '<br><span class="sub">' + (lock ? "Beat the trainer before to unlock" : "Hits " + Math.round(trainerAcc(i) * 100) + "% of the time · " + t.coins + " coins" + (won[i] ? "" : " + " + t.gems + " gems")) + "</span></span></button>";
+      }).join("") + '</div><div class="btnrow"><button class="btn primary" type="button" id="duStart">Duel ' + TRAINERS[pick].name + "</button></div></div></div>" +
+      '<div class="panel"><h3>Your team of 3</h3><p class="sub">Tap critters to choose. The first one goes out first. Fire beats Leaf, Leaf beats Water, Water beats Fire.</p><div class="chpick" id="duPick">' + ownedSorted().map(function (c) {
         var i = team.indexOf(c.id), st = duelStats(c), el = critElem(c);
         return '<button class="tile r-' + c.rar + ' have" type="button" role="checkbox" aria-checked="' + (i > -1) + '" data-dupick="' + c.id + '">' + (i > -1 ? '<span class="ct">' + (i + 1) + "</span>" : "") + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><span class="elem" style="--ec:' + ELEM[el].col + '">' + ELEM[el].name + '</span><div class="price mono">' + st.hp + " HP · " + st.atk + " ATK</div></button>";
-      }).join("") + '</div><label class="label" for="duSetSel" style="margin-top:10px">Questions from</label><select id="duSetSel" class="setsel">' + setOptionsHtml(setId) + '</select><div class="btnrow"><button class="btn primary" type="button" id="duStart" style="font-size:20px;padding:12px 26px">Start duel</button></div></div></div>';
+      }).join("") + '</div><label class="label" for="duSetSel" style="margin-top:10px">Questions from</label><select id="duSetSel" class="setsel">' + setOptionsHtml(setId).replace(/<optgroup label="Your sets">[\s\S]*?<\/optgroup>/, "") + "</select></div></div>";
+    pick = pick; wallet.duelPick = pick;
   }
+  function duMsg(t, ok) { var m = $("#duMsg"); if (m) { m.textContent = t; m.className = ok ? "okmsg" : "err"; } }
   $("#duIntro").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b || b.disabled) return;
     if (b.dataset.trainer) { wallet.duelPick = +b.dataset.trainer; saveWallet(); duelIntro(); }
@@ -5497,101 +5608,233 @@ font { background: none !important; box-shadow: none !important; }
       var t = duelTeamSaved(), id = b.dataset.dupick, i = t.indexOf(id);
       if (i > -1) { if (t.length > 1) t.splice(i, 1); } else { if (t.length >= 3) t.shift(); t.push(id); }
       wallet.duelTeam = t; saveWallet(); duelIntro();
-    } else if (b.id === "duStart") duelStart();
+    } else if (b.id === "duStart") duelStartBot();
+    else if (b.id === "duFind") pvpFind();
+    else if (b.id === "duHost") pvpCreate(true);
+    else if (b.id === "duJoin") pvpJoin(($("#duCode").value || "").toUpperCase().replace(/[^A-Z0-9]/g, ""));
   });
   $("#duIntro").addEventListener("change", function (e) { if (e.target.id === "duSetSel") { wallet.chSet = e.target.value; saveWallet(); } });
-  function mkFighter(c) { var st = duelStats(c); return { c: c, hp: st.hp, max: st.hp, atk: st.atk, el: critElem(c) }; }
-  function duelStart() {
-    var idx = wallet.duelPick || 0, t = TRAINERS[idx], mine = duelTeamSaved().map(function (id) { return CRITTERS.filter(function (c) { return c.id === id; })[0]; }).filter(Boolean);
+  function duelSetId() { return wallet.chSet && BUILTIN.some(function (s) { return s.id === wallet.chSet; }) ? wallet.chSet : (BUILTIN.some(function (s) { return s.id === sel.setId; }) ? sel.setId : BUILTIN[0].id); }
+
+  /* Bot duels */
+  function duelStartBot() {
+    var idx = wallet.duelPick || 0, t = TRAINERS[idx], mine = duelTeamSaved();
     if (!mine.length) { toast("You need at least one critter. Open a pack first!"); return; }
-    var set = allSets().filter(function (s) { return s.id === (wallet.chSet || sel.setId); })[0] || allSets()[0];
-    DU = { t: t, idx: idx, me: mine.map(mkFighter), foe: trainerTeam(t, idx).map(mkFighter), mi: 0, fi: 0, set: set, qs: [], qi: 0, cur: null, lock: false, streak: 0, right: 0, timer: null, qStart: 0, over: false };
+    var st = { sides: { a: mkSide(mine, 1), b: mkSide(trainerTeam(t, idx), trainerMult(idx)) }, turn: "a", n: 0, state: "play", set: duelSetId(), seed: Math.floor(Math.random() * 1e9), log: [], tTurn: Date.now() };
+    DU = { mode: "bot", t: t, idx: idx, st: st, me: "a", names: { a: playerName(), b: t.name }, hats: { a: null, b: t.hat }, right: 0, action: "attack", busy: false };
+    duelShow();
+  }
+  function botTurn() {
+    var D = DU; if (!D || D.mode !== "bot" || D.st.state !== "play" || D.st.turn !== "b") return;
+    var st = D.st, me = st.sides.b, att = me.team[me.cur], acc = trainerAcc(D.idx), mv;
+    var foeEl = critElem(critById(st.sides.a.team[st.sides.a.cur].id));
+    var better = me.team.findIndex(function (f, i) { return i !== me.cur && f.hp > 0 && ELEM[critElem(critById(f.id))].beats === foeEl; });
+    if (me.charge >= 3) mv = { kind: "special" };
+    else if (att.hp < att.max * 0.35 && me.heals > 0 && Math.random() < 0.7) mv = { kind: "heal" };
+    else if (better > -1 && ELEM[foeEl].beats === critElem(critById(att.id)) && Math.random() < 0.5) mv = { kind: "swap", to: better };
+    else mv = { kind: "attack" };
+    if (mv.kind !== "swap" && Math.random() > acc) mv = { kind: "miss" };
+    mv.r1 = Math.random(); mv.r2 = Math.random();
+    duelLog(D.names.b + " " + applyMove(st, "b", mv));
+    duelRender(true);
+    if (st.state === "done") setTimeout(duelFinish, 1400);
+  }
+
+  /* Real-player duels on Firestore */
+  var PV = { unsub: null, beat: null, waitT: null };
+  function pvpStop() { if (PV.unsub) PV.unsub(); PV.unsub = null; clearInterval(PV.beat); clearTimeout(PV.waitT); }
+  function myDuelInfo() { return { uid: fbUser().uid, nm: playerName(), av: buddy().id, eq: { hat: wallet.equip.hat || null, face: wallet.equip.face || null, neck: wallet.equip.neck || null, back: wallet.equip.back || null } }; }
+  function pvpCreate(forFriend) {
+    var u = fbUser(); if (!u) return;
+    var mine = duelTeamSaved(); if (!mine.length) { duMsg("You need at least one critter."); return; }
+    var code = newCode();
+    var doc = { a: myDuelInfo(), b: null, state: "waiting", friend: !!forFriend, set: duelSetId(), seed: Math.floor(Math.random() * 1e9), sides: { a: mkSide(mine, 1), b: null }, turn: "a", n: 0, log: [], ts: Date.now(), tTurn: Date.now() };
+    FB.db.collection("duels").doc(code).set(doc).then(function () {
+      pvpWatch(code, "a");
+      duMsg(forFriend ? "Your code is " + code + ". Ask your friend to type it and tap Join." : "Waiting for another player to join...", true);
+      PV.beat = setInterval(function () { FB.db.collection("duels").doc(code).update({ ts: Date.now() }).catch(function () { /* ignore */ }); }, 20000);
+      duelWaiting(code, forFriend);
+    }, function () { duMsg("Couldn't start a duel. Check that the new Firestore rules are published."); });
+  }
+  function pvpFind() {
+    var u = fbUser(); if (!u) return;
+    duMsg("Looking for an opponent...", true);
+    FB.db.collection("duels").where("state", "==", "waiting").limit(15).get().then(function (s) {
+      var open = s.docs.filter(function (d) { var x = d.data(); return !x.friend && x.a && x.a.uid !== u.uid && Date.now() - (x.ts || 0) < 60000; });
+      if (!open.length) { pvpCreate(false); return; }
+      pvpJoin(open[0].id);
+    }, function () { duMsg("Couldn't search for players. Check that the new Firestore rules are published."); });
+  }
+  function pvpJoin(code) {
+    var u = fbUser(); if (!u) return;
+    if (code.length !== 6) { duMsg("Duel codes are 6 letters and numbers."); return; }
+    var mine = duelTeamSaved(), ref = FB.db.collection("duels").doc(code);
+    FB.db.runTransaction(function (tx) {
+      return tx.get(ref).then(function (d) {
+        if (!d.exists) throw new Error("none");
+        var x = d.data();
+        if (x.state !== "waiting" || (x.a && x.a.uid === u.uid)) throw new Error("taken");
+        var sides = x.sides; sides.b = mkSide(mine, 1);
+        tx.update(ref, { b: myDuelInfo(), sides: sides, state: "play", turn: Math.random() < 0.5 ? "a" : "b", tTurn: Date.now(), ts: Date.now() });
+      });
+    }).then(function () { pvpWatch(code, "b"); }, function (er) {
+      duMsg(er && er.message === "none" ? "No duel with the code " + code + ". Check it and try again." : er && er.message === "taken" ? "That duel already started or it's your own code." : "Couldn't join. Try again.");
+    });
+  }
+  function pvpWatch(code, side) {
+    pvpStop();
+    DU = { mode: "pvp", code: code, me: side, st: null, names: { a: "", b: "" }, hats: { a: null, b: null }, right: 0, action: "attack", busy: false, lastN: -1 };
+    PV.unsub = FB.db.collection("duels").doc(code).onSnapshot(function (d) {
+      if (!DU || DU.code !== code) return;
+      if (!d.exists) { if (DU.st && DU.st.state === "play") toast("The duel was cancelled."); pvpStop(); DU = null; duelIntro(); return; }
+      var x = d.data(); if (x.state === "waiting") return;
+      var first = !DU.st;
+      DU.st = x; DU.names = { a: (x.a && x.a.nm) || "Player", b: (x.b && x.b.nm) || "Player" };
+      if (first) { clearInterval(PV.beat); toast("Duel started against " + (side === "a" ? DU.names.b : DU.names.a) + "!"); duelShow(); return; }
+      if (x.n !== DU.lastN) { DU.lastN = x.n; if (x.log && x.log.length) $("#duLog").textContent = x.log[x.log.length - 1]; duelRender(true); }
+      if (x.state === "done") setTimeout(duelFinish, 1200);
+    }, function () { duMsg("Lost connection to the duel."); });
+    PV.beat = PV.beat || null;
+  }
+  function duelWaiting(code, forFriend) {
     $("#duIntro").hidden = true; $("#duPlay").hidden = false;
-    duelArena(); duelNextQ();
+    $("#duArena").innerHTML = '<div class="duwait"><p class="label">' + (forFriend ? "Your duel code" : "Finding an opponent") + '</p><div class="codebig mono notranslate" translate="no">' + (forFriend ? code : "...") + '</div><p class="sub">' + (forFriend ? "Your friend opens Critter Duel, types this code and taps Join." : "This can take a minute. Keep this page open.") + "</p></div>";
+    $("#duTurn").innerHTML = ""; $("#duQ").textContent = ""; $("#duAns").innerHTML = ""; $("#duActs").innerHTML = ""; $("#duLog").textContent = "";
+    $("#duQuit").textContent = "Cancel";
+    if (!forFriend) PV.waitT = setTimeout(function () { if (DU && !DU.st) toast("No one is looking for a duel right now. Try again, or invite a friend with a code."); }, 45000);
   }
+  function pvpWrite(mutate) {
+    var D = DU, ref = FB.db.collection("duels").doc(D.code), n0 = D.st.n;
+    D.busy = true;
+    return FB.db.runTransaction(function (tx) {
+      return tx.get(ref).then(function (d) {
+        var x = d.data(); if (!x || x.n !== n0 || x.state !== "play") throw new Error("stale");
+        var line = mutate(x);
+        x.log = (x.log || []).concat([line]).slice(-8);
+        tx.set(ref, x);
+      });
+    }).then(function () { D.busy = false; }, function () { D.busy = false; });
+  }
+
+  /* Shared battle screen */
+  function duelShow() { $("#duIntro").hidden = true; $("#duPlay").hidden = false; $("#duQuit").textContent = "Give up"; $("#duLog").textContent = ""; DU.action = "attack"; duelRender(false); }
+  function duelLog(t) { var l = $("#duLog"); if (l) l.textContent = t; if (DU && DU.mode === "bot") { DU.st.log.push(t); } }
   function hpBar(f) { var p = Math.max(0, f.hp / f.max * 100); return '<span class="duhp"><i style="width:' + p + '%;background:' + (p > 50 ? "#2fbf5f" : p > 20 ? "#ffc83d" : "#ff4f4f") + '"></i></span><span class="mono duhpn">' + Math.max(0, Math.ceil(f.hp)) + "/" + f.max + "</span>"; }
-  function bench(list, cur) { return list.map(function (f, i) { return '<span class="dubench' + (f.hp <= 0 ? " out" : i === cur ? " now" : "") + '">' + critterArt(f.c) + "</span>"; }).join(""); }
-  function duelArena() {
-    var a = DU.me[DU.mi], b = DU.foe[DU.fi];
-    $("#duArena").innerHTML = '<div class="duside me"><div class="dutop"><b>' + esc(playerName()) + '</b><span class="dubenchrow">' + bench(DU.me, DU.mi) + '</span></div><div class="dufighter" id="duMe">' + critterArt(a.c, wallet.equip) + '</div><div class="duinfo"><b>' + esc(a.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[a.el].col + '">' + ELEM[a.el].name + "</span>" + hpBar(a) + "</div></div>" +
-      '<div class="duvs">VS</div>' +
-      '<div class="duside foe"><div class="dutop"><b>' + esc(DU.t.name) + '</b><span class="dubenchrow">' + bench(DU.foe, DU.fi) + '</span></div><div class="dufighter" id="duFoe">' + critterArt(b.c, { hat: DU.t.hat }) + '</div><div class="duinfo"><b>' + esc(b.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[b.el].col + '">' + ELEM[b.el].name + "</span>" + hpBar(b) + "</div></div>";
+  function sideHtml(D, who, cls) {
+    var sd = D.st.sides[who], f = sd.team[sd.cur], c = critById(f.id), el = critElem(c), mine = who === D.me;
+    var info = D.mode === "pvp" ? D.st[who] : null, eq = mine ? wallet.equip : info && info.eq ? info.eq : { hat: D.hats[who] };
+    return '<div class="duside ' + cls + '"><div class="dutop"><b>' + esc(String(D.names[who]).slice(0, 14)) + (D.st.turn === who && D.st.state === "play" ? ' <span class="turnchip">Turn</span>' : "") + '</b><span class="dubenchrow">' + sd.team.map(function (t, i) { return '<button type="button" class="dubench' + (t.hp <= 0 ? " out" : i === sd.cur ? " now" : "") + '"' + (mine && t.hp > 0 && i !== sd.cur ? ' data-duswap="' + i + '" title="Switch to ' + esc(critById(t.id).name) + '"' : " disabled") + ">" + critterArt(critById(t.id)) + "</button>"; }).join("") +
+      '</span><span class="charge">' + [0, 1, 2].map(function (k) { return '<i class="' + (k < sd.charge ? "on" : "") + '"></i>'; }).join("") + '</span></div><div class="dufighter" id="du' + (mine ? "Me" : "Foe") + '">' + critterArt(c, eq) + '</div><div class="duinfo"><b>' + esc(c.name) + '</b> <span class="elem" style="--ec:' + ELEM[el].col + '">' + ELEM[el].name + "</span>" + hpBar(f) + "</div></div>";
   }
-  function duelNextQ() {
-    if (!DU || DU.over) return;
-    if (DU.qi >= DU.qs.length) { DU.qs = shuffle(DU.set.gen ? DU.set.gen() : DU.set.questions); DU.qi = 0; }
-    var q = DU.qs[DU.qi++];
-    DU.cur = shuffle(q.a.map(function (t, i) { return { t: t, ok: i === 0 }; })); DU.lock = false; DU.qStart = Date.now();
-    $("#duQc").textContent = "Answer right to attack. Wrong or too slow, and " + DU.t.name + " attacks." + (DU.streak >= 2 ? " Streak " + DU.streak + "!" : "");
-    $("#duQ").textContent = q.q;
-    $("#duAns").innerHTML = DU.cur.map(function (o, i) { return '<button class="ans" type="button" data-duk="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
-    $("#duVerdict").textContent = ""; $("#duVerdict").className = "verdict";
-    clearInterval(DU.timer);
-    DU.timer = setInterval(function () {
-      if (!DU || DU.lock || DU.over) return;
-      var left = Math.max(0, 15000 - (Date.now() - DU.qStart)), bar = $("#duTime i"); if (bar) bar.style.transform = "scaleX(" + left / 15000 + ")";
-      if (left <= 0 || $("#duel").hidden) duelAnswer(-1);
-    }, 100);
-  }
-  function duelHit(att, def, mine) {
-    var adv = ELEM[att.el].beats === def.el, weak = ELEM[def.el].beats === att.el, crit = Math.random() < 0.15, special = mine && DU.streak > 0 && DU.streak % 3 === 0;
-    var dmg = Math.round(att.atk * (adv ? 1.5 : weak ? 0.75 : 1) * (crit ? 1.5 : 1) * (special ? 2 : 1) * (0.9 + Math.random() * 0.2));
-    def.hp -= dmg;
-    var who = mine ? "#duFoe" : "#duMe", from = mine ? "#duMe" : "#duFoe";
-    var notes = [special ? "Special move!" : "", crit ? "Critical hit!" : "", adv ? "Super effective!" : weak ? "Not very effective" : ""].filter(Boolean).join(" ");
-    var el = $(from); if (el) { el.classList.remove("lunge", "lungel"); void el.offsetWidth; el.classList.add(mine ? "lunge" : "lungel"); }
-    var tg = $(who); if (tg) { tg.classList.remove("hurt"); void tg.offsetWidth; tg.classList.add("hurt"); tg.insertAdjacentHTML("beforeend", '<span class="dudmg" style="--ec:' + ELEM[att.el].col + '">-' + dmg + "</span>"); }
-    return { dmg: dmg, notes: notes };
+  function duelRender(animate) {
+    var D = DU; if (!D || !D.st) return;
+    var st = D.st, other = D.me === "a" ? "b" : "a";
+    $("#duArena").innerHTML = sideHtml(D, D.me, "me") + '<div class="duvs">VS</div>' + sideHtml(D, other, "foe");
+    if (animate && st.last && st.last.dmg) {
+      var att = st.last.who === D.me ? "#duMe" : "#duFoe", def = st.last.who === D.me ? "#duFoe" : "#duMe";
+      var a = $(att); if (a) a.classList.add(st.last.who === D.me ? "lunge" : "lungel");
+      var t = $(def); if (t) { t.classList.add("hurt"); t.insertAdjacentHTML("beforeend", '<span class="dudmg" style="--ec:' + ELEM[st.last.el].col + '">-' + st.last.dmg + "</span>"); }
+      snd(st.last.who === D.me ? "right" : "wrong");
+    }
+    clearInterval(D.qTimer);
+    if (st.state !== "play") { $("#duTurn").textContent = ""; $("#duActs").innerHTML = ""; $("#duQ").textContent = ""; $("#duAns").innerHTML = ""; return; }
+    if (st.turn === D.me) {
+      var sd = st.sides[D.me];
+      if (D.action === "special" && sd.charge < 3) D.action = "attack";
+      if (D.action === "heal" && sd.heals <= 0) D.action = "attack";
+      $("#duTurn").innerHTML = "<b>Your turn.</b> Pick a move, then answer. Right and it works, wrong and it misses.";
+      $("#duActs").innerHTML = [["attack", "Attack", true], ["special", "Special (" + sd.charge + "/3)", sd.charge >= 3], ["heal", "Heal (" + sd.heals + " left)", sd.heals > 0]].map(function (x) { return '<button class="fchip actchip" type="button" data-duact="' + x[0] + '" aria-pressed="' + (D.action === x[0]) + '"' + (x[2] ? "" : " disabled") + ">" + x[1] + "</button>"; }).join("") + '<span class="sub">Tap a critter above to switch (uses your turn).</span>';
+      var q = buildQs(st.set, st.seed + st.n * 7919, 1)[0];
+      D.cur = q.opts; D.locked = false; D.qStart = Date.now();
+      $("#duQ").textContent = q.q;
+      $("#duAns").innerHTML = q.opts.map(function (o, i) { return '<button class="ans" type="button" data-duk="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
+      var lim = 15000;
+      D.qTimer = setInterval(function () {
+        if (!DU || DU.locked) return;
+        var left = Math.max(0, lim - (Date.now() - D.qStart)), bar = $("#duTime i"); if (bar) bar.style.transform = "scaleX(" + left / lim + ")";
+        if (left <= 0) duelAnswer(-1);
+      }, 100);
+    } else {
+      $("#duTurn").innerHTML = "<b>" + esc(String(D.names[other]).slice(0, 14)) + "'s turn.</b> " + (D.mode === "bot" ? "Get ready..." : "They're answering a question.");
+      $("#duActs").innerHTML = ""; $("#duAns").innerHTML = ""; $("#duQ").textContent = "Waiting for your opponent...";
+      var bar2 = $("#duTime i"); if (bar2) bar2.style.transform = "scaleX(1)";
+      if (D.mode === "bot") setTimeout(botTurn, 1500);
+      else D.qTimer = setInterval(function () {
+        if (!DU || !DU.st || DU.st.turn === DU.me || DU.st.state !== "play" || DU.busy) return;
+        var idle = Date.now() - (DU.st.tTurn || 0), b3 = $("#duTime i"); if (b3) b3.style.transform = "scaleX(" + Math.max(0, 1 - idle / 20000) + ")";
+        if (idle > 90000) pvpWrite(function (x) { x.state = "done"; x.winner = DU.me; return DU.names[other] + " left the duel."; });
+        else if (idle > 22000) pvpWrite(function (x) { return DU.names[other] + " " + applyMove(x, other, { kind: "miss", timeout: true }); });
+      }, 1000);
+    }
   }
   function duelAnswer(k) {
-    if (!DU || DU.lock || DU.over) return;
-    DU.lock = true; clearInterval(DU.timer);
-    var ok = k > -1 && DU.cur[k].ok, bs = $("#duAns").children, v = $("#duVerdict"), a = DU.me[DU.mi], b = DU.foe[DU.fi], r;
-    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (DU.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
-    if (ok) {
-      DU.streak++; DU.right++; wallet.stats.correct++; var ds = dayState(); ds.right++; ds.streak = Math.max(ds.streak, DU.streak); addBuddyXp(1); eggTick(); snd("right");
-      r = duelHit(a, b, true); v.textContent = a.c.name + " hit for " + r.dmg + ". " + r.notes; v.className = "verdict ok";
-    } else {
-      DU.streak = 0; wallet.stats.wrong++; snd("wrong");
-      r = duelHit(b, a, false); v.textContent = (k < 0 ? "Too slow! " : "") + b.c.name + " hit you for " + r.dmg + ". " + r.notes; v.className = "verdict no";
-    }
-    setTimeout(function () {
-      if (!DU) return;
-      if (b.hp <= 0) { DU.fi++; if (DU.fi >= DU.foe.length) { duelEnd(true); return; } toast(b.c.name + " fainted! " + DU.t.name + " sends out " + DU.foe[DU.fi].c.name + "."); }
-      if (a.hp <= 0) { DU.mi++; if (DU.mi >= DU.me.length) { duelEnd(false); return; } toast(a.c.name + " fainted! Go, " + DU.me[DU.mi].c.name + "!"); }
-      duelArena(); duelNextQ();
-    }, 1300);
-    duelArenaBars();
+    var D = DU; if (!D || !D.st || D.locked || D.st.turn !== D.me || D.st.state !== "play") return;
+    D.locked = true; clearInterval(D.qTimer);
+    var ok = k > -1 && D.cur[k] && D.cur[k].ok, bs = $("#duAns").children;
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (D.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
+    if (ok) { D.right++; wallet.stats.correct++; var ds = dayState(); ds.right++; addBuddyXp(1); eggTick(); } else { wallet.stats.wrong++; snd("wrong"); }
+    var mv = ok ? { kind: D.action, r1: Math.random(), r2: Math.random() } : { kind: "miss", timeout: k < 0 };
+    setTimeout(function () { duelDo(mv); }, 600);
   }
-  function duelArenaBars() {
-    var a = DU.me[DU.mi], b = DU.foe[DU.fi];
-    var bars = document.querySelectorAll("#duArena .duinfo");
-    if (bars[0]) bars[0].innerHTML = "<b>" + esc(a.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[a.el].col + '">' + ELEM[a.el].name + "</span>" + hpBar(a);
-    if (bars[1]) bars[1].innerHTML = "<b>" + esc(b.c.name) + '</b> <span class="elem" style="--ec:' + ELEM[b.el].col + '">' + ELEM[b.el].name + "</span>" + hpBar(b);
+  function duelDo(mv) {
+    var D = DU; if (!D) return;
+    if (D.mode === "bot") {
+      duelLog(D.names.a + " " + applyMove(D.st, "a", mv)); duelRender(true);
+      if (D.st.state === "done") setTimeout(duelFinish, 1400);
+    } else pvpWrite(function (x) { return D.names[D.me] + " " + applyMove(x, D.me, mv); });
   }
-  function duelEnd(win) {
-    var d = DU; d.over = true; clearInterval(d.timer);
-    wallet.duelWins = wallet.duelWins || {};
-    var first = win && !wallet.duelWins[d.idx], coins = win ? d.t.coins : Math.round(d.t.coins / 4), gems = first ? d.t.gems : 0;
-    if (win) wallet.duelWins[d.idx] = true;
-    if (first && d.idx < TRAINERS.length - 1) wallet.duelPick = d.idx + 1;
-    wallet.coins += coins; if (gems) addGems(gems); wallet.stats.games++; wallet.stats.duels = (wallet.stats.duels || 0) + 1; if (win) wallet.stats.duelWins = (wallet.stats.duelWins || 0) + 1;
-    dayState().games++; weekState().modes.duel = 1;
-    saveWallet(); drawCoins();
-    fxBurst(win ? (first ? "mythic" : "epic") : "common");
-    DU = null;
-    duelIntro({ win: win, trainer: d.t.name, coins: coins, gems: gems, right: d.right, first: first && d.idx < TRAINERS.length - 1 });
-  }
-  $("#duAns").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b && b.dataset.duk != null) duelAnswer(+b.dataset.duk); });
+  $("#duPlay").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled || !DU) return;
+    if (b.dataset.duk != null) duelAnswer(+b.dataset.duk);
+    else if (b.dataset.duact) { DU.action = b.dataset.duact; document.querySelectorAll("[data-duact]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.duact === DU.action); }); }
+    else if (b.dataset.duswap != null && DU.st && DU.st.turn === DU.me && !DU.locked) { DU.locked = true; clearInterval(DU.qTimer); duelDo({ kind: "swap", to: +b.dataset.duswap }); }
+  });
   document.addEventListener("keydown", function (e) {
     if ($("#duel").hidden || !DU || e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.ctrlKey || e.metaKey || e.altKey) return;
     var k = "1234".indexOf(e.key); if (k > -1 && DU.cur && DU.cur[k]) duelAnswer(k);
   });
-  $("#duQuit").addEventListener("click", function () { if (DU) { clearInterval(DU.timer); DU = null; } duelIntro(); });
+  function duelFinish() {
+    var D = DU; if (!D || !D.st || D.done) return; D.done = true; clearInterval(D.qTimer);
+    var win = D.st.winner === D.me, coins = 0, gems = 0, msg;
+    wallet.duelPaid = wallet.duelPaid || {};
+    if (D.mode === "bot") {
+      wallet.duelWins = wallet.duelWins || {};
+      var first = win && !wallet.duelWins[D.idx];
+      coins = win ? D.t.coins : Math.round(D.t.coins / 4); gems = first ? D.t.gems : 0;
+      if (win) wallet.duelWins[D.idx] = true;
+      if (first && D.idx < TRAINERS.length - 1) wallet.duelPick = D.idx + 1;
+      msg = win ? "You beat " + D.t.name + "." + (first && D.idx < TRAINERS.length - 1 ? " The next trainer is unlocked!" : "") : D.t.name + " won this time. Try a different team or use your elements.";
+    } else {
+      if (wallet.duelPaid[D.code]) { pvpStop(); DU = null; duelIntro(); return; }
+      wallet.duelPaid[D.code] = 1;
+      coins = win ? 150 : 40; gems = win ? 5 : 0;
+      var oth = D.me === "a" ? "b" : "a";
+      msg = win ? "You beat " + D.names[oth] + "!" : D.names[oth] + " won this duel.";
+      wallet.stats.pvp = (wallet.stats.pvp || 0) + 1; if (win) wallet.stats.pvpWins = (wallet.stats.pvpWins || 0) + 1;
+      pvpStop();
+    }
+    wallet.coins += coins; if (gems) addGems(gems); wallet.stats.games++; wallet.stats.duels = (wallet.stats.duels || 0) + 1;
+    dayState().games++; weekState().modes.duel = 1;
+    saveWallet(); drawCoins();
+    fxBurst(win ? "mythic" : "common");
+    var right = D.right; DU = null;
+    duelIntro({ win: win, coins: coins, gems: gems, right: right, msg: msg });
+  }
+  $("#duQuit").addEventListener("click", function () {
+    var D = DU;
+    if (D && D.mode === "pvp") {
+      var ref = FB.db.collection("duels").doc(D.code);
+      if (!D.st) ref.delete().catch(function () { /* ignore */ });
+      else if (D.st.state === "play") { var oth = D.me === "a" ? "b" : "a"; pvpWrite(function (x) { x.state = "done"; x.winner = oth; return D.names[D.me] + " gave up."; }); return; }
+      pvpStop();
+    }
+    if (D) clearInterval(D.qTimer);
+    DU = null; duelIntro();
+  });
   function openDuel() { show("duel"); if (!DU) duelIntro(); }
   $("#openDuel").addEventListener("click", openDuel);
   $("#openDuel2").addEventListener("click", openDuel);
-  $("#duelBack").addEventListener("click", function () { if (DU) { clearInterval(DU.timer); DU = null; } renderHome(); show("home"); });
+  $("#duelBack").addEventListener("click", function () { if (DU && DU.mode === "bot") { clearInterval(DU.qTimer); DU = null; } renderHome(); show("home"); });
 
   /* ================= Weekly leaderboard prizes ================= */
   var LB_PRIZES = [100, 75, 50];
@@ -5612,8 +5855,211 @@ font { background: none !important; box-shadow: none !important; }
     }, function () { /* try again next time */ });
   }
 
-  function gemPrice(c) { return Math.max(1, Math.ceil(c / 4)); }
+  function gemPrice(c) { return Math.max(1, Math.ceil(c / 20)); }
   function gemBtn(attr, id, coins) { var g = gemPrice(coins); return '<button class="btn small gembtn" type="button" ' + attr + '="' + id + '" data-pay="gems"' + (wallet.gems < g ? " disabled" : "") + '>' + g.toLocaleString() + " gems</button>"; }
+  /* ================= Critter Village: houses that make critters as you play ================= */
+  var HOUSES = [
+    { id: "hut", name: "Hut", cost: 500, need: 25, coins: 20, odds: { common: 60, uncommon: 30, rare: 10 }, desc: "Commons, uncommons and the odd rare." },
+    { id: "cottage", name: "Cottage", cost: 2000, need: 45, coins: 60, odds: { uncommon: 35, rare: 40, epic: 20, legendary: 5 }, desc: "Rares and epics, sometimes a legendary." },
+    { id: "manor", name: "Manor", cost: 8000, need: 80, coins: 150, odds: { rare: 25, epic: 40, legendary: 28, mythic: 7 }, desc: "Epics and legendaries, with a mythic chance." },
+    { id: "castle", name: "Castle", cost: 30000, need: 130, coins: 400, odds: { epic: 30, legendary: 40, mythic: 20, mystical: 6, supreme: 3, chroma: 1 }, desc: "Legendaries and up. Chroma is possible!" }
+  ];
+  var PLOTS = 6;
+  function village() {
+    var v = wallet.village || (wallet.village = { plots: [] });
+    while (v.plots.length < PLOTS) v.plots.push(null);
+    if (!v.started) { v.plots[0] = { t: "hut", prog: 0 }; v.started = 1; }
+    return v;
+  }
+  function houseDef(id) { return HOUSES.filter(function (h) { return h.id === id; })[0]; }
+  function villageTick() {
+    var v = wallet.village; if (!v) return;
+    v.plots.forEach(function (p) { if (!p) return; var h = houseDef(p.t); if (p.prog < h.need) { p.prog++; if (p.prog === h.need) toast("A critter moved into your " + h.name + "! Collect it in your Village."); } });
+  }
+  function villageReady() { var v = wallet.village; return v ? v.plots.filter(function (p) { return p && p.prog >= houseDef(p.t).need; }).length : 0; }
+  function houseSvg(id, ready, c) {
+    var door = '<rect x="52" y="72" width="16" height="22" rx="7" fill="#5a3a1e" stroke="#1d1b3a" stroke-width="2.5"/>';
+    var peek = ready && c ? '<g transform="translate(48 58) scale(.38)">' + critterArt(c).replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "") + "</g>" : "";
+    var bubble = ready ? '<g class="hbubble"><circle cx="92" cy="18" r="12" fill="#ffd24f" stroke="#1d1b3a" stroke-width="2.5"/><text x="92" y="24" text-anchor="middle" font-size="16" font-weight="800" fill="#1d1b3a">!</text></g>' : "";
+    var smoke = '<g class="hsmoke"><circle cx="86" cy="22" r="5" fill="#fff" opacity=".8"/><circle cx="91" cy="12" r="6" fill="#fff" opacity=".6"/></g>';
+    var body;
+    if (id === "hut") body = '<path d="M20 60L60 26L100 60Z" fill="#e0b251" stroke="#1d1b3a" stroke-width="3" stroke-linejoin="round"/><path d="M30 52l30-22 30 22" fill="none" stroke="#b88a2a" stroke-width="2"/><rect x="28" y="58" width="64" height="36" fill="#c98a4f" stroke="#1d1b3a" stroke-width="3"/>';
+    else if (id === "cottage") body = '<rect x="80" y="22" width="10" height="20" fill="#9aa6b8" stroke="#1d1b3a" stroke-width="2.5"/>' + smoke + '<path d="M16 58L60 22L104 58Z" fill="#e8483c" stroke="#1d1b3a" stroke-width="3" stroke-linejoin="round"/><rect x="24" y="56" width="72" height="38" fill="#fff3d6" stroke="#1d1b3a" stroke-width="3"/><rect x="32" y="64" width="14" height="12" fill="#a8e1ff" stroke="#1d1b3a" stroke-width="2"/><rect x="74" y="64" width="14" height="12" fill="#a8e1ff" stroke="#1d1b3a" stroke-width="2"/>';
+    else if (id === "manor") body = '<path d="M12 44L60 12L108 44Z" fill="#5b3fd6" stroke="#1d1b3a" stroke-width="3" stroke-linejoin="round"/><rect x="20" y="42" width="80" height="52" fill="#f1e4ff" stroke="#1d1b3a" stroke-width="3"/><path d="M20 66h80" stroke="#1d1b3a" stroke-width="2"/>' + [28, 46, 66, 84].map(function (x) { return '<rect x="' + (x - 4) + '" y="48" width="12" height="12" fill="#ffe58a" stroke="#1d1b3a" stroke-width="2"/>'; }).join("") + '<rect x="26" y="72" width="12" height="12" fill="#ffe58a" stroke="#1d1b3a" stroke-width="2"/><rect x="82" y="72" width="12" height="12" fill="#ffe58a" stroke="#1d1b3a" stroke-width="2"/>';
+    else body = '<rect x="14" y="30" width="22" height="64" fill="#c9cedb" stroke="#1d1b3a" stroke-width="3"/><rect x="84" y="30" width="22" height="64" fill="#c9cedb" stroke="#1d1b3a" stroke-width="3"/><rect x="34" y="46" width="52" height="48" fill="#dfe3ea" stroke="#1d1b3a" stroke-width="3"/>' + [14, 22, 30, 84, 92, 100].map(function (x) { return '<rect x="' + x + '" y="22" width="6" height="9" fill="#c9cedb" stroke="#1d1b3a" stroke-width="2"/>'; }).join("") + '<path d="M25 30V10M95 30V10" stroke="#1d1b3a" stroke-width="2.5"/><path d="M25 10l14 5-14 5zM95 10l14 5-14 5z" fill="#ffd24f" stroke="#1d1b3a" stroke-width="2"/>';
+    return '<svg class="house" viewBox="0 0 120 100" aria-hidden="true">' + body + door + peek + bubble + "</svg>";
+  }
+  function renderVillage() {
+    drawCoins();
+    var v = village();
+    $("#vlPlots").innerHTML = v.plots.map(function (p, i) {
+      if (!p) return '<div class="plot empty"><svg class="house" viewBox="0 0 120 100" aria-hidden="true"><path d="M20 90h80" stroke="#1d1b3a" stroke-width="3" stroke-dasharray="6 6"/><path d="M60 40v30M45 55h30" stroke="#1d1b3a" stroke-width="4" stroke-linecap="round"/></svg><div class="nm">Empty plot</div><div class="buildrow">' +
+        HOUSES.map(function (h) { return '<button class="btn small" type="button" data-build="' + i + '" data-house="' + h.id + '"' + (wallet.coins < h.cost ? " disabled" : "") + ">" + h.name + " " + h.cost.toLocaleString() + "</button>"; }).join("") + "</div></div>";
+      var h = houseDef(p.t), ready = p.prog >= h.need, nx = HOUSES[HOUSES.indexOf(h) + 1];
+      if (ready && !p.peek) { p.peek = rollPack({ odds: h.odds }).id; saveWallet(); }
+      return '<div class="plot' + (ready ? " ready" : "") + '">' + houseSvg(h.id, ready, ready ? critById(p.peek) : null) + '<div class="nm">' + h.name + '</div><div class="price">' + h.desc + '</div><span class="mbar"><i style="width:' + Math.min(100, p.prog / h.need * 100) + '%"></i></span><div class="price mono">' + (ready ? "Ready!" : p.prog + "/" + h.need + " right answers") + "</div>" +
+        '<div class="buildrow">' + (ready ? '<button class="btn small sun" type="button" data-collect="' + i + '">Collect</button>' : "") + (nx ? '<button class="btn small" type="button" data-upgrade="' + i + '"' + (wallet.coins < nx.cost ? " disabled" : "") + ">Upgrade to " + nx.name + " " + nx.cost.toLocaleString() + "</button>" : '<span class="titlechip">Top house</span>') + "</div></div>";
+    }).join("");
+  }
+  $("#vlPlots").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    var v = village();
+    if (b.dataset.build != null) { var h = houseDef(b.dataset.house); if (wallet.coins < h.cost) return; wallet.coins -= h.cost; v.plots[+b.dataset.build] = { t: h.id, prog: 0 }; snd("level"); toast("You built a " + h.name + "! Answer questions in any game to fill it."); }
+    else if (b.dataset.upgrade != null) { var p = v.plots[+b.dataset.upgrade], nx = HOUSES[HOUSES.indexOf(houseDef(p.t)) + 1]; if (!nx || wallet.coins < nx.cost) return; wallet.coins -= nx.cost; p.t = nx.id; p.peek = null; snd("level"); toast("Upgraded to a " + nx.name + "!"); }
+    else if (b.dataset.collect != null) {
+      var q = v.plots[+b.dataset.collect], hd = houseDef(q.t); if (q.prog < hd.need) return;
+      var c = q.peek ? critById(q.peek) : rollPack({ odds: hd.odds }), isNew = !wallet.owned[c.id];
+      wallet.owned[c.id] = (wallet.owned[c.id] || 0) + 1; wallet.coins += hd.coins; q.prog = 0; q.peek = null;
+      fxBurst(c.rar); toast((isNew ? "New critter! " : "") + c.name + " (" + c.rar + ") joined you, plus " + hd.coins + " coins.");
+    }
+    saveWallet(); renderVillage(); updateGift();
+  });
+  function openVillage() { show("village"); renderVillage(); }
+  $("#openVillage").addEventListener("click", openVillage);
+  $("#villageBack").addEventListener("click", function () { renderHome(); show("home"); });
+
+  /* ================= Treasure Route: beat 20 armies to open a 100,000-coin chest ================= */
+  var RT_N = 20, RT_CHEST = 100000;
+  var RT_NAMES = ["Goblin Scouts", "Slime Horde", "Bat Swarm", "Rock Golems", "Bandit King's Army", "Swamp Trolls", "Ghost Patrol", "Ice Wolves", "Fire Imps", "Ice Troll Legion", "Sand Snakes", "Iron Knights", "Storm Harpies", "Lava Brutes", "Shadow Knights", "Crystal Giants", "Cyclops Guard", "Dark Wizards", "Royal Warlocks", "Dragon Guardian"];
+  var RT_COLS = ["#7ed957", "#5acb9a", "#6b6fa8", "#9aa6b8", "#e0a800", "#4caf6e", "#eaf4ff", "#bfe0ff", "#ff6a1f", "#7fd3ff", "#e9c46a", "#8a93a6", "#a8e1ff", "#e8483c", "#3a2f6b", "#b9fff8", "#c98a4f", "#5b3fd6", "#b84fff", "#c8202f"];
+  function route() { return wallet.route || (wallet.route = { tier: 1, stop: 0, train: 0, army: null }); }
+  function rtBoss(s) { return s === 4 || s === 9 || s === 14 || s === 19; }
+  function rtEnemy(s) {
+    var r = route(), tm = 1 + (r.tier - 1) * 0.6, boss = rtBoss(s);
+    return { name: RT_NAMES[s], hp: Math.round(160 * Math.pow(1.22, s) * tm * (boss ? 1.6 : 1)), atk: Math.round(12 * Math.pow(1.17, s) * tm * (boss ? 1.3 : 1)), col: RT_COLS[s], boss: boss, size: boss ? 4 : 6 };
+  }
+  function rtArmy() {
+    var r = route(), ids = (r.army || []).filter(function (id) { return wallet.owned[id]; });
+    if (!ids.length) ids = ownedSorted().slice(0, 5).map(function (c) { return c.id; });
+    return ids.slice(0, 5);
+  }
+  function rtPower() {
+    var ids = rtArmy(), t = 1 + route().train * 0.1, atk = 0, hp = 0;
+    ids.forEach(function (id) { var st = duelStats(critById(id)); atk += st.atk; hp += st.hp; });
+    return { atk: Math.round(atk * t), hp: Math.round(hp * t) };
+  }
+  function trainCost() { return Math.round(200 * Math.pow(1.6, route().train)); }
+  var RT_PTS = (function () { var p = []; for (var i = 0; i < RT_N; i++) { var row = Math.floor(i / 5), col = i % 5, x = row % 2 ? 860 - col * 180 : 140 + col * 180; p.push([x, 70 + row * 95]); } return p; })();
+  function monSvg(col, boss, k) {
+    var horns = boss ? '<path d="M14 18L8 4L22 14ZM50 18L56 4L42 14Z" fill="#fff3d6" stroke="#1d1b3a" stroke-width="2.5" stroke-linejoin="round"/>' : "";
+    var crown = boss ? '<path d="M22 12V2l5 5 5-7 5 7 5-5v10z" fill="#ffc83d" stroke="#1d1b3a" stroke-width="2"/>' : "";
+    return '<svg class="mon" viewBox="0 -4 64 68" style="animation-delay:-' + (k * 0.17).toFixed(2) + 's" aria-hidden="true">' + horns + '<path d="M8 56C4 30 16 12 32 12S60 30 56 56Z" fill="' + col + '" stroke="#1d1b3a" stroke-width="3" stroke-linejoin="round"/>' + crown +
+      '<circle cx="24" cy="34" r="6" fill="#fff" stroke="#1d1b3a" stroke-width="2"/><circle cx="40" cy="34" r="6" fill="#fff" stroke="#1d1b3a" stroke-width="2"/><circle cx="23" cy="35" r="3" fill="#1d1b3a"/><circle cx="39" cy="35" r="3" fill="#1d1b3a"/><path d="M17 26l10 4M47 26l-10 4" stroke="#1d1b3a" stroke-width="3" stroke-linecap="round"/><path d="M24 46l4 4 4-4 4 4 4-4" fill="none" stroke="#1d1b3a" stroke-width="2.5" stroke-linejoin="round"/></svg>';
+  }
+  function renderRoute() {
+    drawCoins();
+    var r = route(), pw = rtPower(), army = rtArmy();
+    var path = RT_PTS.map(function (p, i) { return (i ? "L" : "M") + p[0] + " " + p[1]; }).join(" ");
+    var nodes = RT_PTS.map(function (p, i) {
+      var e = rtEnemy(i), done = i < r.stop, cur = i === r.stop, last = i === RT_N - 1;
+      return '<g class="rnode' + (done ? " done" : cur ? " cur" : "") + '" transform="translate(' + p[0] + " " + p[1] + ')"' + (cur ? ' data-rtgo="1" role="button" tabindex="0" aria-label="Battle ' + esc(e.name) + '"' : "") + ">" +
+        '<circle r="' + (e.boss ? 30 : 24) + '" fill="' + (done ? "#2fbf5f" : cur ? "#ffd24f" : "#ffffff") + '" stroke="#1d1b3a" stroke-width="3"/>' +
+        (done ? '<path d="M-9 1l6 6 12-13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' : '<text y="7" text-anchor="middle" font-size="18" font-weight="800" fill="#1d1b3a">' + (i + 1) + "</text>") +
+        (e.boss && !done ? '<path d="M-14 -26l5-12 5 8 4-10 4 10 5-8 5 12z" fill="#ffc83d" stroke="#1d1b3a" stroke-width="2"/>' : "") + "</g>";
+    }).join("");
+    var ch = RT_PTS[RT_N - 1];
+    $("#rtBody").innerHTML = '<div class="panel"><div class="collection-head" style="margin:0"><h3>Route ' + r.tier + ': ' + r.stop + " of " + RT_N + ' armies beaten</h3><span class="label">Grand chest: ' + RT_CHEST.toLocaleString() + " coins</span></div>" +
+      '<p class="sub">March your army down the route. Each stop is an enemy army: answer right to attack, answer wrong and they hit back. Beat all ' + RT_N + ' to reach the Grand Chest. Each new route is tougher, with another chest at the end.</p>' +
+      '<div class="rtmap"><svg viewBox="0 0 1000 470" role="img" aria-label="Treasure route map"><path d="' + path + '" fill="none" stroke="#1d1b3a" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="' + path + '" fill="none" stroke="#e9d9a6" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 0"/>' + nodes +
+      '<g transform="translate(' + (ch[0] - 88) + " " + (ch[1] - 2) + ')"><rect x="-30" y="-18" width="60" height="40" rx="6" fill="#c98a4f" stroke="#1d1b3a" stroke-width="3"/><rect x="-34" y="-30" width="68" height="18" rx="6" fill="#e0a800" stroke="#1d1b3a" stroke-width="3"/><rect x="-6" y="-16" width="12" height="16" rx="3" fill="#ffd24f" stroke="#1d1b3a" stroke-width="2.5"/><text y="40" text-anchor="middle" font-size="13" font-weight="800" fill="#1d1b3a">100,000</text></g></svg></div>' +
+      '<div class="btnrow"><button class="btn primary" type="button" id="rtGo" style="font-size:20px;padding:12px 26px">Battle ' + esc(rtEnemy(r.stop).name) + "</button></div></div>" +
+      '<div class="daily-grid" style="margin-top:18px"><div class="panel"><h3>Your army</h3><p class="sub">Up to 5 critters march with you. Tap to choose.</p><div class="chpick" id="rtPick">' + ownedSorted().map(function (c) {
+        var on = army.indexOf(c.id) > -1;
+        return '<button class="tile r-' + c.rar + ' have" type="button" role="checkbox" aria-checked="' + on + '" data-rtpick="' + c.id + '">' + critterArt(c) + '<div class="nm">' + esc(c.name) + "</div></button>";
+      }).join("") + '</div></div><div class="panel"><h3>Army strength</h3><div class="acstats"><div class="stat"><b>' + pw.atk.toLocaleString() + '</b><span>Attack</span></div><div class="stat"><b>' + pw.hp.toLocaleString() + '</b><span>Health</span></div><div class="stat"><b>' + r.train + '</b><span>Training level</span></div></div><p class="sub">Training makes your whole army 10% stronger per level. Next enemy: ' + esc(rtEnemy(r.stop).name) + " with " + rtEnemy(r.stop).hp.toLocaleString() + " health and " + rtEnemy(r.stop).atk + ' attack.</p><div class="btnrow"><button class="btn sun" type="button" id="rtTrain"' + (wallet.coins < trainCost() ? " disabled" : "") + ">Train army " + trainCost().toLocaleString() + " coins</button></div></div></div>";
+  }
+  $("#route").addEventListener("click", function (e) {
+    var b = e.target.closest("button,[data-rtgo]"); if (!b || b.disabled) return;
+    var r = route();
+    if (b.dataset.rtpick) {
+      var a = rtArmy(), id = b.dataset.rtpick, i = a.indexOf(id);
+      if (i > -1) { if (a.length > 1) a.splice(i, 1); } else { if (a.length >= 5) a.shift(); a.push(id); }
+      r.army = a; saveWallet(); renderRoute();
+    } else if (b.id === "rtTrain") { var c = trainCost(); if (wallet.coins < c) return; wallet.coins -= c; r.train++; saveWallet(); snd("level"); toast("Your army trained to level " + r.train + "!"); renderRoute(); }
+    else if (b.id === "rtGo" || b.dataset.rtgo) rtStart();
+    else if (b.id === "rtFlee") rtEndBattle(false, true);
+    else if (b.dataset.rtk != null) rtAnswer(+b.dataset.rtk);
+    else if (b.id === "rtChestOpen") rtOpenChest();
+  });
+  var RB = null;
+  function rtStart() {
+    var r = route(), e = rtEnemy(r.stop), pw = rtPower(), set = allSets().filter(function (s) { return s.id === (wallet.chSet || sel.setId); })[0] || allSets()[0];
+    RB = { e: e, ehp: e.hp, hp: pw.hp, max: pw.hp, atk: pw.atk, set: set, qs: [], qi: 0, cur: null, lock: false, streak: 0, right: 0, timer: null };
+    $("#rtBody").innerHTML = '<div class="rtbattle"><div class="rtside"><p class="label">Your army</p><div class="rtunits" id="rtMine">' + rtArmy().map(function (id) { return critterArt(critById(id)); }).join("") + '</div><span class="duhp"><i id="rtMyHp" style="width:100%;background:#2fbf5f"></i></span><span class="mono duhpn" id="rtMyHpN"></span></div>' +
+      '<div class="duvs">VS</div><div class="rtside foe"><p class="label">' + esc(e.name) + (e.boss ? ' <span class="titlechip">Boss army</span>' : "") + '</p><div class="rtunits" id="rtFoe"></div><span class="duhp"><i id="rtFoeHp" style="width:100%;background:#ff4f4f"></i></span><span class="mono duhpn" id="rtFoeHpN"></span></div></div>' +
+      '<div class="timebar" id="rtTime"><i></i></div><div class="panel chq" style="margin-top:12px"><span class="label" id="rtQc"></span><h3 id="rtQ"></h3><div class="answers" id="rtAns"></div><div class="verdict" id="rtVerdict" aria-live="polite"></div><div class="btnrow"><button class="btn small ghost" type="button" id="rtFlee">Retreat</button></div></div>';
+    rtBars(); rtNextQ();
+  }
+  function rtBars() {
+    var units = Math.max(0, Math.ceil(RB.ehp / RB.e.hp * RB.e.size));
+    $("#rtFoe").innerHTML = Array.from({ length: units }, function (_, k) { return monSvg(RB.e.col, RB.e.boss && k === 0, k); }).join("");
+    $("#rtMyHp").style.width = Math.max(0, RB.hp / RB.max * 100) + "%"; $("#rtMyHpN").textContent = Math.max(0, Math.ceil(RB.hp)).toLocaleString() + " / " + RB.max.toLocaleString();
+    $("#rtFoeHp").style.width = Math.max(0, RB.ehp / RB.e.hp * 100) + "%"; $("#rtFoeHpN").textContent = Math.max(0, Math.ceil(RB.ehp)).toLocaleString() + " / " + RB.e.hp.toLocaleString();
+  }
+  function rtNextQ() {
+    if (!RB) return;
+    if (RB.qi >= RB.qs.length) { RB.qs = shuffle(RB.set.gen ? RB.set.gen() : RB.set.questions); RB.qi = 0; }
+    var q = RB.qs[RB.qi++];
+    RB.cur = shuffle(q.a.map(function (t, i) { return { t: t, ok: i === 0 }; })); RB.lock = false; RB.qStart = Date.now();
+    $("#rtQc").textContent = "Right answers attack. Wrong or too slow, and they hit back." + (RB.streak >= 2 ? " Streak " + RB.streak + "!" : "");
+    $("#rtQ").textContent = q.q;
+    $("#rtAns").innerHTML = RB.cur.map(function (o, i) { return '<button class="ans" type="button" data-rtk="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
+    $("#rtVerdict").textContent = ""; $("#rtVerdict").className = "verdict";
+    clearInterval(RB.timer);
+    RB.timer = setInterval(function () { if (!RB || RB.lock) return; var left = Math.max(0, 12000 - (Date.now() - RB.qStart)), b = $("#rtTime i"); if (b) b.style.transform = "scaleX(" + left / 12000 + ")"; if (left <= 0 || $("#route").hidden) rtAnswer(-1); }, 100);
+  }
+  function rtAnswer(k) {
+    if (!RB || RB.lock) return;
+    RB.lock = true; clearInterval(RB.timer);
+    var ok = k > -1 && RB.cur[k].ok, bs = $("#rtAns").children, v = $("#rtVerdict");
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (RB.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
+    if (ok) {
+      RB.streak++; RB.right++; wallet.stats.correct++; var ds = dayState(); ds.right++; ds.streak = Math.max(ds.streak, RB.streak); addBuddyXp(1); eggTick(); snd("right");
+      var crit = Math.random() < 0.1, dmg = Math.round(RB.atk * (1 + 0.1 * Math.min(RB.streak - 1, 5)) * (crit ? 1.8 : 1) * (0.9 + Math.random() * 0.2));
+      RB.ehp -= dmg; v.textContent = "Your army hit for " + dmg.toLocaleString() + (crit ? ". Critical hit!" : "") + (RB.streak >= 3 ? " Streak bonus!" : ""); v.className = "verdict ok";
+      var m = $("#rtMine"); if (m) { m.classList.remove("charge"); void m.offsetWidth; m.classList.add("charge"); }
+    } else {
+      RB.streak = 0; wallet.stats.wrong++; snd("wrong");
+      var ed = Math.round(RB.e.atk * (0.9 + Math.random() * 0.2)); RB.hp -= ed;
+      v.textContent = (k < 0 ? "Too slow! " : "") + RB.e.name + " hit your army for " + ed.toLocaleString() + "."; v.className = "verdict no";
+      var f = $("#rtFoe"); if (f) { f.classList.remove("charge2"); void f.offsetWidth; f.classList.add("charge2"); }
+    }
+    rtBars();
+    setTimeout(function () {
+      if (!RB) return;
+      if (RB.ehp <= 0) rtEndBattle(true); else if (RB.hp <= 0) rtEndBattle(false); else rtNextQ();
+    }, 1100);
+  }
+  function rtEndBattle(win, fled) {
+    var r = route(), b = RB; if (!b) return; clearInterval(b.timer); RB = null;
+    if (win) {
+      var reward = Math.round(60 * Math.pow(1.15, r.stop) * r.tier);
+      wallet.coins += reward; r.stop++; wallet.stats.games++;
+      dayState().games++; weekState().modes.route = 1;
+      saveWallet(); drawCoins(); fxBurst(b.e.boss ? "legendary" : "rare");
+      if (r.stop >= RT_N) { rtChest(); return; }
+      toast("You beat the " + b.e.name + "! +" + reward.toLocaleString() + " coins");
+    } else if (!fled) toast("Your army was defeated by the " + b.e.name + ". Train your army or bring stronger critters, then try again.");
+    renderRoute();
+  }
+  function rtChest() {
+    $("#rtBody").innerHTML = '<div class="panel chestscreen"><h2>You reached the Grand Chest!</h2><p class="sub">You beat all ' + RT_N + ' armies on Route ' + route().tier + '. Open your reward.</p><button class="bigchest" type="button" id="rtChestOpen" aria-label="Open the Grand Chest"><svg viewBox="0 0 200 160" aria-hidden="true"><rect x="20" y="70" width="160" height="80" rx="12" fill="#c98a4f" stroke="#1d1b3a" stroke-width="5"/><path d="M20 100h160" stroke="#1d1b3a" stroke-width="4"/><g class="lid"><rect x="12" y="34" width="176" height="44" rx="14" fill="#e0a800" stroke="#1d1b3a" stroke-width="5"/></g><rect x="86" y="62" width="28" height="34" rx="6" fill="#ffd24f" stroke="#1d1b3a" stroke-width="4"/></svg><span>Tap to open</span></button></div>';
+  }
+  function rtOpenChest() {
+    var r = route(), b = $("#rtChestOpen"); if (!b || b.disabled) return; b.disabled = true; b.classList.add("open");
+    var coins = RT_CHEST * r.tier, gems = 100 * r.tier;
+    wallet.coins += coins; addGems(gems); wallet.stats.chests = (wallet.stats.chests || 0) + 1;
+    r.tier++; r.stop = 0; saveWallet(); drawCoins();
+    fxBurst("chroma"); setTimeout(function () { fxBurst("supreme"); }, 900);
+    setTimeout(function () {
+      $("#rtBody").innerHTML = '<div class="panel chestscreen"><h2>+' + coins.toLocaleString() + ' coins and +' + gems + ' gems!</h2><p class="sub">Route ' + r.tier + ' is now open. The armies are tougher, and there is another Grand Chest at the end.</p><div class="btnrow" style="justify-content:center"><button class="btn primary" type="button" id="rtBackMap">See Route ' + r.tier + "</button></div></div>";
+      $("#rtBackMap").addEventListener("click", renderRoute);
+    }, 1500);
+  }
+  function openRoute() { show("route"); if (!RB) renderRoute(); }
+  $("#openRoute").addEventListener("click", openRoute);
+  $("#routeBack").addEventListener("click", function () { if (RB) { clearInterval(RB.timer); RB = null; } renderHome(); show("home"); });
+
   /* Pack market */
   function goMarket() { $("#reveal").hidden = true; renderMarket(); show("market"); }
   $("#openMarket").addEventListener("click", goMarket);
