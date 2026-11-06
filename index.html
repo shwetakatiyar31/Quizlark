@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <title>Quizlark</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#f0463a">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Quizlark">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..700&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -823,6 +831,20 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
 .bigchest .lid { transition: transform .8s cubic-bezier(.2, 1.4, .4, 1); transform-origin: 20px 70px; }
 .bigchest.open .lid { transform: rotate(-35deg) translate(-10px, -20px); }
 
+.trcols { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 12px; align-items: start; margin: 10px 0; }
+@media (max-width: 640px) { .trcols { grid-template-columns: minmax(0, 1fr); } .trswap { display: none; } }
+.trcol { border: 2px solid var(--line); border-radius: 14px; padding: 10px; display: grid; gap: 8px; min-height: 120px; background: var(--surface); }
+.trcol.ready { border-color: var(--good); background: var(--good-bg); }
+.trcol h3 { font-size: 18px; }
+.trswap { font-size: 34px; font-weight: 800; align-self: center; }
+.trgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; }
+.trgrid .tile { position: relative; padding: 4px; }
+.trgrid .tile .art { width: 44px; height: 44px; }
+.trmoney { display: inline-block; background: var(--sun); color: #1d1b3a; border: 2px solid var(--edge); border-radius: 999px; padding: 0 10px; font-weight: 800; margin-right: 6px; }
+.trmoney.gem { background: #a8e1ff; }
+.trinv { margin-top: 10px; }
+.trinv .tile { position: relative; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
@@ -858,6 +880,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
         <button class="btn small ghost" id="soundBtn" type="button" aria-pressed="true">Sound on</button>
         <span class="langwrap notranslate" translate="no"><label class="sr-only" for="langSel">Language</label><select class="langsel" id="langSel" aria-label="Language"></select></span>
         <button class="btn small" id="loginBtn" type="button" hidden>Log in</button>
+        <button class="btn small sun" id="installBtn" type="button" hidden>Install app</button>
         <button class="btn small primary" id="openMulti2" type="button">Play with friends</button>
         <button class="btn small chbtn" id="openChallenge2" type="button">Challenge</button>
         <button class="btn small duelbtn" id="openDuel2" type="button">Duel</button>
@@ -882,6 +905,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <button class="btn small sun" id="openDaily" type="button">Daily</button>
       <button class="btn small" id="openShop" type="button">Shop</button>
       <button class="btn small" id="openFriends" type="button">Friends</button>
+      <button class="btn small" id="openTrade" type="button">Trade</button>
       <button class="btn small" id="openAccount" type="button">Account</button>
       <button class="btn small" id="openStats" type="button">Stats</button>
       <button class="btn small" id="openCloset" type="button">Closet</button>
@@ -1154,6 +1178,19 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <div class="panel chq" style="margin-top:12px"><p class="sub" id="duTurn"></p><div class="filterbar" id="duActs"></div><h3 id="duQ"></h3><div class="answers" id="duAns"></div>
         <div class="btnrow"><button class="btn small ghost" id="duQuit" type="button">Give up</button></div></div>
     </div>
+  </section>
+
+  <!-- TRADE -->
+  <section id="trade" hidden aria-labelledby="tr-title">
+    <div class="market-top">
+      <h2 id="tr-title">Trade</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <span class="coinchip gem"><span class="c">G</span>Gems <b class="gemNum">0</b></span>
+        <button class="btn small" id="tradeBack" type="button">Back</button>
+      </div>
+    </div>
+    <div id="trBody"></div>
   </section>
 
   <!-- VILLAGE -->
@@ -2316,7 +2353,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   var editingId = null, pendingDelete = null;
 
   function show(id) {
-    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route"].forEach(function (s) { $("#" + s).hidden = s !== id; });
+    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route", "trade"].forEach(function (s) { $("#" + s).hidden = s !== id; });
     $("#topHeader").hidden = id === "game";
     window.scrollTo(0, 0);
   }
@@ -5312,6 +5349,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     FR.uid = user.uid; FR.list = []; FR.inc = []; FR.out = [];
     var db = FB.db;
     ensureCode(user.uid).then(function () { pushProfile(); lbClaim(); });
+    trWatchInvites();
     FR.unsubs.push(db.collection("friends").doc(user.uid).onSnapshot(function (d) { FR.list = (d.exists && d.data().list) || []; frWatch(); frRender(); }, function () { /* rules not published yet */ }));
     FR.unsubs.push(db.collection("requests").where("to", "==", user.uid).onSnapshot(function (s) {
       FR.inc = []; s.forEach(function (d) { var r = d.data(); r.id = d.id; if (r.status !== "accepted") FR.inc.push(r); }); frRender();
@@ -5391,7 +5429,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     $("#frList").innerHTML = fr.length ? fr.map(function (f) {
       var p = f.p, st = ago(p.seen), on = st === "Online", room = on && p.room ? p.room : "";
       return '<div class="mprow frrow"><span class="mini">' + lbArt(p) + '</span><span class="nm">' + esc(String(p.nm || "Player").slice(0, 14)) + '<br><span class="sub"><span class="odot' + (on ? " on" : "") + '"></span>' + st + (room ? " · hosting game " + esc(room) : "") + " · Best " + (+p.best || 0).toLocaleString() + '</span></span><span class="btnrow" style="margin:0;gap:6px">' +
-        (room ? '<button class="btn small sun" type="button" data-frjoin="' + esc(room) + '">Join</button>' : "") + '<button class="btn small ghost" type="button" data-frrm="' + esc(f.id) + '">' + (FR.rm === f.id ? "Sure?" : "Remove") + "</button></span></div>";
+        (room ? '<button class="btn small sun" type="button" data-frjoin="' + esc(room) + '">Join</button>' : "") + '<button class="btn small" type="button" data-frtrade="' + esc(f.id) + '">Trade</button>' + '<button class="btn small ghost" type="button" data-frrm="' + esc(f.id) + '">' + (FR.rm === f.id ? "Sure?" : "Remove") + "</button></span></div>";
     }).join("") : '<p class="sub">No friends yet. Share your code, or type a friend\'s code above.</p>';
   }
   $("#friends").addEventListener("click", function (e) {
@@ -5408,6 +5446,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       if (FR.rm !== b.dataset.frrm) { FR.rm = b.dataset.frrm; frRender(); return; }
       FR.rm = ""; FB.db.collection("friends").doc(FR.uid).set({ list: firebase.firestore.FieldValue.arrayRemove(b.dataset.frrm) }, { merge: true }).catch(function () { toast("Couldn't remove that friend."); });
     }
+    else if (b.dataset.frtrade) { show("trade"); trWatchInvites(); trCreate(b.dataset.frtrade); }
     else if (b.dataset.frjoin) { var c = b.dataset.frjoin; openMulti(); setTimeout(function () { mpJoin(c); }, 200); }
   });
   $("#friends").addEventListener("keydown", function (e) { if (e.target.id === "frCode" && e.key === "Enter") frSend(e.target.value); });
@@ -6063,6 +6102,143 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   $("#openRoute").addEventListener("click", openRoute);
   $("#routeBack").addEventListener("click", function () { if (RB) { clearInterval(RB.timer); RB = null; } renderHome(); show("home"); });
 
+  /* ================= Trading with real players ================= */
+  var TR = { code: "", me: "", st: null, unsub: null, inv: [], invUnsub: null, busy: false, pickCoins: 0 };
+  function emptyOffer() { return { crit: {}, coins: 0, gems: 0 }; }
+  function trInfo() { var u = fbUser(); return { uid: u.uid, nm: playerName(), av: buddy().id }; }
+  function trOther() { return TR.me === "a" ? "b" : "a"; }
+  function trMsg(t, ok) { var m = $("#trMsg"); if (m) { m.textContent = t; m.className = ok ? "okmsg" : "err"; } }
+  function trStop() { if (TR.unsub) TR.unsub(); TR.unsub = null; TR.code = ""; TR.st = null; TR.me = ""; }
+  function trWatchInvites() {
+    var u = fbUser(); if (!u || TR.invUnsub) return;
+    TR.invUnsub = FB.db.collection("trades").where("toUid", "==", u.uid).onSnapshot(function (s) {
+      var list = []; s.forEach(function (d) { var x = d.data(); if (x.state === "open" && !x.b && Date.now() - (x.ts || 0) < 600000) list.push({ id: d.id, nm: x.a && x.a.nm, av: x.a && x.a.av }); });
+      var newOnes = list.filter(function (i) { return !TR.inv.some(function (o) { return o.id === i.id; }); });
+      TR.inv = list;
+      if (newOnes.length && TR.code === "") toast(String(newOnes[0].nm || "A friend") + " wants to trade with you! Open Trade to answer.");
+      var b = $("#openTrade"); if (b) b.innerHTML = "Trade" + (list.length ? '<span class="notif">' + list.length + "</span>" : "");
+      if (!$("#trade").hidden && !TR.code) trLobby();
+    }, function () { /* rules not published yet */ });
+  }
+  function trLobby() {
+    var u = fbUser(), b = $("#trBody");
+    if (!u) { b.innerHTML = '<div class="panel"><h3>Log in to trade</h3><p class="sub">Trading needs an account with a verified email.</p><div class="btnrow"><button class="btn primary" type="button" data-lblogin="1">Log in</button></div></div>'; return; }
+    var friends = FR.list.map(function (id) { return { id: id, p: FR.profiles[id] || {} }; });
+    b.innerHTML = '<div class="daily-grid"><div class="panel"><h3>Start a trade</h3><p class="sub">Both players add what they want to give. When you both tap Ready and then Confirm, the swap happens. Trades can\'t be undone, so check before you confirm.</p>' +
+      '<div class="btnrow"><button class="btn primary" type="button" id="trNew">Make a trade code</button></div><div class="btnrow"><input id="trCode" class="codein" maxlength="6" autocomplete="off" placeholder="CODE" aria-label="Trade code"><button class="btn" type="button" id="trJoin">Join</button></div><p id="trMsg" aria-live="polite"></p></div>' +
+      '<div class="panel"><h3>Trade requests</h3>' + (TR.inv.length ? TR.inv.map(function (i) { return '<div class="mprow"><span class="mini">' + lbArt({ av: i.av }) + '</span><span class="nm">' + esc(String(i.nm || "Player").slice(0, 14)) + '<br><span class="sub">wants to trade</span></span><button class="btn small sun" type="button" data-trjoin="' + esc(i.id) + '">Open</button></div>'; }).join("") : '<p class="sub">No requests right now.</p>') +
+      '<h3 style="font-size:20px;margin-top:10px">Invite a friend</h3>' + (friends.length ? friends.map(function (f) { var on = ago(f.p.seen) === "Online"; return '<div class="mprow"><span class="mini">' + lbArt(f.p) + '</span><span class="nm">' + esc(String(f.p.nm || "Player").slice(0, 14)) + '<br><span class="sub"><span class="odot' + (on ? " on" : "") + '"></span>' + ago(f.p.seen) + '</span></span><button class="btn small" type="button" data-trinvite="' + esc(f.id) + '">Invite</button></div>'; }).join("") : '<p class="sub">Add friends in the Friends screen to invite them here.</p>') + "</div></div>";
+  }
+  function trCreate(toUid) {
+    var code = newCode();
+    var doc = { a: trInfo(), b: null, toUid: toUid || null, state: "open", offer: { a: emptyOffer(), b: emptyOffer() }, ready: { a: false, b: false }, confirm: { a: false, b: false }, ts: Date.now() };
+    FB.db.collection("trades").doc(code).set(doc).then(function () { trOpen(code, "a"); if (toUid) toast("Trade request sent!"); }, function () { trMsg("Couldn't start a trade. Check that the new Firestore rules are published."); });
+  }
+  function trJoin(code) {
+    code = String(code || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if (code.length !== 6) { trMsg("Trade codes are 6 letters and numbers."); return; }
+    var u = fbUser(), ref = FB.db.collection("trades").doc(code);
+    FB.db.runTransaction(function (tx) {
+      return tx.get(ref).then(function (d) {
+        if (!d.exists) throw new Error("none");
+        var x = d.data();
+        if (x.a && x.a.uid === u.uid) throw new Error("own");
+        if (x.state !== "open" || (x.b && x.b.uid !== u.uid)) throw new Error("taken");
+        x.b = trInfo(); x.ts = Date.now(); tx.set(ref, x);
+      });
+    }).then(function () { trOpen(code, "b"); }, function (er) {
+      var m = er && er.message;
+      trMsg(m === "none" ? "No trade with the code " + code + "." : m === "own" ? "That's your own trade code. Share it with a friend." : m === "taken" ? "Someone else is already in that trade." : "Couldn't join the trade. Try again.");
+    });
+  }
+  function trOpen(code, side) {
+    if (TR.unsub) TR.unsub();
+    TR.code = code; TR.me = side; TR.st = null;
+    TR.unsub = FB.db.collection("trades").doc(code).onSnapshot(function (d) {
+      if (TR.code !== code) return;
+      if (!d.exists) { toast("The trade was cancelled."); trStop(); trLobby(); return; }
+      TR.st = d.data();
+      if (TR.st.state === "cancelled") { toast("The trade was cancelled."); trStop(); trLobby(); return; }
+      if (TR.st.state === "done") { trApply(code, TR.st); return; }
+      trRoom();
+    }, function () { trMsg("Lost connection to the trade."); });
+  }
+  function trWrite(mutate) {
+    var ref = FB.db.collection("trades").doc(TR.code); TR.busy = true;
+    return FB.db.runTransaction(function (tx) {
+      return tx.get(ref).then(function (d) { var x = d.data(); if (!x || x.state !== "open") throw new Error("closed"); if (mutate(x) === false) throw new Error("skip"); x.ts = Date.now(); tx.set(ref, x); });
+    }).then(function () { TR.busy = false; }, function () { TR.busy = false; });
+  }
+  function offerHtml(of, mine) {
+    var items = Object.keys(of.crit || {}).filter(function (id) { return of.crit[id] > 0; }).map(function (id) {
+      var c = critById(id);
+      return (mine ? '<button class="tile r-' + c.rar + ' have trit" type="button" data-trrm="' + id + '" title="Tap to take back">' : '<div class="tile r-' + c.rar + ' have trit">') + '<span class="ct">x' + of.crit[id] + "</span>" + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><div class="rar ' + c.rar + '">' + c.rar + "</div>" + (mine ? "</button>" : "</div>");
+    }).join("");
+    var money = (of.coins ? '<span class="trmoney">' + of.coins.toLocaleString() + " coins</span>" : "") + (of.gems ? '<span class="trmoney gem">' + of.gems.toLocaleString() + " gems</span>" : "");
+    return (items || money) ? '<div class="trgrid">' + items + "</div>" + money : '<p class="sub">Nothing yet.</p>';
+  }
+  function trRoom() {
+    var x = TR.st, me = TR.me, ot = trOther(), mine = x.offer[me], theirs = x.offer[ot], other = x[ot];
+    var both = x.ready.a && x.ready.b;
+    var inv = ownedSorted().map(function (c) {
+      var have = wallet.owned[c.id] || 0, off = (mine.crit || {})[c.id] || 0, left = have - off;
+      return '<button class="tile r-' + c.rar + ' have" type="button" data-tradd="' + c.id + '"' + (left <= 0 || x.ready[me] ? " disabled" : "") + '><span class="ct">x' + left + "</span>" + critterArt(c) + '<div class="nm">' + esc(c.name) + "</div></button>";
+    }).join("");
+    $("#trBody").innerHTML = '<div class="panel"><div class="collection-head" style="margin:0"><h3>Trade ' + (other ? "with " + esc(String(other.nm || "Player").slice(0, 14)) : "") + '</h3><span class="label">Code <b class="mono notranslate" translate="no">' + TR.code + "</b></span></div>" +
+      (other ? "" : '<p class="sub">Waiting for the other player to join. Share the code <b class="mono notranslate" translate="no">' + TR.code + "</b>, or wait for your friend to open the request.</p>") +
+      '<div class="trcols"><div class="trcol' + (x.ready[me] ? " ready" : "") + '"><h3>You give ' + (x.ready[me] ? '<span class="titlechip">Ready</span>' : "") + "</h3>" + offerHtml(mine, !x.ready[me]) + "</div>" +
+      '<div class="trswap" aria-hidden="true">⇄</div><div class="trcol' + (x.ready[ot] ? " ready" : "") + '"><h3>' + (other ? esc(String(other.nm || "They").slice(0, 14)) + " gives" : "They give") + " " + (x.ready[ot] ? '<span class="titlechip">Ready</span>' : "") + "</h3>" + offerHtml(theirs, false) + "</div></div>" +
+      '<div class="btnrow">' + (both ? '<button class="btn primary" type="button" id="trConfirm"' + (x.confirm[me] ? " disabled" : "") + ">" + (x.confirm[me] ? "Waiting for them to confirm..." : "Confirm trade") + "</button>" : '<button class="btn ' + (x.ready[me] ? "" : "sun") + '" type="button" id="trReady"' + (other ? "" : " disabled") + ">" + (x.ready[me] ? "Not ready" : "Ready") + "</button>") +
+      '<button class="btn ghost" type="button" id="trCancel">Cancel trade</button></div><p class="sub">Changing an offer clears both Ready marks, so nobody gets surprised.</p></div>' +
+      '<div class="panel" style="margin-top:18px"><h3>Add from your collection</h3><div class="btnrow"><label class="label" for="trCoins">Coins</label><input id="trCoins" class="codein" style="width:140px;letter-spacing:0" type="number" min="0" max="' + wallet.coins + '" value="' + (mine.coins || 0) + '"' + (x.ready[me] ? " disabled" : "") + '><label class="label" for="trGems">Gems</label><input id="trGems" class="codein" style="width:110px;letter-spacing:0" type="number" min="0" max="' + wallet.gems + '" value="' + (mine.gems || 0) + '"' + (x.ready[me] ? " disabled" : "") + '><button class="btn small" type="button" id="trMoney"' + (x.ready[me] ? " disabled" : "") + '>Set coins and gems</button></div><div class="chpick trinv">' + inv + "</div></div>";
+  }
+  function trChangeOffer(fn) {
+    var me = TR.me;
+    trWrite(function (x) { var of = x.offer[me]; of.crit = of.crit || {}; if (fn(of) === false) return false; x.ready = { a: false, b: false }; x.confirm = { a: false, b: false }; });
+  }
+  $("#trade").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    if (b.id === "trNew") trCreate(null);
+    else if (b.id === "trJoin") trJoin($("#trCode").value);
+    else if (b.dataset.trjoin) trJoin(b.dataset.trjoin);
+    else if (b.dataset.trinvite) trCreate(b.dataset.trinvite);
+    else if (!TR.code || !TR.st || TR.busy) return;
+    else if (b.dataset.tradd) { var id = b.dataset.tradd; trChangeOffer(function (of) { var n = (of.crit[id] || 0) + 1; if (n > (wallet.owned[id] || 0) || Object.keys(of.crit).length >= 12 && !of.crit[id]) return false; of.crit[id] = n; }); }
+    else if (b.dataset.trrm) { var rid = b.dataset.trrm; trChangeOffer(function (of) { of.crit[rid] = (of.crit[rid] || 0) - 1; if (of.crit[rid] <= 0) delete of.crit[rid]; }); }
+    else if (b.id === "trMoney") {
+      var c = Math.max(0, Math.min(wallet.coins, Math.floor(+$("#trCoins").value || 0))), g = Math.max(0, Math.min(wallet.gems, Math.floor(+$("#trGems").value || 0)));
+      trChangeOffer(function (of) { of.coins = c; of.gems = g; });
+    }
+    else if (b.id === "trReady") { var me = TR.me; trWrite(function (x) { x.ready[me] = !x.ready[me]; x.confirm = { a: false, b: false }; }); }
+    else if (b.id === "trConfirm") {
+      var m2 = TR.me, my = TR.st.offer[m2], okHave = Object.keys(my.crit || {}).every(function (k) { return (wallet.owned[k] || 0) >= my.crit[k]; }) && wallet.coins >= (my.coins || 0) && wallet.gems >= (my.gems || 0);
+      if (!okHave) { toast("You don't have everything in your offer any more. Change your offer first."); return; }
+      trWrite(function (x) { if (!x.ready.a || !x.ready.b) return false; x.confirm[m2] = true; if (x.confirm.a && x.confirm.b) x.state = "done"; });
+    }
+    else if (b.id === "trCancel") { var code = TR.code; FB.db.collection("trades").doc(code).update({ state: "cancelled" }).catch(function () { /* ignore */ }); trStop(); trLobby(); }
+  });
+  function trApply(code, x) {
+    wallet.tradesDone = wallet.tradesDone || {};
+    if (wallet.tradesDone[code]) { trStop(); trLobby(); return; }
+    var me = TR.me, ot = trOther(), give = x.offer[me], get = x.offer[ot];
+    Object.keys(give.crit || {}).forEach(function (id) { wallet.owned[id] = Math.max(0, (wallet.owned[id] || 0) - give.crit[id]); if (!wallet.owned[id]) delete wallet.owned[id]; });
+    if (!Object.keys(wallet.owned).length) wallet.owned.pebblet = 1;
+    wallet.coins = Math.max(0, wallet.coins - (give.coins || 0));
+    if (give.gems) spendGems(Math.min(wallet.gems, give.gems));
+    var got = [];
+    Object.keys(get.crit || {}).forEach(function (id) { wallet.owned[id] = (wallet.owned[id] || 0) + get.crit[id]; got.push(critById(id)); });
+    wallet.coins += get.coins || 0; if (get.gems) addGems(get.gems, true);
+    wallet.tradesDone[code] = Date.now(); wallet.stats.trades = (wallet.stats.trades || 0) + 1;
+    saveWallet(); drawCoins();
+    var best = got.sort(function (a, b) { return RAR_ORDER.indexOf(b.rar) - RAR_ORDER.indexOf(a.rar); })[0];
+    fxBurst(best ? best.rar : "rare");
+    toast("Trade complete!" + (got.length ? " You got " + got.map(function (c) { return c.name; }).join(", ") + "." : ""));
+    trStop(); trLobby();
+  }
+  function openTrade() { show("trade"); trWatchInvites(); if (TR.code && TR.st) trRoom(); else trLobby(); }
+  $("#openTrade").addEventListener("click", openTrade);
+  $("#tradeBack").addEventListener("click", function () { renderHome(); show("home"); });
+
   /* Pack market */
   function goMarket() { $("#reveal").hidden = true; renderMarket(); show("market"); }
   $("#openMarket").addEventListener("click", goMarket);
@@ -6114,6 +6290,23 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     var sc = document.createElement("script"); sc.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"; sc.async = true;
     document.body.appendChild(sc);
   }
+})();
+</script>
+<script>
+/* Installable app: offline support and an Install button */
+(function () {
+  if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(function () { /* offline support is optional */ });
+  var btn = document.getElementById("installBtn"), evt = null;
+  var standalone = window.matchMedia && window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); evt = e; if (btn) btn.hidden = false; });
+  window.addEventListener("appinstalled", function () { if (btn) btn.hidden = true; });
+  if (btn && ios && !standalone) btn.hidden = false;
+  if (btn) btn.addEventListener("click", function () {
+    if (evt) { evt.prompt(); evt.userChoice.then(function () { evt = null; btn.hidden = true; }); return; }
+    var t = document.getElementById("toast");
+    if (t) { t.textContent = "To install: tap the Share button, then Add to Home Screen."; t.hidden = false; setTimeout(function () { t.hidden = true; }, 6000); }
+  });
 })();
 </script>
 </html>
