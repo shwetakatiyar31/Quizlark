@@ -845,6 +845,25 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
 .trinv { margin-top: 10px; }
 .trinv .tile { position: relative; }
 
+.pshead { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.pshead .sub { font-size: 20px; }
+.pstrack { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 18px; }
+.pstier { display: grid; gap: 6px; justify-items: center; text-align: center; background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 10px 8px; }
+.pstier.bigt { background: linear-gradient(160deg, #fff3c4, var(--surface)); border-color: #e0a800; }
+.pstier.open { border-color: var(--edge); box-shadow: 0 4px 0 var(--edge); }
+.pstier.got { opacity: .6; }
+.pst { font-size: 22px; font-weight: 800; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--surface2); border: 2px solid var(--edge); }
+.pstier.open .pst { background: var(--sun); color: #1d1b3a; }
+.psr { font-weight: 700; font-size: 14px; }
+.rdpanel { text-align: center; justify-items: center; }
+.rdboss .mon.big { width: clamp(140px, 30vw, 220px); height: clamp(140px, 30vw, 220px); animation: bob 1.6s ease-in-out infinite; }
+.rdboss.dead { filter: grayscale(1); opacity: .5; transform: rotate(-12deg); }
+.fusegrid { display: grid; gap: 8px; }
+.fuserow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface); border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; }
+.fuserow .sub { color: var(--muted); min-width: 120px; }
+.fusearrow { font-weight: 800; font-family: var(--font-mono); }
+.fuserow .btn { margin-left: auto; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
@@ -906,6 +925,8 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <button class="btn small" id="openShop" type="button">Shop</button>
       <button class="btn small" id="openFriends" type="button">Friends</button>
       <button class="btn small" id="openTrade" type="button">Trade</button>
+      <button class="btn small sun" id="openPass" type="button">Season Pass</button>
+      <button class="btn small duelbtn" id="openRaid" type="button">World Boss</button>
       <button class="btn small" id="openAccount" type="button">Account</button>
       <button class="btn small" id="openStats" type="button">Stats</button>
       <button class="btn small" id="openCloset" type="button">Closet</button>
@@ -1064,6 +1085,9 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     <h3 class="sect-head" style="margin-top:30px">Shiny forge</h3>
     <p class="sect-note">Trade 4 spare copies of a critter to make it shiny. Shiny critters get a gold outline and sparkles everywhere they appear, and each one adds 1 coin to every right answer.</p>
     <div class="grid" id="shinyGrid"></div>
+    <h3 class="sect-head" style="margin-top:30px">Fusion Lab</h3>
+    <p class="sect-note">Fuse 3 spare critters of one rarity into 1 random critter of the next rarity. Your last copy of each critter is always kept.</p>
+    <div class="fusegrid" id="fuseGrid"></div>
   </section>
 
   <!-- ARMORY -->
@@ -1177,6 +1201,38 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <div class="timebar" id="duTime"><i></i></div>
       <div class="panel chq" style="margin-top:12px"><p class="sub" id="duTurn"></p><div class="filterbar" id="duActs"></div><h3 id="duQ"></h3><div class="answers" id="duAns"></div>
         <div class="btnrow"><button class="btn small ghost" id="duQuit" type="button">Give up</button></div></div>
+    </div>
+  </section>
+
+  <!-- SEASON PASS -->
+  <section id="pass" hidden aria-labelledby="ps-title">
+    <div class="market-top">
+      <h2 id="ps-title">Season Pass</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <span class="coinchip gem"><span class="c">G</span>Gems <b class="gemNum">0</b></span>
+        <button class="btn small" id="passBack" type="button">Back</button>
+      </div>
+    </div>
+    <div class="panel" id="psHead"></div>
+    <div class="pstrack" id="psTrack"></div>
+  </section>
+
+  <!-- WORLD BOSS -->
+  <section id="raid" hidden aria-labelledby="rd-title">
+    <div class="market-top">
+      <h2 id="rd-title">World Boss</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <button class="btn small" id="raidBack" type="button">Back</button>
+      </div>
+    </div>
+    <div class="chgrid">
+      <div style="display:grid;gap:18px;align-content:start">
+        <div class="panel rdpanel" id="rdBoss"></div>
+        <div class="panel chq"><span class="label">Attack the boss</span><h3 id="rdQ"></h3><div class="answers" id="rdAns"></div><div class="verdict" id="rdVerdict" aria-live="polite"></div></div>
+      </div>
+      <div class="panel"><h3>Top attackers this week</h3><div id="rdTop"></div></div>
     </div>
   </section>
 
@@ -2353,7 +2409,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   var editingId = null, pendingDelete = null;
 
   function show(id) {
-    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route", "trade"].forEach(function (s) { $("#" + s).hidden = s !== id; });
+    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route", "trade", "pass", "raid"].forEach(function (s) { $("#" + s).hidden = s !== id; });
     $("#topHeader").hidden = id === "game";
     window.scrollTo(0, 0);
   }
@@ -3192,6 +3248,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     return n;
   }
   function updateGift() {
+    var pr = passReady(), pb = $("#openPass"); if (pb) pb.innerHTML = "Season Pass" + (pr ? '<span class="notif">' + pr + "</span>" : "");
     var vr = villageReady(), vb = $("#openVillage"); if (vb) vb.innerHTML = "Critter Village" + (vr ? '<span class="notif">' + vr + "</span>" : "");
     var n = dailyCount(), b = $("#openDaily");
     b.innerHTML = "Daily" + (n ? '<span class="notif">' + n + "</span>" : "");
@@ -3588,6 +3645,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     var done = CRITTERS.filter(function (c) { return wallet.shiny[c.id]; });
     $("#shinyGrid").innerHTML = done.map(function (c) { return '<div class="tile r-' + c.rar + ' have">' + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><span class="newtag">Shiny</span></div>'; }).join("") +
       cand.map(function (c) { var n = wallet.owned[c.id]; return '<div class="tile r-' + c.rar + ' have"><span class="ct">x' + n + "</span>" + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><div class="price">' + (n >= 5 ? "Ready" : "Need " + (5 - n) + " more") + '</div><button class="btn small sun" type="button" data-shine="' + c.id + '"' + (n >= 5 ? "" : " disabled") + ">Make shiny</button></div>"; }).join("");
+    renderFusion();
   }
   $("#shinyGrid").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b || !b.dataset.shine || b.disabled) return;
@@ -3668,7 +3726,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     return '<svg class="egg' + (ready ? " ready" : "") + '" viewBox="0 0 64 72" aria-label="' + e.name + '"><path d="M32 6C46 6 56 30 56 46a24 24 0 0 1-48 0C8 30 18 6 32 6z" fill="' + e.col + '" stroke="var(--edge)" stroke-width="3"/><circle cx="22" cy="30" r="5" fill="' + e.spot + '"/><circle cx="40" cy="22" r="4" fill="' + e.spot + '"/><circle cx="42" cy="50" r="6" fill="' + e.spot + '"/><circle cx="24" cy="54" r="3.5" fill="' + e.spot + '"/>' + cracks + "</svg>";
   }
   function eggTick() {
-    villageTick();
+    villageTick(); passTick(); raidTick();
     var g = wallet.egg; if (!g) return;
     var e = EGGS.filter(function (x) { return x.id === g.id; })[0]; if (!e) return;
     if (g.prog < e.need) { g.prog++; if (g.prog === e.need) toast("Your " + e.name + " is ready to hatch!"); }
@@ -6238,6 +6296,150 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   function openTrade() { show("trade"); trWatchInvites(); if (TR.code && TR.st) trRoom(); else trLobby(); }
   $("#openTrade").addEventListener("click", openTrade);
   $("#tradeBack").addEventListener("click", function () { renderHome(); show("home"); });
+
+  /* ================= Season Pass ================= */
+  var PASS_TIERS = 30, PASS_XP = 200;
+  function passKey() { var d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0"); }
+  function passState() { if (!wallet.pass || wallet.pass.key !== passKey()) wallet.pass = { key: passKey(), xp: 0, claimed: {} }; return wallet.pass; }
+  function passTier() { return Math.min(PASS_TIERS, Math.floor(passState().xp / PASS_XP)); }
+  function passEnds() { var n = new Date(), e = new Date(n.getFullYear(), n.getMonth() + 1, 1), h = Math.max(0, Math.round((e - n) / 3600000)); return h >= 24 ? Math.floor(h / 24) + " days" : h + " hours"; }
+  function passReward(t) {
+    if (t === 30) return { kind: "crit", rar: "mythic", gems: 200, label: "Mythic critter + 200 gems", big: 1 };
+    if (t === 20) return { kind: "crit", rar: "legendary", label: "Legendary critter", big: 1 };
+    if (t === 10) return { kind: "pack", n: 2, gems: 50, label: "2 free packs + 50 gems", big: 1 };
+    if (t === 15) return { kind: "crit", rar: "epic", label: "Epic critter" };
+    if (t === 25) return { kind: "gems", n: 100, label: "100 gems" };
+    if (t === 5) return { kind: "pu", n: 3, label: "3 power-ups" };
+    if (t % 3 === 0) return { kind: "gems", n: 5 + t, label: (5 + t) + " gems" };
+    if (t % 3 === 1) return { kind: "coins", n: 100 + t * 25, label: (100 + t * 25) + " coins" };
+    return { kind: "pu", n: 1, label: "1 power-up" };
+  }
+  function passTick() { var p = passState(), before = passTier(); p.xp += 10; if (passTier() > before) toast("Season Pass tier " + passTier() + " unlocked! Claim it in the Season Pass."); }
+  function passReady() { var p = passState(), n = 0; for (var t = 1; t <= passTier(); t++) if (!p.claimed[t]) n++; return n; }
+  function giveReward(r) {
+    var txt = r.label, c;
+    if (r.kind === "coins") wallet.coins += r.n;
+    else if (r.kind === "gems") addGems(r.n);
+    else if (r.kind === "pu") for (var i = 0; i < r.n; i++) puGrant();
+    else if (r.kind === "pack") wallet.freePacks = (wallet.freePacks || 0) + r.n;
+    else if (r.kind === "crit") { var pool = CRITTERS.filter(function (x) { return x.rar === r.rar && !x.season; }); c = pickOne(pool); wallet.owned[c.id] = (wallet.owned[c.id] || 0) + 1; txt = c.name + " (" + c.rar + ")"; }
+    if (r.gems && r.kind !== "gems") addGems(r.gems);
+    fxBurst(r.kind === "crit" ? r.rar : r.big ? "epic" : "rare");
+    return txt;
+  }
+  function renderPass() {
+    drawCoins();
+    var p = passState(), tier = passTier(), into = tier >= PASS_TIERS ? PASS_XP : p.xp - tier * PASS_XP;
+    $("#psHead").innerHTML = '<div class="pshead"><div><p class="label">Tier</p><div class="codebig mono">' + tier + '<span class="sub">/' + PASS_TIERS + '</span></div></div><div style="flex:1;min-width:200px;display:grid;gap:6px"><b>' + (tier >= PASS_TIERS ? "Season complete!" : (PASS_XP - into) + " XP to tier " + (tier + 1)) + '</b><span class="mbar" style="height:14px"><i style="width:' + Math.round(into / PASS_XP * 100) + '%"></i></span><span class="sub">Every right answer in any game gives 10 XP. A new season starts in ' + passEnds() + ".</span></div></div>";
+    var h = "";
+    for (var t = 1; t <= PASS_TIERS; t++) {
+      var r = passReward(t), got = p.claimed[t], open = t <= tier;
+      h += '<div class="pstier' + (r.big ? " bigt" : "") + (got ? " got" : open ? " open" : "") + '"><span class="pst mono">' + t + '</span><span class="psr">' + r.label + "</span>" +
+        (got ? '<span class="titlechip">Claimed</span>' : open ? '<button class="btn small sun" type="button" data-psclaim="' + t + '">Claim</button>' : '<span class="sub">Locked</span>') + "</div>";
+    }
+    $("#psTrack").innerHTML = h;
+  }
+  $("#psTrack").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-psclaim]"); if (!b) return;
+    var t = +b.dataset.psclaim, p = passState(); if (p.claimed[t] || t > passTier()) return;
+    p.claimed[t] = 1; var txt = giveReward(passReward(t)); saveWallet(); drawCoins(); toast("Tier " + t + ": " + txt + "!"); renderPass(); updateGift();
+  });
+  $("#openPass").addEventListener("click", function () { show("pass"); renderPass(); });
+  $("#passBack").addEventListener("click", function () { renderHome(); show("home"); });
+
+  /* ================= World Boss raid: everyone fights one boss each week ================= */
+  var RAID_BOSSES = [
+    { name: "Gloomzilla", col: "#5b3fd6" }, { name: "Frostmaw", col: "#7fd3ff" }, { name: "Blazeclaw", col: "#ff6a1f" },
+    { name: "Thunderhorn", col: "#ffd24f" }, { name: "Venomoss", col: "#4caf6e" }, { name: "Grimshell", col: "#9aa6b8" }
+  ];
+  var RAID_MAX = 20000, RAID_MIN = 50;
+  var RAID = { pend: 0, total: 0, mine: 0, top: [], unsub: null, flushT: null, cur: null, lock: false, qs: [], qi: 0, set: null };
+  function raidKey() { return wkField(); }
+  function raidBoss() { var k = raidKey(), h = 0; for (var i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0; return RAID_BOSSES[h % RAID_BOSSES.length]; }
+  function raidHit(n) { RAID.pend += n; RAID.mine += n; }
+  function raidTick() { if (fbUser()) raidHit(10 + Math.floor(buddyLv(buddy().id) / 5)); }
+  function raidFlush() {
+    var u = fbUser(); if (!u || RAID.pend <= 0) return;
+    var n = RAID.pend, k = raidKey(), inc = firebase.firestore.FieldValue.increment(n), b = raidBoss();
+    RAID.pend = 0;
+    var ref = FB.db.collection("raid").doc(k);
+    ref.set({ dmg: inc, max: RAID_MAX, name: b.name }, { merge: true }).catch(function () { RAID.pend += n; });
+    ref.collection("players").doc(u.uid).set({ nm: playerName(), av: buddy().id, dmg: inc, ts: Date.now() }, { merge: true }).catch(function () { /* boss total still counts */ });
+  }
+  setInterval(function () { raidFlush(); }, 30000);
+  window.addEventListener("pagehide", raidFlush);
+  function raidWatch() {
+    var u = fbUser(); if (!u || RAID.unsub) return;
+    var ref = FB.db.collection("raid").doc(raidKey());
+    var u1 = ref.onSnapshot(function (d) { RAID.total = d.exists ? +d.data().dmg || 0 : 0; raidRender(); }, function () { /* ignore */ });
+    var u2 = ref.collection("players").orderBy("dmg", "desc").limit(10).onSnapshot(function (s) { RAID.top = []; s.forEach(function (d) { var x = d.data(); x.uid = d.id; RAID.top.push(x); if (d.id === u.uid) RAID.mine = Math.max(RAID.mine, +x.dmg || 0); }); raidRender(); }, function () { /* ignore */ });
+    RAID.unsub = function () { u1(); u2(); };
+  }
+  function raidRender() {
+    if ($("#raid").hidden) return;
+    var u = fbUser(), b = raidBoss(), total = RAID.total + RAID.pend, left = Math.max(0, RAID_MAX - total), dead = left <= 0, k = raidKey();
+    wallet.raidClaimed = wallet.raidClaimed || {};
+    var canClaim = dead && RAID.mine >= RAID_MIN && !wallet.raidClaimed[k];
+    $("#rdBoss").innerHTML = '<div class="rdboss' + (dead ? " dead" : "") + '" id="rdArt">' + monSvg(b.col, true, 0).replace('class="mon"', 'class="mon big"') + '</div><h3>' + b.name + (dead ? " is defeated!" : "") + '</h3><span class="duhp" style="max-width:420px;height:16px"><i style="width:' + (left / RAID_MAX * 100) + '%;background:#ff4f4f"></i></span><span class="mono">' + left.toLocaleString() + " / " + RAID_MAX.toLocaleString() + " health left</span>" +
+      '<p class="sub">Everyone who plays this week fights the same boss. Every right answer in any game hits it, and right answers here hit twice as hard. Deal at least ' + RAID_MIN + " damage, and when the boss falls you get 400 coins, 25 gems and a free pack. A new boss arrives every Monday.</p>" +
+      (u ? '<div class="acstats"><div class="stat"><b>' + RAID.mine.toLocaleString() + '</b><span>Your damage</span></div><div class="stat"><b>' + total.toLocaleString() + '</b><span>Everyone\'s damage</span></div></div>' + (canClaim ? '<div class="btnrow" style="justify-content:center"><button class="btn primary" type="button" id="rdClaim">Claim boss reward</button></div>' : dead && wallet.raidClaimed[k] ? '<span class="titlechip">Reward claimed</span>' : dead ? '<p class="sub">Deal ' + RAID_MIN + " damage to share in next week's reward.</p>" : "") : '<p class="sub">Log in to join the raid.</p><div class="btnrow" style="justify-content:center"><button class="btn primary" type="button" data-lblogin="1">Log in</button></div>');
+    $("#rdTop").innerHTML = RAID.top.length ? RAID.top.map(function (p, i) { return '<div class="mprow' + (u && p.uid === u.uid ? " me" : "") + '"><span class="pos mono">' + (i + 1) + '</span><span class="mini">' + lbArt(p) + '</span><span class="nm">' + esc(String(p.nm || "Player").slice(0, 14)) + '</span><b class="mono">' + (+p.dmg || 0).toLocaleString() + "</b></div>"; }).join("") : '<p class="sub">No one has hit the boss yet this week. Be first!</p>';
+  }
+  function raidNextQ() {
+    if (!RAID.set) RAID.set = allSets().filter(function (s) { return s.id === (wallet.chSet || sel.setId); })[0] || allSets()[0];
+    if (RAID.qi >= RAID.qs.length) { RAID.qs = shuffle(RAID.set.gen ? RAID.set.gen() : RAID.set.questions); RAID.qi = 0; }
+    var q = RAID.qs[RAID.qi++];
+    RAID.cur = shuffle(q.a.map(function (t, i) { return { t: t, ok: i === 0 }; })); RAID.lock = false;
+    $("#rdQ").textContent = q.q;
+    $("#rdAns").innerHTML = RAID.cur.map(function (o, i) { return '<button class="ans" type="button" data-rdk="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
+    $("#rdVerdict").textContent = ""; $("#rdVerdict").className = "verdict";
+  }
+  function raidAnswer(k) {
+    if (RAID.lock || !RAID.cur || !RAID.cur[k]) return; RAID.lock = true;
+    var ok = RAID.cur[k].ok, bs = $("#rdAns").children, v = $("#rdVerdict");
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (RAID.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
+    if (ok) {
+      wallet.stats.correct++; var ds = dayState(); ds.right++; addBuddyXp(1); eggTick(); snd("right");
+      var extra = 10 + Math.floor(buddyLv(buddy().id) / 5); if (fbUser()) raidHit(extra);
+      v.textContent = "Double hit! " + (extra * 2) + " damage"; v.className = "verdict ok";
+      var a = $("#rdArt"); if (a) { a.classList.remove("hurt"); void a.offsetWidth; a.classList.add("hurt"); }
+    } else { wallet.stats.wrong++; snd("wrong"); v.textContent = "Missed!"; v.className = "verdict no"; }
+    saveWallet(); raidRender();
+    setTimeout(raidNextQ, ok ? 500 : 1100);
+  }
+  $("#raid").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    if (b.dataset.rdk != null) raidAnswer(+b.dataset.rdk);
+    else if (b.id === "rdClaim") {
+      var k = raidKey(); wallet.raidClaimed = wallet.raidClaimed || {}; if (wallet.raidClaimed[k]) return;
+      wallet.raidClaimed[k] = 1; wallet.coins += 400; addGems(25); wallet.freePacks = (wallet.freePacks || 0) + 1; saveWallet(); drawCoins(); fxBurst("legendary"); toast("Boss reward: 400 coins, 25 gems and a free pack!"); raidRender();
+    }
+  });
+  document.addEventListener("keydown", function (e) { if ($("#raid").hidden || e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return; var k = "1234".indexOf(e.key); if (k > -1) raidAnswer(k); });
+  $("#openRaid").addEventListener("click", function () { show("raid"); raidWatch(); raidRender(); raidNextQ(); });
+  $("#raidBack").addEventListener("click", function () { raidFlush(); renderHome(); show("home"); });
+
+  /* ================= Fusion Lab: 3 spare critters of one rarity make 1 of the next ================= */
+  var FUSE_FROM = ["common", "uncommon", "rare", "epic", "legendary", "mythic", "mystical"];
+  function sparesOf(rar) { return CRITTERS.filter(function (c) { return c.rar === rar && (wallet.owned[c.id] || 0) > 1; }).reduce(function (a, c) { return a + wallet.owned[c.id] - 1; }, 0); }
+  function renderFusion() {
+    var el = $("#fuseGrid"); if (!el) return;
+    el.innerHTML = FUSE_FROM.map(function (r) {
+      var nx = RAR_ORDER[RAR_ORDER.indexOf(r) + 1], n = sparesOf(r);
+      return '<div class="fuserow"><span class="rar ' + r + '">' + r + '</span><span class="sub">You have ' + n + " spare" + (n === 1 ? "" : "s") + '</span><span class="fusearrow">3 → 1</span><span class="rar ' + nx + '">' + nx + '</span><button class="btn small sun" type="button" data-fuse="' + r + '"' + (n < 3 ? " disabled" : "") + ">Fuse</button></div>";
+    }).join("");
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-fuse]"); if (!b || b.disabled) return;
+    var r = b.dataset.fuse, nx = RAR_ORDER[RAR_ORDER.indexOf(r) + 1]; if (!nx || sparesOf(r) < 3) return;
+    for (var i = 0; i < 3; i++) {
+      var pick = CRITTERS.filter(function (c) { return c.rar === r && (wallet.owned[c.id] || 0) > 1; }).sort(function (a, c) { return wallet.owned[c.id] - wallet.owned[a.id]; })[0];
+      wallet.owned[pick.id]--;
+    }
+    var pool = CRITTERS.filter(function (c) { return c.rar === nx && !c.season; }), got = pickOne(pool), isNew = !wallet.owned[got.id];
+    wallet.owned[got.id] = (wallet.owned[got.id] || 0) + 1; wallet.stats.fused = (wallet.stats.fused || 0) + 1;
+    saveWallet(); fxBurst(nx); toast("Fusion! You made " + (isNew ? "a new critter: " : "") + got.name + " (" + nx + ")."); renderBazaar();
+  });
 
   /* Pack market */
   function goMarket() { $("#reveal").hidden = true; renderMarket(); show("market"); }
