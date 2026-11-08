@@ -864,6 +864,11 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
 .fusearrow { font-weight: 800; font-family: var(--font-mono); }
 .fuserow .btn { margin-left: auto; }
 
+.logo { flex-wrap: wrap; }
+.redeem { display: flex; gap: 6px; align-items: center; }
+.redeemin { width: 150px; font-family: var(--font-mono); font-weight: 700; font-size: 15px; letter-spacing: .06em; background: var(--surface); color: var(--ink); border: 2px solid var(--edge); border-radius: 999px; padding: 6px 12px; }
+.redeemin:focus { outline: 3px solid var(--sun); outline-offset: 1px; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
@@ -890,6 +895,11 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
         <path d="M16 41c4-7 13-8 18-1-4 7-14 8-18 1z" fill="#ffd3cf" stroke="var(--edge)" stroke-width="2.2" stroke-linejoin="round"/>
       </svg>
       <div class="wordmark notranslate" translate="no" aria-label="Quizlark">Quiz<span>lark</span></div>
+      <form class="redeem" id="redeemForm" autocomplete="off">
+        <label class="sr-only" for="redeemIn">Secret code</label>
+        <input id="redeemIn" class="redeemin notranslate" translate="no" maxlength="11" placeholder="Secret code" spellcheck="false" autocapitalize="off">
+        <button class="btn small sun" type="submit">Redeem</button>
+      </form>
     </div>
     <div class="brand-right">
       <div class="wallet">
@@ -6439,6 +6449,23 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     var pool = CRITTERS.filter(function (c) { return c.rar === nx && !c.season; }), got = pickOne(pool), isNew = !wallet.owned[got.id];
     wallet.owned[got.id] = (wallet.owned[got.id] || 0) + 1; wallet.stats.fused = (wallet.stats.fused || 0) + 1;
     saveWallet(); fxBurst(nx); toast("Fusion! You made " + (isNew ? "a new critter: " : "") + got.name + " (" + nx + ")."); renderBazaar();
+  });
+
+  /* ================= Secret codes (stored only as hashes, so the page never shows them) ================= */
+  function codeHash(s, seed) { var h = seed >>> 0; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return ("0000000" + h.toString(16)).slice(-8); }
+  var SECRET_CODES = { "e31e5780:248b81ef": { coins: 1000, gems: 50, packs: 1 } };
+  $("#redeemForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var inp = $("#redeemIn"), raw = String(inp.value || "").toLowerCase().replace(/\s+/g, "");
+    if (!raw) { toast("Type a secret code first."); return; }
+    var key = codeHash(raw, 2166136261) + ":" + codeHash(raw.split("").reverse().join(""), (0x811c9dc5 ^ 0x5bd1e995) >>> 0), r = SECRET_CODES[key];
+    wallet.codes = wallet.codes || {};
+    if (!r) { toast("That code doesn't work. Check the spelling and try again."); snd("wrong"); return; }
+    if (wallet.codes[key]) { toast("You already used that code."); return; }
+    wallet.codes[key] = Date.now();
+    wallet.coins += r.coins || 0; if (r.gems) addGems(r.gems); if (r.packs) wallet.freePacks = (wallet.freePacks || 0) + r.packs;
+    saveWallet(); drawCoins(); inp.value = ""; fxBurst("chroma");
+    toast("Secret code unlocked! +" + (r.coins || 0).toLocaleString() + " coins, +" + (r.gems || 0) + " gems" + (r.packs ? " and a free pack" : "") + ".");
   });
 
   /* Pack market */
