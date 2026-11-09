@@ -870,6 +870,45 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
 .redeemin:focus { outline: 3px solid var(--sun); outline-offset: 1px; }
 
 .makerbtn { background: #14c8b8; color: #00302c; }
+.lifebtn { background: #ffb347; color: #3a1d00; }
+.lifegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; margin-top: 12px; }
+.lifecard { border: 3px solid var(--edge); border-radius: 18px; overflow: hidden; background: var(--surface); padding: 0 14px 14px; display: grid; gap: 6px; align-content: start; }
+.lifecard h3 { margin: 4px 0 0; }
+.lifeart { margin: 0 -14px; padding: 18px 10px 12px; background: linear-gradient(var(--sky) 60%, var(--ground) 60%); display: flex; justify-content: center; gap: 4px; border-bottom: 4px solid var(--acc); }
+.lifeart .tyic { width: 38px; height: 38px; }
+.tylay { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; margin-top: 12px; align-items: start; }
+@media (max-width: 820px) { .tylay { grid-template-columns: 1fr; } }
+.tyscene { position: relative; border: 3px solid var(--edge); border-radius: 18px; background: linear-gradient(var(--sky) 0 58%, var(--ground) 58%); min-height: 250px; padding: 14px 10px 46px; overflow: hidden; }
+.tycounter { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; background: var(--acc); border-top: 4px solid #1d1b3a; }
+.tyseats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; position: relative; z-index: 1; }
+.tycust { display: grid; justify-items: center; gap: 4px; }
+.tycust .art { width: 70px; height: 70px; }
+.tycust.empty { align-content: end; min-height: 160px; text-align: center; }
+.tycust.empty .sub { background: rgba(255,255,255,.7); border-radius: 8px; padding: 2px 6px; font-size: 12px; color: #1d1b3a; }
+.tyname { font-size: 12px; font-weight: 700; background: rgba(255,255,255,.85); color: #1d1b3a; border-radius: 6px; padding: 0 6px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tybubble { display: flex; gap: 4px; background: #fff; border: 2px solid #1d1b3a; border-radius: 12px; padding: 4px; flex-wrap: wrap; justify-content: center; }
+.tyord { width: 40px; height: 40px; border: 2px solid #1d1b3a; border-radius: 9px; background: #fff8e0; padding: 2px; cursor: pointer; }
+.tyord:hover:not(:disabled) { transform: translateY(-2px); background: #fff0a8; }
+.tyord.out { background: #ffd9d9; }
+.tyord.done { opacity: .3; cursor: default; }
+.tyord .tyic { width: 100%; height: 100%; display: block; }
+.typat { width: 70px; height: 7px; border-radius: 4px; background: rgba(0,0,0,.2); overflow: hidden; }
+.typat i { display: block; height: 100%; }
+.tyfloat { position: absolute; left: 50%; top: 40%; transform: translateX(-50%); font-weight: 800; font-size: 20px; pointer-events: none; opacity: 0; z-index: 2; background: #fff; border: 2px solid #1d1b3a; border-radius: 10px; padding: 2px 10px; white-space: nowrap; }
+.tyfloat.good { color: #13803d; } .tyfloat.bad { color: #c62828; }
+.tyfloat.show { animation: tyfl 1.3s ease-out; }
+@keyframes tyfl { 0% { opacity: 0; transform: translate(-50%, 10px); } 15% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -30px); } }
+.tystock { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.tystk { display: grid; grid-template-columns: 34px 1fr; column-gap: 6px; align-items: center; border: 2px solid var(--edge); border-radius: 10px; padding: 4px 6px; background: var(--surface); font-size: 13px; }
+.tystk .tyic { width: 34px; height: 34px; grid-row: span 2; }
+.tystk.locked { opacity: .45; } .tystk.empty { border-color: #ff4f4f; }
+.tystk b { font-size: 12px; }
+.tyups { display: flex; flex-wrap: wrap; gap: 6px; }
+.mkstyles { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; margin-bottom: 6px; }
+.mkstyle { border: 2px solid var(--edge); border-radius: 10px; padding: 6px; background: var(--surface); font-weight: 700; cursor: pointer; color: inherit; font: inherit; font-size: 13px; }
+.mkstyle[aria-pressed="true"] { outline: 3px solid var(--mc, #5b3fd6); background: #fff5d6; color: #1d1b3a; }
+.mkstyle .tyic { width: 26px; height: 26px; vertical-align: middle; }
+
 .mkbuild { display: grid; gap: 8px; align-content: start; }
 .mkin { width: 100%; background: var(--surface); color: var(--ink); border: 2px solid var(--edge); border-radius: 10px; padding: 8px 10px; font-weight: 600; font-size: 15px; }
 .mkgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
@@ -997,6 +1036,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <button class="btn routebtn" id="openRoute" type="button" style="font-size:18px;padding:12px 22px">Treasure Route</button>
       <button class="btn villbtn" id="openVillage" type="button" style="font-size:18px;padding:12px 22px">Critter Village</button>
       <button class="btn makerbtn" id="openMaker" type="button" style="font-size:18px;padding:12px 22px">Mode Maker</button>
+      <button class="btn lifebtn" id="openLife" type="button" style="font-size:18px;padding:12px 22px">Real Life Shops</button>
       <span class="hint" id="startHint"></span>
     </div>
   </main>
@@ -1259,6 +1299,34 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <div class="panel mkbuild" id="mkBuild"></div>
       <div class="panel" id="mkHall"></div>
     </div>
+  </section>
+
+  <!-- REAL LIFE SHOPS -->
+  <section id="life" hidden aria-labelledby="lf-title">
+    <div class="market-top">
+      <h2 id="lf-title">Real Life Shops</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <button class="btn small" id="lifeBack" type="button">Back</button>
+      </div>
+    </div>
+    <p class="sub">Run your own shop! Answer questions to restock, then click what each customer wants before they run out of patience. Spend your cash on upgrades.</p>
+    <div class="lifegrid" id="lifeGrid"></div>
+  </section>
+  <section id="tycoon" hidden aria-labelledby="tyTitle">
+    <div class="market-top"><h2 id="tyTitle">Shop</h2><button class="btn small ghost" id="tyQuit" type="button">Quit</button></div>
+    <div id="tyRun">
+      <div class="cmhud" id="tyHud"></div>
+      <div class="tylay">
+        <div>
+          <div class="tyscene" id="tyScene"><div class="tyseats" id="tySeats"></div><div class="tyfloat" id="tyFloat" aria-live="polite"></div><div class="tycounter"></div></div>
+          <p class="label" style="margin-top:10px">Your stock</p><div class="tystock" id="tyStock"></div>
+          <p class="label" style="margin-top:10px">Upgrades</p><div class="tyups" id="tyUps"></div>
+        </div>
+        <div class="panel chq"><h3 id="tyQ"></h3><div class="answers" id="tyAns"></div><div class="verdict" id="tyVerdict" aria-live="polite"></div></div>
+      </div>
+    </div>
+    <div class="panel" id="tyEnd" hidden></div>
   </section>
 
   <!-- CUSTOM MODE PLAY -->
@@ -2493,7 +2561,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   var editingId = null, pendingDelete = null;
 
   function show(id) {
-    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route", "trade", "pass", "raid", "maker", "cmode"].forEach(function (s) { $("#" + s).hidden = s !== id; });
+    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route", "trade", "pass", "raid", "maker", "cmode", "life", "tycoon"].forEach(function (s) { $("#" + s).hidden = s !== id; });
     $("#topHeader").hidden = id === "game";
     window.scrollTo(0, 0);
   }
@@ -6561,7 +6629,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   });
 
   /* ================= Mode Maker: build, play and share your own game modes ================= */
-  var MK_DEF = { name: "", desc: "", n: 15, t: 12, lives: 3, pts: 100, speed: true, streak: true, wrong: "life", twist: "none", goal: 0, col: "#5b3fd6", icon: "pebblet", set: "" };
+  var MK_DEF = { name: "", desc: "", n: 15, t: 12, lives: 3, pts: 100, speed: true, streak: true, wrong: "life", twist: "none", goal: 0, col: "#5b3fd6", icon: "pebblet", set: "", style: "quiz", time: 180 };
   var MK_OPTS = {
     n: [[10, "10"], [15, "15"], [20, "20"], [0, "Endless"]],
     t: [[0, "No timer"], [5, "5 sec"], [8, "8 sec"], [12, "12 sec"], [20, "20 sec"]],
@@ -6569,13 +6637,16 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     pts: [[50, "50"], [100, "100"], [200, "200"]],
     wrong: [["none", "Nothing happens"], ["points", "Lose 50 points"], ["life", "Lose a life"]],
     twist: [["none", "No twist"], ["gold", "Gold rounds (every 4th question is worth 3x)"], ["mystery", "Mystery boxes after right answers"], ["shrink", "Shrinking timer"], ["double", "Double or nothing every 5th question"]],
-    goal: [[0, "Highest score"], [1000, "Reach 1,000"], [2500, "Reach 2,500"], [5000, "Reach 5,000"]]
+    goal: [[0, "Highest score"], [1000, "Reach 1,000"], [2500, "Reach 2,500"], [5000, "Reach 5,000"]],
+    time: [[120, "2 minutes"], [180, "3 minutes"], [300, "5 minutes"]]
   };
+  function mkIsShop(c) { return !!(c && c.style && c.style !== "quiz" && TY_THEMES[c.style]); }
   var MK_COLS = ["#5b3fd6", "#e8483c", "#2fbf5f", "#38b6ff", "#ff9f1c", "#ff4fb8", "#1d1b3a"];
   var MK = { draft: null, editId: null, tab: "featured", list: [], err: "" };
   function mkClean(s, n) { return String(s || "").replace(/[<>]/g, "").replace(/\s+/g, " ").trim().slice(0, n); }
   function mkSummary(c) {
     var p = [];
+    if (mkIsShop(c)) return TY_THEMES[c.style].name + " shop · " + ((c.time || 180) / 60) + " min · answer to restock, serve customers, buy upgrades";
     p.push(c.n ? c.n + " questions" : "Endless");
     p.push(c.t ? c.t + "s timer" : "no timer");
     p.push(c.lives ? c.lives + (c.lives === 1 ? " life" : " lives") : "unlimited lives");
@@ -6593,9 +6664,11 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     $("#mkBuild").innerHTML = '<h3>' + (MK.editId ? "Edit your mode" : "Build a mode") + '</h3>' +
       '<label class="label" for="mkName">Name</label><input id="mkName" class="mkin" maxlength="30" value="' + esc(d.name) + '" placeholder="Like Lava Lightning">' +
       '<label class="label" for="mkDesc">Short description</label><input id="mkDesc" class="mkin" maxlength="80" value="' + esc(d.desc) + '" placeholder="What makes it fun?">' +
+      '<p class="label">Game style</p><div class="mkstyles" style="--mc:' + d.col + '">' + [["quiz", "Classic quiz", null]].concat(Object.keys(TY_THEMES).map(function (k) { var it = TY_THEMES[k].items[0]; return [k, TY_THEMES[k].name, it]; })).map(function (o) { return '<button type="button" class="mkstyle" data-mkstyle="' + o[0] + '" aria-pressed="' + ((d.style || "quiz") === o[0]) + '">' + (o[2] ? tyIcon(o[2][3], o[2][4]) + " " : "") + o[1] + "</button>"; }).join("") + "</div>" +
+      (mkIsShop(d) ? '<p class="sub">Real life shop: players answer to restock, then serve critter customers before they leave. Pick how long the shop stays open.</p><label class="label" for="mkTi">Shop open for</label>' + mkSelect("mkTi", "time", d.time || 180) :
       '<div class="mkgrid"><div><label class="label" for="mkN">Questions</label>' + mkSelect("mkN", "n", d.n) + '</div><div><label class="label" for="mkT">Timer</label>' + mkSelect("mkT", "t", d.t) + '</div><div><label class="label" for="mkL">Lives</label>' + mkSelect("mkL", "lives", d.lives) + '</div><div><label class="label" for="mkP">Points</label>' + mkSelect("mkP", "pts", d.pts) + '</div><div><label class="label" for="mkW">Wrong answer</label>' + mkSelect("mkW", "wrong", d.wrong) + '</div><div><label class="label" for="mkG">Goal</label>' + mkSelect("mkG", "goal", d.goal) + "</div></div>" +
       '<label class="label" for="mkTw">Twist</label>' + mkSelect("mkTw", "twist", d.twist) +
-      '<div class="mkchecks"><label><input type="checkbox" id="mkSp" data-mkc="speed"' + (d.speed ? " checked" : "") + '> Speed bonus</label><label><input type="checkbox" id="mkSt" data-mkc="streak"' + (d.streak ? " checked" : "") + "> Streak multiplier</label></div>" +
+      '<div class="mkchecks"><label><input type="checkbox" id="mkSp" data-mkc="speed"' + (d.speed ? " checked" : "") + '> Speed bonus</label><label><input type="checkbox" id="mkSt" data-mkc="streak"' + (d.streak ? " checked" : "") + "> Streak multiplier</label></div>") +
       '<label class="label" for="mkSet">Questions from</label><select id="mkSet" class="setsel" data-mk="set">' + setOptionsHtml(d.set).replace(/<optgroup label="Your sets">[\s\S]*?<\/optgroup>/, "") + "</select>" +
       '<p class="label">Color</p><div class="mkcols">' + MK_COLS.map(function (c) { return '<button type="button" class="mkcol" data-mkcol="' + c + '" style="background:' + c + '" aria-pressed="' + (d.col === c) + '" aria-label="Color"></button>'; }).join("") + "</div>" +
       '<p class="label">Mascot</p><div class="mkicons">' + own.slice(0, 24).map(function (c) { return '<button type="button" class="mkicon" data-mkicon="' + c.id + '" aria-pressed="' + (d.icon === c.id) + '" title="' + esc(c.name) + '">' + critterArt(c) + "</button>"; }).join("") + "</div>" +
@@ -6616,7 +6689,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       if (MK.tab === "featured") MK.list.sort(function (a, b) { return (b.likes || 0) - (a.likes || 0); });
       var el = $("#mkList"); if (!el) return;
       el.innerHTML = MK.list.length ? MK.list.map(function (m) {
-        return '<div class="mkcard" style="--mc:' + esc(m.cfg && m.cfg.col || "#5b3fd6") + '"><span class="mini">' + critterArt(critById(m.cfg && m.cfg.icon)) + '</span><span style="flex:1;min-width:0"><b>' + esc(mkClean(m.name, 30)) + "</b>" + (m.featured ? ' <span class="titlechip">Hall of Fame</span>' : "") + '<br><span class="sub">by ' + esc(mkClean(m.by, 14)) + " · " + (m.likes || 0) + " likes · " + (m.plays || 0) + ' plays</span><br><span class="sub">' + esc(mkClean(m.desc, 80)) + '</span></span><button class="btn small sun" type="button" data-mkcom="' + esc(m.id) + '">Play</button></div>';
+        return '<div class="mkcard" style="--mc:' + esc(m.cfg && m.cfg.col || "#5b3fd6") + '"><span class="mini">' + critterArt(critById(m.cfg && m.cfg.icon)) + '</span><span style="flex:1;min-width:0"><b>' + esc(mkClean(m.name, 30)) + "</b>" + (m.featured ? ' <span class="titlechip">Hall of Fame</span>' : "") + (mkIsShop(m.cfg) ? ' <span class="titlechip">' + TY_THEMES[m.cfg.style].name + "</span>" : "") + '<br><span class="sub">by ' + esc(mkClean(m.by, 14)) + " · " + (m.likes || 0) + " likes · " + (m.plays || 0) + ' plays</span><br><span class="sub">' + esc(mkClean(m.desc, 80)) + '</span></span><button class="btn small sun" type="button" data-mkcom="' + esc(m.id) + '">Play</button></div>';
       }).join("") : '<p class="sub">' + (MK.tab === "featured" ? "No modes in the Hall of Fame yet. Build one and get 5 likes!" : "No community modes yet. Be the first to publish one!") + "</p>";
     }, function () { var el = $("#mkList"); if (el) el.innerHTML = '<p class="err">Couldn\'t load community modes. Check that the new Firestore rules are published.</p>'; });
   }
@@ -6643,6 +6716,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   $("#maker").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b || b.disabled) return;
     if (b.dataset.mkcol) { mkRead(); MK.draft.col = b.dataset.mkcol; renderMaker(); }
+    else if (b.dataset.mkstyle) { mkRead(); MK.draft.style = b.dataset.mkstyle; if (!MK.draft.time) MK.draft.time = 180; renderMaker(); }
     else if (b.dataset.mkicon) { mkRead(); MK.draft.icon = b.dataset.mkicon; renderMaker(); }
     else if (b.id === "mkTest") { var d = mkRead(); cmStart(Object.assign({}, d, { name: d.name || "Test mode" }), null); }
     else if (b.id === "mkSave") { if (mkSaveLocal()) { renderMaker(); mkMsg("Saved to My modes.", true); } }
@@ -6651,7 +6725,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       var u = fbUser(); if (!u) { mkMsg("Log in to publish modes for everyone."); return; }
       var rec = mkSaveLocal(); if (!rec) return;
       if (!rec.desc) { mkMsg("Add a short description so players know what to expect."); return; }
-      var cfg = { n: rec.n, t: rec.t, lives: rec.lives, pts: rec.pts, speed: !!rec.speed, streak: !!rec.streak, wrong: rec.wrong, twist: rec.twist, goal: rec.goal, col: rec.col, icon: rec.icon, set: rec.set };
+      var cfg = { n: rec.n, t: rec.t, lives: rec.lives, pts: rec.pts, speed: !!rec.speed, streak: !!rec.streak, wrong: rec.wrong, twist: rec.twist, goal: rec.goal, col: rec.col, icon: rec.icon, set: rec.set, style: mkIsShop(rec) ? rec.style : "quiz", time: rec.time || 180 };
       var ref = rec.pub ? FB.db.collection("modes").doc(rec.pub) : FB.db.collection("modes").doc();
       var data = { name: rec.name, desc: rec.desc, cfg: cfg, uid: u.uid, by: playerName(), ts: Date.now() };
       (rec.pub ? ref.set(data, { merge: true }) : ref.set(Object.assign(data, { likes: 0, plays: 0, featured: false }))).then(function () {
@@ -6676,6 +6750,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   /* Custom mode runner */
   var CM = null;
   function cmStart(cfg, community) {
+    if (mkIsShop(cfg)) { var tm = [120, 180, 300].indexOf(+cfg.time) > -1 ? +cfg.time : 180; tyStart(cfg.style, { custom: true, com: community, set: cfg.set, time: tm, name: mkClean(cfg.name, 30) || TY_THEMES[cfg.style].name }); return; }
     var set = BUILTIN.filter(function (s) { return s.id === cfg.set; })[0] || BUILTIN[0];
     var lives = cfg.lives || (cfg.n ? 0 : 3);
     CM = { cfg: cfg, com: community, set: set, qs: [], qi: 0, n: 0, score: 0, lives: lives, maxLives: lives, streak: 0, right: 0, timeMs: (cfg.t || (cfg.twist === "shrink" ? 10 : 0)) * 1000, timer: null, lock: false, cur: null, coins: 0, over: false, box: false };
@@ -6778,11 +6853,12 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       (C.com ? '<div class="btnrow"><button class="btn sun" type="button" id="cmLike">Like this mode</button><span class="sub">by ' + esc(mkClean(C.com.by, 14)) + "</span></div>" : "") +
       '<div class="btnrow"><button class="btn primary" type="button" id="cmAgain">Play again</button><button class="btn" type="button" id="cmBack2">Back to Mode Maker</button></div><p id="cmLikeMsg" aria-live="polite"></p>';
   }
-  function cmLike() {
-    var C = CM, u = fbUser(); if (!C || !C.com || !u) return;
-    var ref = FB.db.collection("modes").doc(C.com.id), lref = ref.collection("likes").doc(u.uid), b = $("#cmLike");
+  function cmLike(com, b, msg) {
+    var u = fbUser(); com = com || (CM && CM.com); if (!com || !u) return;
+    b = b || $("#cmLike"); msg = msg || $("#cmLikeMsg");
+    var ref = FB.db.collection("modes").doc(com.id), lref = ref.collection("likes").doc(u.uid);
     if (b) b.disabled = true;
-    if (C.com.uid === u.uid) { $("#cmLikeMsg").textContent = "You can't like your own mode."; return; }
+    if (com.uid === u.uid) { msg.textContent = "You can't like your own mode."; return; }
     FB.db.runTransaction(function (tx) {
       return tx.get(lref).then(function (l) {
         if (l.exists) throw new Error("dup");
@@ -6793,13 +6869,13 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
           return likes;
         });
       });
-    }).then(function () { $("#cmLikeMsg").textContent = "Thanks! Your like helps this mode reach the Hall of Fame."; }, function (er) { $("#cmLikeMsg").textContent = er && er.message === "dup" ? "You already liked this mode." : "Couldn't save your like. Try again later."; });
+    }).then(function () { msg.textContent = "Thanks! Your like helps this mode reach the Hall of Fame."; }, function (er) { msg.textContent = er && er.message === "dup" ? "You already liked this mode." : "Couldn't save your like. Try again later."; });
   }
   $("#cmode").addEventListener("click", function (e) {
     var b = e.target.closest("button"); if (!b || b.disabled) return;
     if (b.dataset.cmk != null) cmAnswer(+b.dataset.cmk);
     else if (b.dataset.cmbox != null) cmOpenBox(+b.dataset.cmbox);
-    else if (b.id === "cmLike") cmLike();
+    else if (b.id === "cmLike") cmLike(CM && CM.com, b, $("#cmLikeMsg"));
     else if (b.id === "cmAgain" && CM) cmStart(CM.cfg, CM.com);
     else if (b.id === "cmBack2" || b.id === "cmQuit") { if (CM) { clearInterval(CM.timer); if (b.id === "cmQuit" && !CM.over) { CM = null; } } openMaker(); }
   });
@@ -6807,6 +6883,186 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     if ($("#cmode").hidden || !CM || e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.ctrlKey || e.metaKey || e.altKey) return;
     var k = "1234".indexOf(e.key); if (k < 0) return; if (CM.box) cmOpenBox(k); else cmAnswer(k);
   });
+
+  /* ================= Real Life modes: run a shop, answer to restock, serve customers ================= */
+  var TY_THEMES = {
+    coco: { name: "Coco Cabana", blurb: "Run a beach resort. Serve drinks, snacks and surfboards to guests before the sun goes down.", sky: "#8fd3ff", ground: "#f3d9a0", accent: "#20b4c8", words: ["guest", "guests"],
+      items: [["coconut", "Coconut drink", 8, "coconut", "#8a5a2b"], ["smoothie", "Smoothie", 12, "cup", "#ff6fae"], ["icecream", "Ice cream", 15, "cone", "#fff3c4"], ["towel", "Beach towel", 20, "towel", "#38b6ff"], ["surf", "Surfboard rental", 35, "board", "#ff9f1c"]] },
+    pets: { name: "Pet Shop", blurb: "Help critters care for their pets. Keep the shelves full of food, toys and beds.", sky: "#ffe0f0", ground: "#d9c2a3", accent: "#ff4fb8", words: ["customer", "customers"],
+      items: [["kibble", "Kibble", 8, "bowl", "#c98a4f"], ["bone", "Chew bone", 12, "bone", "#fff3d6"], ["fishfood", "Fish food", 15, "fish", "#38b6ff"], ["collar", "Collar", 20, "ring", "#e8483c"], ["petbed", "Pet bed", 35, "box", "#9a4de0"]] },
+    pizza: { name: "Pizza Parlor", blurb: "Hungry critters keep coming. Bake, pour and serve before they get hangry.", sky: "#ffe9c8", ground: "#c98a4f", accent: "#e8483c", words: ["diner", "diners"],
+      items: [["slice", "Pizza slice", 8, "slice", "#ffc83d"], ["soda", "Soda", 10, "cup", "#e8483c"], ["garlic", "Garlic bread", 14, "loaf", "#e0a800"], ["salad", "Salad", 18, "bowl", "#2fbf5f"], ["pie", "Whole pizza", 35, "pie", "#ff9f1c"]] },
+    farm: { name: "Farm Stand", blurb: "Sell fresh food at your roadside farm stand. Pick, stock and sell!", sky: "#cdeeff", ground: "#8fd27f", accent: "#4caf6e", words: ["shopper", "shoppers"],
+      items: [["apple", "Apple", 6, "ball", "#e8483c"], ["carrot", "Carrot", 9, "carrot", "#ff9f1c"], ["eggs", "Eggs", 14, "egg", "#fff3d6"], ["milk", "Milk", 18, "bottle", "#ffffff"], ["pumpkin", "Pumpkin", 30, "ball", "#ff9f1c"]] }
+  };
+  var TY_UNLOCK = [0, 0, 60, 150, 300];
+  function tyIcon(shape, col) {
+    var s = 'stroke="#1d1b3a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"', f = 'fill="' + col + '" ' + s, b;
+    switch (shape) {
+      case "coconut": b = '<circle cx="20" cy="22" r="13" ' + f + '/><path d="M20 9l6-6" ' + s + '/><path d="M26 3l4 3" stroke="#ff4fb8" stroke-width="3"/><circle cx="16" cy="18" r="2" fill="#1d1b3a"/>'; break;
+      case "cup": b = '<path d="M10 12h20l-3 24H13z" ' + f + '/><path d="M8 12h24" ' + s + '/><path d="M22 12l5-9" ' + s + "/>"; break;
+      case "cone": b = '<circle cx="20" cy="14" r="9" fill="#ff8fc4" ' + s + '/><path d="M12 18h16l-8 19z" fill="#e0a800" ' + s + "/>"; break;
+      case "towel": b = '<rect x="9" y="6" width="22" height="30" rx="3" ' + f + '/><path d="M9 14h22M9 22h22M9 30h22" stroke="#fff" stroke-width="3"/>'; break;
+      case "board": b = '<ellipse cx="20" cy="20" rx="8" ry="17" transform="rotate(25 20 20)" ' + f + '/><path d="M14 8l12 24" stroke="#fff" stroke-width="2.5"/>'; break;
+      case "bowl": b = '<path d="M6 18h28a14 14 0 0 1-28 0z" ' + f + '/><circle cx="14" cy="16" r="3" fill="#8a5a2b"/><circle cx="21" cy="14" r="3" fill="#8a5a2b"/><circle cx="27" cy="16" r="3" fill="#8a5a2b"/>'; break;
+      case "bone": b = '<path d="M12 16a4 4 0 1 1 4-6l10 10a4 4 0 1 1 6 4 4 4 0 1 1-6 4L16 18a4 4 0 1 1-4-2z" ' + f + "/>"; break;
+      case "fish": b = '<path d="M6 20c6-9 18-9 24 0-6 9-18 9-24 0z" ' + f + '/><path d="M30 20l7-6v12z" ' + f + '/><circle cx="12" cy="18" r="1.8" fill="#1d1b3a"/>'; break;
+      case "ring": b = '<circle cx="20" cy="20" r="12" fill="none" stroke="#1d1b3a" stroke-width="8"/><circle cx="20" cy="20" r="12" fill="none" stroke="' + col + '" stroke-width="4.5"/><circle cx="20" cy="33" r="4" fill="#ffc83d" ' + s + "/>"; break;
+      case "box": b = '<rect x="5" y="16" width="30" height="16" rx="6" ' + f + '/><rect x="9" y="12" width="22" height="10" rx="5" fill="#fff3d6" ' + s + "/>"; break;
+      case "slice": b = '<path d="M20 36L6 8q14-6 28 0z" ' + f + '/><circle cx="16" cy="14" r="2.5" fill="#e8483c"/><circle cx="24" cy="16" r="2.5" fill="#e8483c"/><circle cx="20" cy="24" r="2.5" fill="#e8483c"/>'; break;
+      case "loaf": b = '<path d="M6 28c0-14 28-14 28 0z" ' + f + '/><path d="M12 22l3-4M19 21l3-4M26 22l3-4" ' + s + "/>"; break;
+      case "pie": b = '<circle cx="20" cy="20" r="15" ' + f + '/><circle cx="20" cy="20" r="11" fill="#ffc83d"/><circle cx="15" cy="16" r="2.5" fill="#e8483c"/><circle cx="25" cy="18" r="2.5" fill="#e8483c"/><circle cx="19" cy="26" r="2.5" fill="#e8483c"/><circle cx="26" cy="25" r="2" fill="#2fbf5f"/>'; break;
+      case "ball": b = '<circle cx="20" cy="22" r="13" ' + f + '/><path d="M20 9c0-4 3-6 6-6" ' + s + '/><path d="M22 6c4-2 8 0 8 3-4 1-6 0-8-3z" fill="#2fbf5f" ' + s + "/>"; break;
+      case "carrot": b = '<path d="M14 12l14 4-16 22z" ' + f + '/><path d="M16 12l-4-8M20 12l2-9M24 14l6-6" stroke="#2fbf5f" stroke-width="3" stroke-linecap="round"/>'; break;
+      case "egg": b = '<ellipse cx="14" cy="22" rx="8" ry="11" ' + f + '/><ellipse cx="27" cy="23" rx="8" ry="11" ' + f + "/>"; break;
+      case "bottle": b = '<path d="M15 4h10v6l4 6v20H11V16l4-6z" ' + f + '/><rect x="11" y="20" width="18" height="8" fill="#38b6ff"/>'; break;
+      default: b = '<circle cx="20" cy="20" r="12" ' + f + "/>";
+    }
+    return '<svg class="tyic" viewBox="0 0 40 40" aria-hidden="true">' + b + "</svg>";
+  }
+  var TY = null;
+  function tyItem(T, id) { return T.items.filter(function (it) { return it[0] === id; })[0]; }
+  function tyStart(themeId, opts) {
+    opts = opts || {};
+    var th = TY_THEMES[themeId] || TY_THEMES.coco, set = BUILTIN.filter(function (s) { return s.id === (opts.set || wallet.chSet || sel.setId); })[0] || BUILTIN[0];
+    var stock = {}; th.items.forEach(function (it, i) { stock[it[0]] = i < 2 ? 6 : 0; });
+    TY = { theme: themeId, th: th, set: set, opts: opts, stock: stock, unlocked: 2, priceLv: 0, seats: 2, decor: 0, helper: 0, cash: 0, earned: 0, happy: 0, missed: 0, custs: [], spawnT: 2, time: (opts.time || 180), left: (opts.time || 180), qs: [], qi: 0, cur: null, lock: false, streak: 0, right: 0, last: 0, over: false, helpT: 0, name: opts.name || th.name };
+    show("tycoon");
+    $("#tyTitle").textContent = TY.name;
+    $("#tyScene").style.setProperty("--sky", th.sky); $("#tyScene").style.setProperty("--ground", th.ground); $("#tyScene").style.setProperty("--acc", th.accent);
+    $("#tyEnd").hidden = true; $("#tyRun").hidden = false;
+    tyNextQ(); tyRender(); requestAnimationFrame(tyLoop);
+  }
+  function tyPrice(it) { return Math.round(it[2] * (1 + TY.priceLv * 0.25)); }
+  function tyNextQ() {
+    var C = TY; if (!C || C.over) return;
+    if (C.qi >= C.qs.length) { C.qs = shuffle(C.set.gen ? C.set.gen() : C.set.questions); C.qi = 0; }
+    var q = C.qs[C.qi++];
+    C.cur = shuffle(q.a.map(function (t, i) { return { t: t, ok: i === 0 }; })); C.lock = false;
+    $("#tyQ").textContent = q.q;
+    $("#tyAns").innerHTML = C.cur.map(function (o, i) { return '<button class="ans" type="button" data-tyk="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
+    $("#tyVerdict").textContent = "Right answers restock your shelves."; $("#tyVerdict").className = "verdict";
+  }
+  function tyAnswer(k) {
+    var C = TY; if (!C || C.lock || C.over || !C.cur[k]) return;
+    C.lock = true;
+    var ok = C.cur[k].ok, bs = $("#tyAns").children, v = $("#tyVerdict");
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (C.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
+    if (ok) {
+      C.streak++; C.right++; wallet.stats.correct++; var ds = dayState(); ds.right++; ds.streak = Math.max(ds.streak, C.streak); addBuddyXp(1); eggTick(); snd("right");
+      var add = C.streak >= 3 ? 5 : 3;
+      C.th.items.forEach(function (it, j) { if (j < C.unlocked) C.stock[it[0]] += add; });
+      v.textContent = "Restocked +" + add + " of everything" + (C.streak >= 3 ? " (streak bonus!)" : ""); v.className = "verdict ok";
+    } else { C.streak = 0; wallet.stats.wrong++; snd("wrong"); v.textContent = "Not quite. No restock this time."; v.className = "verdict no"; }
+    tyRender();
+    setTimeout(tyNextQ, ok ? 450 : 1100);
+  }
+  function tySpawn() {
+    var C = TY, n = Math.min(3, 1 + Math.floor(Math.random() * (1 + (C.time - C.left) / 50))), order = [];
+    for (var i = 0; i < n; i++) order.push({ id: C.th.items[Math.floor(Math.random() * C.unlocked)][0], done: false });
+    var pool = CRITTERS.filter(function (c) { return c.theme !== "award"; }), c = pickOne(pool), pat = 24 * (1 + C.decor * 0.3);
+    C.custs.push({ uid: Math.random().toString(36).slice(2, 8), c: c, order: order, pat: pat, max: pat });
+  }
+  function tyServe(cuid, idx) {
+    var C = TY; if (!C || C.over) return;
+    var cu = C.custs.filter(function (x) { return x.uid === cuid; })[0]; if (!cu) return;
+    var o = cu.order[idx]; if (!o || o.done) return;
+    if (C.stock[o.id] <= 0) { toast("Out of " + tyItem(C.th, o.id)[1].toLowerCase() + "! Answer a question to restock."); snd("wrong"); return; }
+    C.stock[o.id]--; o.done = true; snd("coin");
+    if (cu.order.every(function (x) { return x.done; })) tyPay(cu);
+    tyRender();
+  }
+  function tyPay(cu) {
+    var C = TY, sum = cu.order.reduce(function (a, o) { return a + tyPrice(tyItem(C.th, o.id)); }, 0), tip = Math.round(sum * 0.4 * (cu.pat / cu.max));
+    C.cash += sum + tip; C.earned += sum + tip; C.happy++;
+    C.custs.splice(C.custs.indexOf(cu), 1);
+    tyFloat("+$" + (sum + tip) + (tip ? " (tip $" + tip + ")" : ""), true);
+  }
+  function tyFloat(t, good) { var f = $("#tyFloat"); if (!f) return; f.textContent = t; f.className = "tyfloat " + (good ? "good" : "bad"); void f.offsetWidth; f.classList.add("show"); }
+  function tyLoop(ts) {
+    var C = TY; if (!C || C.over) return;
+    if ($("#tycoon").hidden) { C.last = 0; requestAnimationFrame(tyLoop); return; }
+    var dt = C.last ? Math.min(0.1, (ts - C.last) / 1000) : 0; C.last = ts;
+    C.left -= dt;
+    C.spawnT -= dt;
+    if (C.spawnT <= 0 && C.custs.length < C.seats) { tySpawn(); C.spawnT = 3 + Math.random() * 3.5; }
+    for (var i = C.custs.length - 1; i >= 0; i--) { var cu = C.custs[i]; cu.pat -= dt; if (cu.pat <= 0) { C.custs.splice(i, 1); C.missed++; tyFloat(cu.c.name + " left unhappy", false); } }
+    if (C.helper) { C.helpT -= dt; if (C.helpT <= 0) { C.helpT = Math.max(1.2, 3.2 - C.helper * 0.8); for (var h = 0; h < C.custs.length; h++) { var cc = C.custs[h], j = cc.order.findIndex(function (o) { return !o.done && C.stock[o.id] > 0; }); if (j > -1) { tyServe(cc.uid, j); break; } } } }
+    C.renderT = (C.renderT || 0) - dt;
+    if (C.renderT <= 0) { C.renderT = 0.2; tyRender(); }
+    if (C.left <= 0) { tyEnd(); return; }
+    requestAnimationFrame(tyLoop);
+  }
+  function tyUpgrades() {
+    var C = TY, ups = [];
+    if (C.unlocked < C.th.items.length) { var it = C.th.items[C.unlocked]; ups.push(["unlock", "Sell " + it[1].toLowerCase(), TY_UNLOCK[C.unlocked]]); }
+    if (C.priceLv < 3) ups.push(["price", "Raise prices +25%", 80 * (C.priceLv + 1)]);
+    if (C.seats < 4) ups.push(["seat", "Room for another " + C.th.words[0], C.seats === 2 ? 120 : 250]);
+    if (C.decor < 2) ups.push(["decor", "Nicer decor (" + C.th.words[1] + " wait longer)", 100 * (C.decor + 1)]);
+    if (C.helper < 2) ups.push(["helper", C.helper ? "Faster helper" : "Hire a helper (serves for you)", C.helper ? 600 : 350]);
+    return ups;
+  }
+  function tyRender() {
+    var C = TY; if (!C) return;
+    $("#tyHud").innerHTML = '<span><span class="label">Cash</span> <b class="mono">$' + C.cash.toLocaleString() + '</b></span><span><span class="label">Earned</span> <b class="mono">$' + C.earned.toLocaleString() + '</b></span><span><span class="label">Happy ' + C.th.words[1] + '</span> <b class="mono">' + C.happy + '</b></span><span><span class="label">Time</span> <b class="mono">' + Math.max(0, Math.ceil(C.left / 60 - 1)) + ":" + String(Math.max(0, Math.ceil(C.left) % 60)).padStart(2, "0") + "</b></span>";
+    $("#tySeats").innerHTML = C.custs.map(function (cu) {
+      var p = Math.max(0, cu.pat / cu.max);
+      return '<div class="tycust"><div class="tybubble">' + cu.order.map(function (o, i) { var it = tyItem(C.th, o.id); return '<button type="button" class="tyord' + (o.done ? " done" : C.stock[o.id] > 0 ? "" : " out") + '" data-tycust="' + cu.uid + '" data-tyi="' + i + '" title="' + esc(it[1]) + '"' + (o.done ? " disabled" : "") + ">" + tyIcon(it[3], it[4]) + "</button>"; }).join("") + '</div><span class="typat"><i style="width:' + (p * 100) + "%;background:" + (p > 0.5 ? "#2fbf5f" : p > 0.25 ? "#ffc83d" : "#ff4f4f") + '"></i></span>' + critterArt(cu.c) + '<span class="tyname">' + esc(cu.c.name) + "</span></div>";
+    }).join("") + (C.custs.length < C.seats ? '<div class="tycust empty"><span class="sub">Waiting for ' + C.th.words[1] + "...</span></div>" : "");
+    $("#tyStock").innerHTML = C.th.items.map(function (it, i) {
+      var on = i < C.unlocked;
+      return '<div class="tystk' + (on ? "" : " locked") + (on && C.stock[it[0]] <= 0 ? " empty" : "") + '">' + tyIcon(it[3], it[4]) + '<span class="nm">' + it[1] + '</span><b class="mono">' + (on ? C.stock[it[0]] + " left · $" + tyPrice(it) : "Locked") + "</b></div>";
+    }).join("");
+    $("#tyUps").innerHTML = tyUpgrades().map(function (u) { return '<button class="btn small' + (C.cash >= u[2] ? " sun" : "") + '" type="button" data-tyup="' + u[0] + '"' + (C.cash < u[2] ? " disabled" : "") + ">" + u[1] + " $" + u[2] + "</button>"; }).join("") || '<span class="sub">Everything is upgraded!</span>';
+  }
+  function tyBuy(kind) {
+    var C = TY, u = tyUpgrades().filter(function (x) { return x[0] === kind; })[0]; if (!u || C.cash < u[2]) return;
+    C.cash -= u[2];
+    if (kind === "unlock") { C.stock[C.th.items[C.unlocked][0]] = 6; C.unlocked++; }
+    else if (kind === "price") C.priceLv++;
+    else if (kind === "seat") C.seats++;
+    else if (kind === "decor") { C.decor++; C.custs.forEach(function (cu) { cu.max *= 1.3; cu.pat *= 1.3; }); }
+    else if (kind === "helper") C.helper++;
+    snd("level"); tyFloat("Upgraded!", true); tyRender();
+  }
+  function tyEnd() {
+    var C = TY; if (!C || C.over) return; C.over = true;
+    var coins = Math.min(250, Math.floor(C.earned / 10));
+    wallet.tyBest = wallet.tyBest || {}; var key = C.opts.custom ? null : C.theme, newBest = key && C.earned > (wallet.tyBest[key] || 0);
+    if (newBest) wallet.tyBest[key] = C.earned;
+    wallet.coins += coins; wallet.stats.games++; wallet.stats.score += C.earned; wallet.stats.tyGames = (wallet.stats.tyGames || 0) + 1;
+    dayState().games++; weekState().modes["life-" + C.theme] = 1;
+    saveWallet(); drawCoins(); fxBurst(newBest ? "legendary" : "rare");
+    $("#tyRun").hidden = true; $("#tyEnd").hidden = false;
+    $("#tyEnd").innerHTML = "<h2>" + (C.th.name === C.name ? "Closing time at " + C.th.name + "!" : esc(C.name) + " is closed!") + "</h2>" + (newBest ? '<span class="newtag" style="justify-self:start">New best!</span>' : "") +
+      '<div class="acstats"><div class="stat"><b>$' + C.earned.toLocaleString() + '</b><span>Money earned</span></div><div class="stat"><b>' + C.happy + '</b><span>Happy ' + C.th.words[1] + '</span></div><div class="stat"><b>' + C.missed + '</b><span>Left unhappy</span></div><div class="stat"><b>+' + coins + "</b><span>Coins</span></div></div>" +
+      (C.opts.com ? '<div class="btnrow"><button class="btn sun" type="button" id="tyLike">Like this mode</button><span class="sub">by ' + esc(mkClean(C.opts.com.by, 14)) + '</span></div><p id="tyLikeMsg" aria-live="polite"></p>' : "") +
+      '<div class="btnrow"><button class="btn primary" type="button" id="tyAgain">Play again</button><button class="btn" type="button" id="tyHome">' + (C.opts.custom ? "Back to Mode Maker" : "Pick another shop") + "</button></div>";
+  }
+  $("#tycoon").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    if (b.dataset.tyk != null) tyAnswer(+b.dataset.tyk);
+    else if (b.dataset.tycust) tyServe(b.dataset.tycust, +b.dataset.tyi);
+    else if (b.dataset.tyup) tyBuy(b.dataset.tyup);
+    else if (b.id === "tyAgain" && TY) tyStart(TY.theme, TY.opts);
+    else if (b.id === "tyLike" && TY && TY.opts.com) cmLike(TY.opts.com, b, $("#tyLikeMsg"));
+    else if (b.id === "tyHome" || b.id === "tyQuit") { var custom = TY && TY.opts.custom; if (TY) TY.over = true; TY = null; if (custom) openMaker(); else openLife(); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if ($("#tycoon").hidden || !TY || TY.over || e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = "1234".indexOf(e.key); if (k > -1) tyAnswer(k);
+  });
+  function openLife() {
+    show("life");
+    var best = wallet.tyBest || {};
+    $("#lifeGrid").innerHTML = Object.keys(TY_THEMES).map(function (id) {
+      var t = TY_THEMES[id];
+      return '<div class="lifecard" style="--sky:' + t.sky + ";--ground:" + t.ground + ";--acc:" + t.accent + '"><div class="lifeart">' + t.items.map(function (it) { return tyIcon(it[3], it[4]); }).join("") + '</div><h3>' + t.name + '</h3><p class="sub">' + t.blurb + '</p><p class="sub mono">Best: $' + (best[id] || 0).toLocaleString() + '</p><button class="btn primary" type="button" data-life="' + id + '">Open shop</button></div>';
+    }).join("");
+  }
+  $("#life").addEventListener("click", function (e) { var b = e.target.closest("[data-life]"); if (b) tyStart(b.dataset.life, {}); });
+  $("#openLife").addEventListener("click", openLife);
+  $("#lifeBack").addEventListener("click", function () { renderHome(); show("home"); });
 
   /* Pack market */
   function goMarket() { $("#reveal").hidden = true; renderMarket(); show("market"); }
