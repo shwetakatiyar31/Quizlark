@@ -864,6 +864,42 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
 .fusearrow { font-weight: 800; font-family: var(--font-mono); }
 .fuserow .btn { margin-left: auto; }
 
+.logo { flex-wrap: wrap; }
+.redeem { display: flex; gap: 6px; align-items: center; }
+.redeemin { width: 150px; font-family: var(--font-mono); font-weight: 700; font-size: 15px; letter-spacing: .06em; background: var(--surface); color: var(--ink); border: 2px solid var(--edge); border-radius: 999px; padding: 6px 12px; }
+.redeemin:focus { outline: 3px solid var(--sun); outline-offset: 1px; }
+
+.makerbtn { background: #14c8b8; color: #00302c; }
+.mkbuild { display: grid; gap: 8px; align-content: start; }
+.mkin { width: 100%; background: var(--surface); color: var(--ink); border: 2px solid var(--edge); border-radius: 10px; padding: 8px 10px; font-weight: 600; font-size: 15px; }
+.mkgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.mkgrid > div { display: grid; gap: 4px; }
+.mkchecks { display: flex; gap: 16px; flex-wrap: wrap; font-weight: 700; }
+.mkchecks input { width: 18px; height: 18px; vertical-align: -3px; margin-right: 4px; }
+.mkcols { display: flex; gap: 8px; flex-wrap: wrap; }
+.mkcol { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--edge); cursor: pointer; }
+.mkcol[aria-pressed="true"] { outline: 3px solid var(--sun); outline-offset: 2px; }
+.mkicons { display: flex; gap: 4px; flex-wrap: wrap; max-height: 120px; overflow-y: auto; }
+.mkicon { background: var(--surface); border: 2px solid var(--line); border-radius: 10px; padding: 2px; cursor: pointer; }
+.mkicon .art { width: 38px; height: 38px; display: block; }
+.mkicon[aria-pressed="true"] { border-color: var(--edge); background: var(--sun); }
+.mkcard { display: flex; gap: 10px; align-items: center; border: 2px solid var(--edge); border-left: 10px solid var(--mc); border-radius: 12px; padding: 8px 10px; background: var(--surface); margin-bottom: 8px; }
+.mkcard .mini .art { width: 48px; height: 48px; display: block; }
+.mkcard .sub { font-size: 13px; color: var(--muted); }
+.cmhead { display: flex; align-items: center; gap: 12px; background: var(--mc); color: #fff; border: 2px solid var(--edge); border-radius: 16px; padding: 10px 14px; margin-bottom: 12px; }
+.cmhead h2 { font-size: clamp(22px, 4vw, 32px); color: #fff; }
+.cmhead .sub { color: rgba(255,255,255,.9); font-size: 13px; }
+.cmhead .mini .art { width: 56px; height: 56px; display: block; background: #fff; border-radius: 12px; border: 2px solid var(--edge); }
+.cmhead .btn { margin-left: auto; }
+.cmhud { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; background: var(--surface); border: 2px solid var(--edge); border-radius: 12px; padding: 8px 12px; font-size: 16px; }
+.cmhud .hearts { color: var(--bad); font-size: 20px; }
+.cmtag { min-height: 0; margin: 0; font-weight: 800; }
+.cmtag.on { display: inline-block; padding: 2px 12px; border-radius: 999px; border: 2px solid var(--edge); }
+.cmtag.on.gold { background: #ffd24f; color: #1d1b3a; }
+.cmtag.on.double { background: #ff4fb8; color: #fff; }
+.achcrit .art { width: 48px; height: 48px; display: block; }
+.achrow { align-items: center; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
@@ -890,6 +926,11 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
         <path d="M16 41c4-7 13-8 18-1-4 7-14 8-18 1z" fill="#ffd3cf" stroke="var(--edge)" stroke-width="2.2" stroke-linejoin="round"/>
       </svg>
       <div class="wordmark notranslate" translate="no" aria-label="Quizlark">Quiz<span>lark</span></div>
+      <form class="redeem" id="redeemForm" autocomplete="off">
+        <label class="sr-only" for="redeemIn">Secret code</label>
+        <input id="redeemIn" class="redeemin notranslate" translate="no" maxlength="11" placeholder="Secret code" spellcheck="false" autocapitalize="off">
+        <button class="btn small sun" type="submit">Redeem</button>
+      </form>
     </div>
     <div class="brand-right">
       <div class="wallet">
@@ -955,6 +996,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <button class="btn duelbtn" id="openDuel" type="button" style="font-size:18px;padding:12px 22px">Critter Duel</button>
       <button class="btn routebtn" id="openRoute" type="button" style="font-size:18px;padding:12px 22px">Treasure Route</button>
       <button class="btn villbtn" id="openVillage" type="button" style="font-size:18px;padding:12px 22px">Critter Village</button>
+      <button class="btn makerbtn" id="openMaker" type="button" style="font-size:18px;padding:12px 22px">Mode Maker</button>
       <span class="hint" id="startHint"></span>
     </div>
   </main>
@@ -1202,6 +1244,32 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       <div class="panel chq" style="margin-top:12px"><p class="sub" id="duTurn"></p><div class="filterbar" id="duActs"></div><h3 id="duQ"></h3><div class="answers" id="duAns"></div>
         <div class="btnrow"><button class="btn small ghost" id="duQuit" type="button">Give up</button></div></div>
     </div>
+  </section>
+
+  <!-- MODE MAKER -->
+  <section id="maker" hidden aria-labelledby="mk-title">
+    <div class="market-top">
+      <h2 id="mk-title">Mode Maker</h2>
+      <div class="wallet">
+        <span class="coinchip"><span class="c">Q</span>Coins <b class="coinNum">0</b></span>
+        <button class="btn small" id="makerBack" type="button">Back</button>
+      </div>
+    </div>
+    <div class="chgrid">
+      <div class="panel mkbuild" id="mkBuild"></div>
+      <div class="panel" id="mkHall"></div>
+    </div>
+  </section>
+
+  <!-- CUSTOM MODE PLAY -->
+  <section id="cmode" hidden aria-labelledby="cmTitle">
+    <div class="cmhead" id="cmBox"><span class="mini" id="cmIcon"></span><div style="min-width:0"><h2 id="cmTitle"></h2><p class="sub" id="cmSub"></p></div><button class="btn small ghost" id="cmQuit" type="button">Quit</button></div>
+    <div id="cmRun">
+      <div class="cmhud" id="cmHud"></div>
+      <div class="timebar" id="cmTime"><i></i></div>
+      <div class="panel chq" style="margin-top:12px"><p class="cmtag" id="cmTag"></p><h3 id="cmQ"></h3><div class="answers" id="cmAns"></div><div class="verdict" id="cmVerdict" aria-live="polite"></div></div>
+    </div>
+    <div class="panel" id="cmEnd" hidden></div>
   </section>
 
   <!-- SEASON PASS -->
@@ -2062,7 +2130,23 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     { id: "gnomble", name: "Gnomble", rar: "rare", theme: "fantasy", shape: "bean", col: "#e8b48f", eyes: 2, extra: "", pat: "belly", feat: "none" },
     { id: "wyvlet", name: "Wyvlet", rar: "epic", theme: "fantasy", shape: "drop", col: "#6ccbb0", eyes: 2, extra: "", pat: "stripes", feat: "wings" },
     { id: "phoenixa", name: "Phoenixa", rar: "legendary", theme: "fantasy", shape: "star", col: "#ff6a1f", eyes: 2, extra: "halo", pat: "cheeks", feat: "wings" },
-    { id: "elderdrake", name: "Elderdrake", rar: "mythic", theme: "fantasy", shape: "hex", col: "#7a3cff", eyes: 3, extra: "crown", pat: "spots", feat: "horns" }
+    { id: "elderdrake", name: "Elderdrake", rar: "mythic", theme: "fantasy", shape: "hex", col: "#7a3cff", eyes: 3, extra: "crown", pat: "spots", feat: "horns" },
+    /* Award critters: only from achievements */
+    { id: "buddybug", name: "Buddybug", rar: "uncommon", theme: "award", shape: "bean", col: "#ff8fc4", eyes: 2, extra: "antenna", pat: "spots", feat: "wings" },
+    { id: "swordy", name: "Swordy", rar: "rare", theme: "award", shape: "square", col: "#c9d3e0", eyes: 2, extra: "", pat: "stripes", feat: "fangs" },
+    { id: "swapsy", name: "Swapsy", rar: "rare", theme: "award", shape: "round", col: "#7df0c5", eyes: 2, extra: "ears", pat: "cheeks", feat: "tail" },
+    { id: "blueprint", name: "Blueprint", rar: "rare", theme: "award", shape: "square", col: "#38b6ff", eyes: 1, extra: "antenna", pat: "stripes", feat: "none" },
+    { id: "turretto", name: "Turretto", rar: "epic", theme: "award", shape: "hex", col: "#8a93a6", eyes: 1, extra: "antenna", pat: "belly", feat: "spikes" },
+    { id: "mayormoss", name: "Mayor Moss", rar: "epic", theme: "award", shape: "bean", col: "#6ccb5f", eyes: 2, extra: "crown", pat: "belly", feat: "none" },
+    { id: "raidra", name: "Raidra", rar: "epic", theme: "award", shape: "drop", col: "#e8483c", eyes: 3, extra: "", pat: "stripes", feat: "horns" },
+    { id: "fuzor", name: "Fuzor", rar: "epic", theme: "award", shape: "star", col: "#b84fff", eyes: 2, extra: "halo", pat: "spots", feat: "none" },
+    { id: "nightfang", name: "Nightfang", rar: "legendary", theme: "award", shape: "ghost", col: "#3a2f6b", eyes: 2, extra: "", pat: "none", feat: "fangs" },
+    { id: "goldbeard", name: "Goldbeard", rar: "legendary", theme: "award", shape: "round", col: "#ffc83d", eyes: 2, extra: "crown", pat: "belly", feat: "none" },
+    { id: "glimmer", name: "Glimmer", rar: "legendary", theme: "award", shape: "star", col: "#fff3a8", eyes: 2, extra: "halo", pat: "cheeks", feat: "wings" },
+    { id: "zedling", name: "Zedling", rar: "mythic", theme: "award", shape: "hex", col: "#ff2e4d", eyes: 3, extra: "crown", pat: "stripes", feat: "horns" },
+    { id: "starling", name: "Starling", rar: "mythic", theme: "award", shape: "star", col: "#5b3fd6", eyes: 2, extra: "halo", pat: "spots", feat: "wings" },
+    { id: "architect", name: "Architect", rar: "mystical", theme: "award", shape: "square", col: "#14c8b8", eyes: 3, extra: "crown", pat: "stripes", feat: "wings" },
+    { id: "quizwiz", name: "Quizwiz", rar: "supreme", theme: "award", shape: "drop", col: "#ff4fd8", eyes: 3, extra: "halo", pat: "spots", feat: "wings" }
   ];
   var STAR = (function () { var pts = []; for (var i = 0; i < 10; i++) { var a = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 13 : 27; pts.push((32 + r * Math.cos(a)).toFixed(1) + " " + (39 + r * Math.sin(a)).toFixed(1)); } return "M" + pts.join("L") + "Z"; })();
   var SHAPES = {
@@ -2179,7 +2263,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     { id: "midnight", name: "Midnight Pack", cost: 4500, cls: "moon", blurb: "Mythic or better. Supreme and Chroma are in reach.", odds: { mythic: 30, mystical: 45, supreme: 20, chroma: 5 } }
   ];
   var THEME_ODDS = { uncommon: 40, rare: 30, epic: 18, legendary: 9, mythic: 3 };
-  var THEME_NAMES = { candy: "Candy", ocean: "Ocean", jungle: "Jungle", galaxy: "Galaxy", dino: "Dino", robot: "Robot", fantasy: "Fantasy" };
+  var THEME_NAMES = { candy: "Candy", ocean: "Ocean", jungle: "Jungle", galaxy: "Galaxy", dino: "Dino", robot: "Robot", fantasy: "Fantasy", award: "Award" };
   var THEME_PACKS = [
     { id: "t-candy", theme: "candy", name: "Candy Pack", cost: 150, cls: "theme t-candy", blurb: "Sweet, sticky critters you can only find here." },
     { id: "t-ocean", theme: "ocean", name: "Ocean Pack", cost: 150, cls: "theme t-ocean", blurb: "Fins, shells and something big in the deep." },
@@ -2409,7 +2493,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
   var editingId = null, pendingDelete = null;
 
   function show(id) {
-    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route", "trade", "pass", "raid"].forEach(function (s) { $("#" + s).hidden = s !== id; });
+    ["home", "editor", "game", "results", "market", "closet", "stats", "bazaar", "armory", "awards", "daily", "multi", "account", "challenge", "friends", "shop", "duel", "village", "route", "trade", "pass", "raid", "maker", "cmode"].forEach(function (s) { $("#" + s).hidden = s !== id; });
     $("#topHeader").hidden = id === "game";
     window.scrollTo(0, 0);
   }
@@ -3546,7 +3630,22 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     { id: "a15", name: "Merchant", d: "Sell 10 spare critters", need: 10, get: function () { return wallet.stats.sold; }, c: 60, g: 0 },
     { id: "a16", name: "Rising star", d: "Reach Silver tier", need: 1, get: function () { return tierIdx(); }, c: 100, g: 1 },
     { id: "a17", name: "Diamond mind", d: "Reach Diamond tier", need: 4, get: function () { return tierIdx(); }, c: 500, g: 10 },
-    { id: "a18", name: "Rich", d: "Earn 5,000 coins from answers", need: 5000, get: function () { return wallet.stats.coinsEarned; }, c: 200, g: 4 }
+    { id: "a18", name: "Rich", d: "Earn 5,000 coins from answers", need: 5000, get: function () { return wallet.stats.coinsEarned; }, c: 200, g: 4 },
+    { id: "c13", name: "Social butterfly", d: "Have 5 friends", need: 5, get: function () { return FR.list.length; }, c: 100, g: 2, cr: "buddybug" },
+    { id: "c1", name: "Duelist", d: "Win 5 Critter Duels", need: 5, get: function () { return (wallet.stats.duelWins || 0) + (wallet.stats.pvpWins || 0); }, c: 150, g: 3, cr: "swordy" },
+    { id: "c7", name: "Trader", d: "Finish 5 trades", need: 5, get: function () { return wallet.stats.trades || 0; }, c: 150, g: 3, cr: "swapsy" },
+    { id: "c11", name: "Mode maker", d: "Publish a mode in Mode Maker", need: 1, get: function () { return wallet.stats.modesMade || 0; }, c: 150, g: 3, cr: "blueprint" },
+    { id: "c3", name: "Tower defender", d: "Reach wave 15 in Monster Challenge", need: 15, get: function () { return (wallet.chBest || {}).wave || 0; }, c: 250, g: 5, cr: "turretto" },
+    { id: "c6", name: "Village chief", d: "Build houses on all 6 Village plots", need: 6, get: function () { return wallet.village ? wallet.village.plots.filter(Boolean).length : 0; }, c: 250, g: 5, cr: "mayormoss" },
+    { id: "c8", name: "Boss buster", d: "Claim a World Boss reward", need: 1, get: function () { return Object.keys(wallet.raidClaimed || {}).length; }, c: 250, g: 5, cr: "raidra" },
+    { id: "c10", name: "Fusion master", d: "Fuse critters 10 times", need: 10, get: function () { return wallet.stats.fused || 0; }, c: 250, g: 5, cr: "fuzor" },
+    { id: "c4", name: "Nightmare survivor", d: "Reach wave 10 on Nightmare or Impossible", need: 10, get: function () { return wallet.stats.chHardWave || 0; }, c: 400, g: 8, cr: "nightfang" },
+    { id: "c5", name: "Treasure hunter", d: "Open a Grand Chest on the Treasure Route", need: 1, get: function () { return wallet.stats.chests || 0; }, c: 400, g: 8, cr: "goldbeard" },
+    { id: "c14", name: "Shiny hunter", d: "Make 3 shiny critters", need: 3, get: function () { return Object.keys(wallet.shiny || {}).length; }, c: 400, g: 8, cr: "glimmer" },
+    { id: "c2", name: "Champion slayer", d: "Beat Champion Zed in Critter Duel", need: 1, get: function () { return (wallet.duelWins || {})[6] ? 1 : 0; }, c: 600, g: 12, cr: "zedling" },
+    { id: "c9", name: "Season star", d: "Reach tier 30 of a Season Pass", need: 30, get: function () { return passTier(); }, c: 600, g: 12, cr: "starling" },
+    { id: "c12", name: "Hall of Fame", d: "Get one of your modes into the Hall of Fame", need: 1, get: function () { return wallet.stats.featured || 0; }, c: 1000, g: 20, cr: "architect" },
+    { id: "c15", name: "Quiz legend", d: "Get 2,000 answers right", need: 2000, get: function () { return wallet.stats.correct; }, c: 1500, g: 30, cr: "quizwiz" }
   ];
   function claimable() {
     return ACH.filter(function (a) { return !wallet.ach[a.id] && a.get() >= a.need; }).length;
@@ -3563,8 +3662,8 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     $("#achCount").textContent = done + " of " + ACH.length + " claimed";
     $("#achList").innerHTML = ACH.map(function (a) {
       var v = Math.min(a.need, a.get()), ok = v >= a.need, claimed = wallet.ach[a.id];
-      var rew = a.c + " coins" + (a.g ? " + " + a.g + (a.g === 1 ? " gem" : " gems") : "");
-      return '<div class="achrow' + (claimed ? " done" : "") + '"><span class="body"><b>' + a.name + '</b><br><span class="sub">' + a.d + " (" + v.toLocaleString() + " / " + a.need.toLocaleString() + ')</span><span class="mbar"><i style="width:' + (v / a.need * 100) + '%"></i></span><span class="rew">' + rew + "</span></span>" +
+      var rew = a.c + " coins" + (a.g ? " + " + a.g + (a.g === 1 ? " gem" : " gems") : "") + (a.cr ? " + " + critById(a.cr).name + " (" + critById(a.cr).rar + " critter)" : "");
+      return '<div class="achrow' + (claimed ? " done" : "") + '">' + (a.cr ? '<span class="achcrit' + (claimed ? "" : " sil") + '">' + critterArt(critById(a.cr)) + "</span>" : "") + '<span class="body"><b>' + a.name + '</b><br><span class="sub">' + a.d + " (" + v.toLocaleString() + " / " + a.need.toLocaleString() + ')</span><span class="mbar"><i style="width:' + (v / a.need * 100) + '%"></i></span><span class="rew">' + rew + "</span></span>" +
         '<button class="btn small ' + (ok && !claimed ? "sun" : "") + '" type="button" data-ach="' + a.id + '"' + (!ok || claimed ? " disabled" : "") + ">" + (claimed ? "Claimed" : ok ? "Claim" : "Locked") + "</button></div>";
     }).join("");
     renderTier();
@@ -3573,7 +3672,9 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     var b = e.target.closest("button"); if (!b || !b.dataset.ach || b.disabled) return;
     var a = ACH.filter(function (x) { return x.id === b.dataset.ach; })[0];
     if (!a || wallet.ach[a.id] || a.get() < a.need) return;
-    wallet.ach[a.id] = true; wallet.coins += a.c; addGems(a.g); saveWallet(); drawCoins(); renderAwards();
+    wallet.ach[a.id] = true; wallet.coins += a.c; addGems(a.g);
+    if (a.cr) { var ac = critById(a.cr); wallet.owned[ac.id] = (wallet.owned[ac.id] || 0) + 1; fxBurst(ac.rar); toast("Achievement critter unlocked: " + ac.name + "!"); }
+    saveWallet(); drawCoins(); renderAwards();
   });
   $("#openAwards").addEventListener("click", function () { renderAwards(); show("awards"); });
   $("#awardsBack").addEventListener("click", function () { renderHome(); show("home"); });
@@ -5145,6 +5246,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     var wave = Math.max(1, C.wave), coins = Math.min(600, Math.floor(C.score / 40)), best = wallet.chBest || { score: 0, wave: 0 }, newBest = C.score > best.score;
     if (newBest) wallet.chBest = { score: C.score, wave: wave, kills: C.kills, diff: C.diff.id, map: C.map.id };
     if (C.score > weekScore()) wallet.chWeek = { key: wkField(), score: C.score };
+    if (C.diff.id === "nightmare" || C.diff.id === "impossible") wallet.stats.chHardWave = Math.max(wallet.stats.chHardWave || 0, wave);
     wallet.coins += coins; wallet.stats.games++; wallet.stats.chGames = (wallet.stats.chGames || 0) + 1;
     wallet.stats.score += C.score;
     dayState().games++; weekState().modes.challenge = 1;
@@ -5290,8 +5392,8 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     if (SHOP.tab === "critters") {
       var rars = RAR_ORDER.filter(function (r) { return CRITTERS.some(function (c) { return c.rar === r && !c.season; }); });
       h = '<div class="filterbar">' + [["all", "All"]].concat(rars.map(function (r) { return [r, cap(r)]; })).map(function (r) { return '<button class="fchip sub" type="button" data-shoprar="' + r[0] + '" aria-pressed="' + (SHOP.rar === r[0]) + '">' + r[1] + "</button>"; }).join("") + "</div>" +
-        '<p class="sect-note">Buy the exact critter you want with coins, or with gems at one twentieth of the coin price. Seasonal critters only come from seasonal packs.</p><div class="grid">' +
-        CRITTERS.filter(function (c) { return !c.season && (SHOP.rar === "all" || c.rar === SHOP.rar); }).sort(function (a, b) { return RAR_ORDER.indexOf(a.rar) - RAR_ORDER.indexOf(b.rar); }).map(function (c) {
+        '<p class="sect-note">Buy the exact critter you want with coins, or with gems at one twentieth of the coin price. Seasonal critters come from seasonal packs, and Award critters only come from achievements.</p><div class="grid">' +
+        CRITTERS.filter(function (c) { return !c.season && c.theme !== "award" && (SHOP.rar === "all" || c.rar === SHOP.rar); }).sort(function (a, b) { return RAR_ORDER.indexOf(a.rar) - RAR_ORDER.indexOf(b.rar); }).map(function (c) {
           var n = wallet.owned[c.id] || 0, price = CR_PRICE[c.rar] || 100;
           return '<div class="tile r-' + c.rar + ' have">' + (n ? '<span class="ct">x' + n + "</span>" : "") + critterArt(c) + '<div class="nm">' + esc(c.name) + '</div><div class="rar ' + c.rar + '">' + c.rar + "</div>" + (c.theme ? '<div class="price">' + THEME_NAMES[c.theme] + "</div>" : "") + '<button class="btn small sun" type="button" data-shopcr="' + c.id + '"' + (wallet.coins < price ? " disabled" : "") + ">" + price.toLocaleString() + " coins</button>" + gemBtn("data-shopcr", c.id, price) + "</div>";
         }).join("") + "</div>";
@@ -5649,7 +5751,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     return ids.slice(0, 3);
   }
   function trainerTeam(t, idx) {
-    var r = mulberry(idx * 97 + 13), pool = CRITTERS.filter(function (c) { return t.rars.indexOf(c.rar) > -1 && !c.season; }), out = [];
+    var r = mulberry(idx * 97 + 13), pool = CRITTERS.filter(function (c) { return t.rars.indexOf(c.rar) > -1 && !c.season && c.theme !== "award"; }), out = [];
     while (out.length < 3 && pool.length) out.push(pool.splice(Math.floor(r() * pool.length), 1)[0].id);
     return out;
   }
@@ -6322,7 +6424,7 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
     else if (r.kind === "gems") addGems(r.n);
     else if (r.kind === "pu") for (var i = 0; i < r.n; i++) puGrant();
     else if (r.kind === "pack") wallet.freePacks = (wallet.freePacks || 0) + r.n;
-    else if (r.kind === "crit") { var pool = CRITTERS.filter(function (x) { return x.rar === r.rar && !x.season; }); c = pickOne(pool); wallet.owned[c.id] = (wallet.owned[c.id] || 0) + 1; txt = c.name + " (" + c.rar + ")"; }
+    else if (r.kind === "crit") { var pool = CRITTERS.filter(function (x) { return x.rar === r.rar && !x.season && x.theme !== "award"; }); c = pickOne(pool); wallet.owned[c.id] = (wallet.owned[c.id] || 0) + 1; txt = c.name + " (" + c.rar + ")"; }
     if (r.gems && r.kind !== "gems") addGems(r.gems);
     fxBurst(r.kind === "crit" ? r.rar : r.big ? "epic" : "rare");
     return txt;
@@ -6436,9 +6538,274 @@ button.dubench:not([disabled]):hover { transform: scale(1.15); }
       var pick = CRITTERS.filter(function (c) { return c.rar === r && (wallet.owned[c.id] || 0) > 1; }).sort(function (a, c) { return wallet.owned[c.id] - wallet.owned[a.id]; })[0];
       wallet.owned[pick.id]--;
     }
-    var pool = CRITTERS.filter(function (c) { return c.rar === nx && !c.season; }), got = pickOne(pool), isNew = !wallet.owned[got.id];
+    var pool = CRITTERS.filter(function (c) { return c.rar === nx && !c.season && c.theme !== "award"; }), got = pickOne(pool), isNew = !wallet.owned[got.id];
     wallet.owned[got.id] = (wallet.owned[got.id] || 0) + 1; wallet.stats.fused = (wallet.stats.fused || 0) + 1;
     saveWallet(); fxBurst(nx); toast("Fusion! You made " + (isNew ? "a new critter: " : "") + got.name + " (" + nx + ")."); renderBazaar();
+  });
+
+  /* ================= Secret codes (stored only as hashes, so the page never shows them) ================= */
+  function codeHash(s, seed) { var h = seed >>> 0; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return ("0000000" + h.toString(16)).slice(-8); }
+  var SECRET_CODES = { "e31e5780:248b81ef": { coins: 1000, gems: 50, packs: 1 } };
+  $("#redeemForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var inp = $("#redeemIn"), raw = String(inp.value || "").toLowerCase().replace(/\s+/g, "");
+    if (!raw) { toast("Type a secret code first."); return; }
+    var key = codeHash(raw, 2166136261) + ":" + codeHash(raw.split("").reverse().join(""), (0x811c9dc5 ^ 0x5bd1e995) >>> 0), r = SECRET_CODES[key];
+    wallet.codes = wallet.codes || {};
+    if (!r) { toast("That code doesn't work. Check the spelling and try again."); snd("wrong"); return; }
+    if (wallet.codes[key]) { toast("You already used that code."); return; }
+    wallet.codes[key] = Date.now();
+    wallet.coins += r.coins || 0; if (r.gems) addGems(r.gems); if (r.packs) wallet.freePacks = (wallet.freePacks || 0) + r.packs;
+    saveWallet(); drawCoins(); inp.value = ""; fxBurst("chroma");
+    toast("Secret code unlocked! +" + (r.coins || 0).toLocaleString() + " coins, +" + (r.gems || 0) + " gems" + (r.packs ? " and a free pack" : "") + ".");
+  });
+
+  /* ================= Mode Maker: build, play and share your own game modes ================= */
+  var MK_DEF = { name: "", desc: "", n: 15, t: 12, lives: 3, pts: 100, speed: true, streak: true, wrong: "life", twist: "none", goal: 0, col: "#5b3fd6", icon: "pebblet", set: "" };
+  var MK_OPTS = {
+    n: [[10, "10"], [15, "15"], [20, "20"], [0, "Endless"]],
+    t: [[0, "No timer"], [5, "5 sec"], [8, "8 sec"], [12, "12 sec"], [20, "20 sec"]],
+    lives: [[0, "Unlimited"], [1, "1"], [3, "3"], [5, "5"]],
+    pts: [[50, "50"], [100, "100"], [200, "200"]],
+    wrong: [["none", "Nothing happens"], ["points", "Lose 50 points"], ["life", "Lose a life"]],
+    twist: [["none", "No twist"], ["gold", "Gold rounds (every 4th question is worth 3x)"], ["mystery", "Mystery boxes after right answers"], ["shrink", "Shrinking timer"], ["double", "Double or nothing every 5th question"]],
+    goal: [[0, "Highest score"], [1000, "Reach 1,000"], [2500, "Reach 2,500"], [5000, "Reach 5,000"]]
+  };
+  var MK_COLS = ["#5b3fd6", "#e8483c", "#2fbf5f", "#38b6ff", "#ff9f1c", "#ff4fb8", "#1d1b3a"];
+  var MK = { draft: null, editId: null, tab: "featured", list: [], err: "" };
+  function mkClean(s, n) { return String(s || "").replace(/[<>]/g, "").replace(/\s+/g, " ").trim().slice(0, n); }
+  function mkSummary(c) {
+    var p = [];
+    p.push(c.n ? c.n + " questions" : "Endless");
+    p.push(c.t ? c.t + "s timer" : "no timer");
+    p.push(c.lives ? c.lives + (c.lives === 1 ? " life" : " lives") : "unlimited lives");
+    p.push(c.pts + " points a right answer" + (c.speed ? " + speed bonus" : "") + (c.streak ? " + streak multiplier" : ""));
+    if (c.twist !== "none") p.push(MK_OPTS.twist.filter(function (o) { return o[0] === c.twist; })[0][1].split(" (")[0].toLowerCase());
+    if (c.goal) p.push("win by reaching " + c.goal.toLocaleString());
+    return p.join(" · ");
+  }
+  function mkSelect(id, key, val) { return '<select class="setsel" id="' + id + '" data-mk="' + key + '">' + MK_OPTS[key].map(function (o) { return '<option value="' + o[0] + '"' + (String(o[0]) === String(val) ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") + "</select>"; }
+  function renderMaker() {
+    drawCoins();
+    var d = MK.draft || (MK.draft = Object.assign({}, MK_DEF, { set: BUILTIN.some(function (s) { return s.id === sel.setId; }) ? sel.setId : BUILTIN[0].id }));
+    var own = ownedSorted();
+    var mine = (wallet.myModes || []);
+    $("#mkBuild").innerHTML = '<h3>' + (MK.editId ? "Edit your mode" : "Build a mode") + '</h3>' +
+      '<label class="label" for="mkName">Name</label><input id="mkName" class="mkin" maxlength="30" value="' + esc(d.name) + '" placeholder="Like Lava Lightning">' +
+      '<label class="label" for="mkDesc">Short description</label><input id="mkDesc" class="mkin" maxlength="80" value="' + esc(d.desc) + '" placeholder="What makes it fun?">' +
+      '<div class="mkgrid"><div><label class="label" for="mkN">Questions</label>' + mkSelect("mkN", "n", d.n) + '</div><div><label class="label" for="mkT">Timer</label>' + mkSelect("mkT", "t", d.t) + '</div><div><label class="label" for="mkL">Lives</label>' + mkSelect("mkL", "lives", d.lives) + '</div><div><label class="label" for="mkP">Points</label>' + mkSelect("mkP", "pts", d.pts) + '</div><div><label class="label" for="mkW">Wrong answer</label>' + mkSelect("mkW", "wrong", d.wrong) + '</div><div><label class="label" for="mkG">Goal</label>' + mkSelect("mkG", "goal", d.goal) + "</div></div>" +
+      '<label class="label" for="mkTw">Twist</label>' + mkSelect("mkTw", "twist", d.twist) +
+      '<div class="mkchecks"><label><input type="checkbox" id="mkSp" data-mkc="speed"' + (d.speed ? " checked" : "") + '> Speed bonus</label><label><input type="checkbox" id="mkSt" data-mkc="streak"' + (d.streak ? " checked" : "") + "> Streak multiplier</label></div>" +
+      '<label class="label" for="mkSet">Questions from</label><select id="mkSet" class="setsel" data-mk="set">' + setOptionsHtml(d.set).replace(/<optgroup label="Your sets">[\s\S]*?<\/optgroup>/, "") + "</select>" +
+      '<p class="label">Color</p><div class="mkcols">' + MK_COLS.map(function (c) { return '<button type="button" class="mkcol" data-mkcol="' + c + '" style="background:' + c + '" aria-pressed="' + (d.col === c) + '" aria-label="Color"></button>'; }).join("") + "</div>" +
+      '<p class="label">Mascot</p><div class="mkicons">' + own.slice(0, 24).map(function (c) { return '<button type="button" class="mkicon" data-mkicon="' + c.id + '" aria-pressed="' + (d.icon === c.id) + '" title="' + esc(c.name) + '">' + critterArt(c) + "</button>"; }).join("") + "</div>" +
+      '<div class="mkcard" style="--mc:' + d.col + '"><span class="mini">' + critterArt(critById(d.icon)) + '</span><span><b>' + esc(d.name || "Your mode") + '</b><br><span class="sub">' + esc(d.desc || "Your description shows here.") + '</span><br><span class="sub mono">' + mkSummary(d) + "</span></span></div>" +
+      '<div class="btnrow"><button class="btn sun" type="button" id="mkTest">Test play</button><button class="btn" type="button" id="mkSave">Save</button><button class="btn primary" type="button" id="mkPub">Publish for everyone</button>' + (MK.editId ? '<button class="btn ghost" type="button" id="mkNew">New mode</button>' : "") + '</div><p id="mkMsg" aria-live="polite"></p>' +
+      '<h3 style="margin-top:14px;font-size:20px">My modes</h3>' + (mine.length ? mine.map(function (m) { return '<div class="mprow"><span class="mini">' + critterArt(critById(m.icon)) + '</span><span class="nm">' + esc(m.name) + '<br><span class="sub">' + (m.pub ? "Published" : "Not published") + '</span></span><span class="btnrow" style="margin:0;gap:6px"><button class="btn small sun" type="button" data-mkplay="' + m.id + '">Play</button><button class="btn small" type="button" data-mkedit="' + m.id + '">Edit</button><button class="btn small ghost" type="button" data-mkdel="' + m.id + '">' + (MK.del === m.id ? "Sure?" : "Delete") + "</button></span></div>"; }).join("") : '<p class="sub">Nothing saved yet.</p>');
+    mkHall();
+  }
+  function mkHall() {
+    var u = fbUser();
+    $("#mkHall").innerHTML = '<div class="collection-head" style="margin:0"><h3>Community modes</h3><div class="filterbar" style="margin:0">' + [["featured", "Hall of Fame"], ["top", "Top liked"], ["new", "Newest"]].map(function (t) { return '<button class="fchip" type="button" data-mktab="' + t[0] + '" aria-pressed="' + (MK.tab === t[0]) + '">' + t[1] + "</button>"; }).join("") + "</div></div>" +
+      '<p class="sub">Play modes other players made, and give the good ones a like. A mode with 5 likes joins the Hall of Fame for good, and its maker earns the Architect critter.</p><div id="mkList">' + (u ? '<p class="sub">Loading...</p>' : '<p class="sub">Log in to play and share community modes.</p><div class="btnrow"><button class="btn primary" type="button" data-lblogin="1">Log in</button></div>') + "</div>";
+    if (!u) return;
+    var q = FB.db.collection("modes");
+    q = MK.tab === "featured" ? q.where("featured", "==", true).limit(40) : MK.tab === "top" ? q.orderBy("likes", "desc").limit(40) : q.orderBy("ts", "desc").limit(40);
+    q.get().then(function (s) {
+      MK.list = []; s.forEach(function (d) { var x = d.data(); x.id = d.id; MK.list.push(x); });
+      if (MK.tab === "featured") MK.list.sort(function (a, b) { return (b.likes || 0) - (a.likes || 0); });
+      var el = $("#mkList"); if (!el) return;
+      el.innerHTML = MK.list.length ? MK.list.map(function (m) {
+        return '<div class="mkcard" style="--mc:' + esc(m.cfg && m.cfg.col || "#5b3fd6") + '"><span class="mini">' + critterArt(critById(m.cfg && m.cfg.icon)) + '</span><span style="flex:1;min-width:0"><b>' + esc(mkClean(m.name, 30)) + "</b>" + (m.featured ? ' <span class="titlechip">Hall of Fame</span>' : "") + '<br><span class="sub">by ' + esc(mkClean(m.by, 14)) + " · " + (m.likes || 0) + " likes · " + (m.plays || 0) + ' plays</span><br><span class="sub">' + esc(mkClean(m.desc, 80)) + '</span></span><button class="btn small sun" type="button" data-mkcom="' + esc(m.id) + '">Play</button></div>';
+      }).join("") : '<p class="sub">' + (MK.tab === "featured" ? "No modes in the Hall of Fame yet. Build one and get 5 likes!" : "No community modes yet. Be the first to publish one!") + "</p>";
+    }, function () { var el = $("#mkList"); if (el) el.innerHTML = '<p class="err">Couldn\'t load community modes. Check that the new Firestore rules are published.</p>'; });
+  }
+  function mkRead() {
+    var d = MK.draft;
+    d.name = mkClean($("#mkName").value, 30); d.desc = mkClean($("#mkDesc").value, 80);
+    return d;
+  }
+  function mkMsg(t, ok) { var m = $("#mkMsg"); if (m) { m.textContent = t; m.className = ok ? "okmsg" : "err"; } }
+  function mkSaveLocal() {
+    var d = mkRead(); if (!d.name) { mkMsg("Give your mode a name first."); return null; }
+    wallet.myModes = wallet.myModes || [];
+    var id = MK.editId || ("m" + Date.now().toString(36)), cur = wallet.myModes.filter(function (m) { return m.id === id; })[0];
+    var rec = Object.assign({}, d, { id: id, pub: cur ? cur.pub : null });
+    if (cur) wallet.myModes[wallet.myModes.indexOf(cur)] = rec; else wallet.myModes.unshift(rec);
+    wallet.myModes = wallet.myModes.slice(0, 20); MK.editId = id; saveWallet(); return rec;
+  }
+  $("#maker").addEventListener("change", function (e) {
+    var t = e.target; if (!MK.draft) return;
+    if (t.dataset.mk) { var v = t.value, k = t.dataset.mk; MK.draft[k] = (k === "wrong" || k === "twist" || k === "set") ? v : +v; mkRead(); renderMaker(); }
+    else if (t.dataset.mkc) { MK.draft[t.dataset.mkc] = t.checked; mkRead(); renderMaker(); }
+  });
+  $("#maker").addEventListener("input", function (e) { if (e.target.id === "mkName" || e.target.id === "mkDesc") { mkRead(); var c = document.querySelector("#mkBuild .mkcard b"), s = document.querySelector("#mkBuild .mkcard .sub"); if (c) c.textContent = MK.draft.name || "Your mode"; if (s) s.textContent = MK.draft.desc || "Your description shows here."; } });
+  $("#maker").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    if (b.dataset.mkcol) { mkRead(); MK.draft.col = b.dataset.mkcol; renderMaker(); }
+    else if (b.dataset.mkicon) { mkRead(); MK.draft.icon = b.dataset.mkicon; renderMaker(); }
+    else if (b.id === "mkTest") { var d = mkRead(); cmStart(Object.assign({}, d, { name: d.name || "Test mode" }), null); }
+    else if (b.id === "mkSave") { if (mkSaveLocal()) { renderMaker(); mkMsg("Saved to My modes.", true); } }
+    else if (b.id === "mkNew") { MK.editId = null; MK.draft = null; renderMaker(); }
+    else if (b.id === "mkPub") {
+      var u = fbUser(); if (!u) { mkMsg("Log in to publish modes for everyone."); return; }
+      var rec = mkSaveLocal(); if (!rec) return;
+      if (!rec.desc) { mkMsg("Add a short description so players know what to expect."); return; }
+      var cfg = { n: rec.n, t: rec.t, lives: rec.lives, pts: rec.pts, speed: !!rec.speed, streak: !!rec.streak, wrong: rec.wrong, twist: rec.twist, goal: rec.goal, col: rec.col, icon: rec.icon, set: rec.set };
+      var ref = rec.pub ? FB.db.collection("modes").doc(rec.pub) : FB.db.collection("modes").doc();
+      var data = { name: rec.name, desc: rec.desc, cfg: cfg, uid: u.uid, by: playerName(), ts: Date.now() };
+      (rec.pub ? ref.set(data, { merge: true }) : ref.set(Object.assign(data, { likes: 0, plays: 0, featured: false }))).then(function () {
+        if (!rec.pub) { rec.pub = ref.id; wallet.stats.modesMade = (wallet.stats.modesMade || 0) + 1; }
+        saveWallet(); renderMaker(); mkMsg("Published! Other players can find it under Newest.", true); fxBurst("epic");
+      }, function () { mkMsg("Couldn't publish. Check that the new Firestore rules are published."); });
+    }
+    else if (b.dataset.mkplay) { var m = (wallet.myModes || []).filter(function (x) { return x.id === b.dataset.mkplay; })[0]; if (m) cmStart(m, null); }
+    else if (b.dataset.mkedit) { var me = (wallet.myModes || []).filter(function (x) { return x.id === b.dataset.mkedit; })[0]; if (me) { MK.editId = me.id; MK.draft = Object.assign({}, me); renderMaker(); window.scrollTo(0, 0); } }
+    else if (b.dataset.mkdel) { if (MK.del !== b.dataset.mkdel) { MK.del = b.dataset.mkdel; renderMaker(); return; } wallet.myModes = (wallet.myModes || []).filter(function (x) { return x.id !== b.dataset.mkdel; }); MK.del = null; if (MK.editId === b.dataset.mkdel) { MK.editId = null; MK.draft = null; } saveWallet(); renderMaker(); }
+    else if (b.dataset.mktab) { MK.tab = b.dataset.mktab; mkHall(); }
+    else if (b.dataset.mkcom) { var c = MK.list.filter(function (x) { return x.id === b.dataset.mkcom; })[0]; if (c) { FB.db.collection("modes").doc(c.id).update({ plays: firebase.firestore.FieldValue.increment(1) }).catch(function () { /* ignore */ }); cmStart(Object.assign({ name: c.name, desc: c.desc }, c.cfg), c); } }
+  });
+  function mkCheckFeatured() {
+    var u = fbUser(); if (!u) return;
+    FB.db.collection("modes").where("uid", "==", u.uid).get().then(function (s) { var n = 0; s.forEach(function (d) { if (d.data().featured) n++; }); if (n !== (wallet.stats.featured || 0)) { wallet.stats.featured = n; saveWallet(); } }, function () { /* ignore */ });
+  }
+  function openMaker() { show("maker"); renderMaker(); mkCheckFeatured(); }
+  $("#openMaker").addEventListener("click", openMaker);
+  $("#makerBack").addEventListener("click", function () { renderHome(); show("home"); });
+
+  /* Custom mode runner */
+  var CM = null;
+  function cmStart(cfg, community) {
+    var set = BUILTIN.filter(function (s) { return s.id === cfg.set; })[0] || BUILTIN[0];
+    var lives = cfg.lives || (cfg.n ? 0 : 3);
+    CM = { cfg: cfg, com: community, set: set, qs: [], qi: 0, n: 0, score: 0, lives: lives, maxLives: lives, streak: 0, right: 0, timeMs: (cfg.t || (cfg.twist === "shrink" ? 10 : 0)) * 1000, timer: null, lock: false, cur: null, coins: 0, over: false, box: false };
+    show("cmode");
+    $("#cmTitle").textContent = cfg.name || "Custom mode";
+    $("#cmBox").style.setProperty("--mc", cfg.col || "#5b3fd6");
+    $("#cmIcon").innerHTML = critterArt(critById(cfg.icon));
+    $("#cmSub").textContent = mkSummary(cfg);
+    $("#cmEnd").hidden = true; $("#cmRun").hidden = false;
+    cmNext();
+  }
+  function cmHud() {
+    var C = CM, h = '<span><span class="label">Score</span> <b class="mono">' + C.score.toLocaleString() + "</b></span>";
+    h += '<span><span class="label">Question</span> <b class="mono">' + (C.n + 1) + (C.cfg.n ? "/" + C.cfg.n : "") + "</b></span>";
+    if (C.maxLives) h += '<span class="hearts">' + new Array(C.maxLives + 1).join("x").split("").map(function (_, i) { return '<span style="' + (i < C.lives ? "" : "opacity:.2") + '">♥</span>'; }).join("") + "</span>";
+    if (C.cfg.streak && C.streak >= 3) h += '<span class="titlechip">Streak x' + (C.streak >= 6 ? 3 : 2) + "</span>";
+    if (C.cfg.goal) h += '<span class="sub">Goal ' + C.cfg.goal.toLocaleString() + "</span>";
+    $("#cmHud").innerHTML = h;
+  }
+  function cmSpecial() { var C = CM, k = C.n + 1; return C.cfg.twist === "gold" && k % 4 === 0 ? "gold" : C.cfg.twist === "double" && k % 5 === 0 ? "double" : ""; }
+  function cmNext() {
+    var C = CM; if (!C || C.over) return;
+    if (C.cfg.n && C.n >= C.cfg.n) { cmEnd(); return; }
+    if (C.qi >= C.qs.length) { C.qs = shuffle(C.set.gen ? C.set.gen() : C.set.questions); C.qi = 0; }
+    var q = C.qs[C.qi++], sp = cmSpecial();
+    C.cur = shuffle(q.a.map(function (t, i) { return { t: t, ok: i === 0 }; })); C.lock = false; C.qStart = Date.now();
+    $("#cmTag").textContent = sp === "gold" ? "Gold round: worth 3x!" : sp === "double" ? "Double or nothing! Right doubles your score, wrong halves it." : "";
+    $("#cmTag").className = "cmtag" + (sp ? " on " + sp : "");
+    $("#cmQ").textContent = q.q;
+    $("#cmAns").className = "answers";
+    $("#cmAns").innerHTML = C.cur.map(function (o, i) { return '<button class="ans" type="button" data-cmk="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">' + esc(o.t) + "</span></button>"; }).join("");
+    $("#cmVerdict").textContent = ""; $("#cmVerdict").className = "verdict";
+    cmHud();
+    clearInterval(C.timer);
+    var lim = C.timeMs; $("#cmTime").hidden = !lim;
+    if (lim) C.timer = setInterval(function () { if (!CM || CM.lock) return; var left = Math.max(0, lim - (Date.now() - C.qStart)), b = $("#cmTime i"); if (b) b.style.transform = "scaleX(" + left / lim + ")"; if (left <= 0 || $("#cmode").hidden) cmAnswer(-1); }, 100);
+  }
+  function cmAnswer(k) {
+    var C = CM; if (!C || C.lock || C.over) return;
+    C.lock = true; clearInterval(C.timer);
+    var ok = k > -1 && C.cur[k] && C.cur[k].ok, bs = $("#cmAns").children, v = $("#cmVerdict"), sp = cmSpecial(), msg;
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; if (C.cur[i].ok) bs[i].classList.add("right"); else if (i === k) bs[i].classList.add("wrong"); else bs[i].classList.add("dim"); }
+    if (ok) {
+      C.right++; C.streak++; wallet.stats.correct++; var ds = dayState(); ds.right++; ds.streak = Math.max(ds.streak, C.streak); addBuddyXp(1); eggTick(); snd("right");
+      if (C.coins < 150) { var cg = Math.min(150 - C.coins, coinGain(C.streak)); C.coins += cg; wallet.coins += cg; }
+      if (sp === "double") { C.score *= 2; msg = "Doubled! Score " + C.score.toLocaleString(); }
+      else {
+        var pts = C.cfg.pts;
+        if (C.cfg.speed && C.timeMs) pts += Math.round(C.cfg.pts * Math.max(0, 1 - (Date.now() - C.qStart) / C.timeMs));
+        else if (C.cfg.speed) pts += Math.round(C.cfg.pts * Math.max(0, 1 - (Date.now() - C.qStart) / 10000));
+        if (C.cfg.streak) pts *= C.streak >= 6 ? 3 : C.streak >= 3 ? 2 : 1;
+        if (sp === "gold") pts *= 3;
+        C.score += pts; msg = "+" + pts.toLocaleString();
+      }
+      v.textContent = msg; v.className = "verdict ok";
+    } else {
+      C.streak = 0; wallet.stats.wrong++; snd("wrong");
+      if (sp === "double") { C.score = Math.floor(C.score / 2); msg = "Halved! Score " + C.score.toLocaleString(); }
+      else if (C.cfg.wrong === "points") { C.score = Math.max(0, C.score - 50); msg = (k < 0 ? "Too slow! " : "") + "-50 points"; }
+      else if (C.cfg.wrong === "life" && C.maxLives) { C.lives--; msg = (k < 0 ? "Too slow! " : "") + "You lost a life"; }
+      else msg = k < 0 ? "Too slow!" : "Not quite";
+      v.textContent = msg; v.className = "verdict no";
+    }
+    C.n++;
+    if (C.cfg.twist === "shrink") C.timeMs = Math.max(3000, Math.round(C.timeMs * 0.9));
+    cmHud(); saveWallet(); drawCoins();
+    if (C.maxLives && C.lives <= 0) { setTimeout(cmEnd, 900); return; }
+    if (C.cfg.goal && C.score >= C.cfg.goal) { setTimeout(function () { cmEnd(true); }, 900); return; }
+    if (ok && C.cfg.twist === "mystery") { setTimeout(cmBoxes, 600); return; }
+    setTimeout(cmNext, ok ? 650 : 1200);
+  }
+  function cmBoxes() {
+    var C = CM; if (!C || C.over) return;
+    C.box = true;
+    $("#cmTag").textContent = "Pick a mystery box!"; $("#cmTag").className = "cmtag on gold";
+    $("#cmAns").innerHTML = [0, 1, 2].map(function (i) { return '<button class="ans chest" type="button" data-cmbox="' + i + '"><span class="k">' + (i + 1) + '</span><span class="t">Box ' + (i + 1) + "</span></button>"; }).join("");
+  }
+  function cmOpenBox(i) {
+    var C = CM; if (!C || !C.box || i > 2) return; C.box = false;
+    var r = Math.random(), txt;
+    if (r < 0.35) { var add = Math.round(C.cfg.pts * (1 + Math.random() * 2)); C.score += add; txt = "+" + add + " points"; }
+    else if (r < 0.55) { C.score *= 2; txt = "Score doubled!"; }
+    else if (r < 0.72 && C.maxLives) { C.lives = Math.min(C.maxLives + 2, C.lives + 1); C.maxLives = Math.max(C.maxLives, C.lives); txt = "+1 life"; }
+    else if (r < 0.85) { txt = "Empty box"; }
+    else { var l = Math.floor(C.score * 0.25); C.score -= l; txt = "Trap! -" + l + " points"; }
+    var bs = $("#cmAns").children; for (var j = 0; j < bs.length; j++) { bs[j].disabled = true; bs[j].classList.add(j === i ? "right" : "dim"); }
+    $("#cmVerdict").textContent = txt; $("#cmVerdict").className = "verdict " + (/Trap|Empty/.test(txt) ? "no" : "ok");
+    cmHud();
+    if (C.cfg.goal && C.score >= C.cfg.goal) { setTimeout(function () { cmEnd(true); }, 900); return; }
+    setTimeout(cmNext, 1000);
+  }
+  function cmEnd(reached) {
+    var C = CM; if (!C || C.over) return; C.over = true; clearInterval(C.timer);
+    wallet.stats.games++; wallet.stats.score += C.score; wallet.stats.customPlays = (wallet.stats.customPlays || 0) + 1;
+    dayState().games++; weekState().modes.custom = 1; saveWallet(); drawCoins();
+    var won = C.cfg.goal ? !!reached || C.score >= C.cfg.goal : null;
+    fxBurst(won === false ? "common" : "epic");
+    $("#cmRun").hidden = true; $("#cmEnd").hidden = false;
+    $("#cmEnd").innerHTML = "<h2>" + (won === null ? C.score.toLocaleString() + " points" : won ? "You reached the goal!" : "So close!") + '</h2><div class="acstats"><div class="stat"><b>' + C.score.toLocaleString() + '</b><span>Score</span></div><div class="stat"><b>' + C.right + '</b><span>Right answers</span></div><div class="stat"><b>+' + C.coins + '</b><span>Coins</span></div></div>' +
+      (C.com ? '<div class="btnrow"><button class="btn sun" type="button" id="cmLike">Like this mode</button><span class="sub">by ' + esc(mkClean(C.com.by, 14)) + "</span></div>" : "") +
+      '<div class="btnrow"><button class="btn primary" type="button" id="cmAgain">Play again</button><button class="btn" type="button" id="cmBack2">Back to Mode Maker</button></div><p id="cmLikeMsg" aria-live="polite"></p>';
+  }
+  function cmLike() {
+    var C = CM, u = fbUser(); if (!C || !C.com || !u) return;
+    var ref = FB.db.collection("modes").doc(C.com.id), lref = ref.collection("likes").doc(u.uid), b = $("#cmLike");
+    if (b) b.disabled = true;
+    if (C.com.uid === u.uid) { $("#cmLikeMsg").textContent = "You can't like your own mode."; return; }
+    FB.db.runTransaction(function (tx) {
+      return tx.get(lref).then(function (l) {
+        if (l.exists) throw new Error("dup");
+        return tx.get(ref).then(function (m) {
+          var likes = ((m.data() || {}).likes || 0) + 1;
+          tx.set(lref, { ts: Date.now() });
+          tx.update(ref, { likes: likes, featured: likes >= 5 || !!(m.data() || {}).featured });
+          return likes;
+        });
+      });
+    }).then(function () { $("#cmLikeMsg").textContent = "Thanks! Your like helps this mode reach the Hall of Fame."; }, function (er) { $("#cmLikeMsg").textContent = er && er.message === "dup" ? "You already liked this mode." : "Couldn't save your like. Try again later."; });
+  }
+  $("#cmode").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b || b.disabled) return;
+    if (b.dataset.cmk != null) cmAnswer(+b.dataset.cmk);
+    else if (b.dataset.cmbox != null) cmOpenBox(+b.dataset.cmbox);
+    else if (b.id === "cmLike") cmLike();
+    else if (b.id === "cmAgain" && CM) cmStart(CM.cfg, CM.com);
+    else if (b.id === "cmBack2" || b.id === "cmQuit") { if (CM) { clearInterval(CM.timer); if (b.id === "cmQuit" && !CM.over) { CM = null; } } openMaker(); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if ($("#cmode").hidden || !CM || e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = "1234".indexOf(e.key); if (k < 0) return; if (CM.box) cmOpenBox(k); else cmAnswer(k);
   });
 
   /* Pack market */
